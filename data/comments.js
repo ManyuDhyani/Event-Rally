@@ -38,3 +38,7 @@ const createComment = async (parentComment, content) => {
 
     return getNewComment;
 };
+
+module.exports = {
+    createComment
+};
