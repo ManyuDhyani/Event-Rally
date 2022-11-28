@@ -1,0 +1,27 @@
+{
+  "name": "event-rally",
+  "version": "1.0.0",
+  "description": "CS 546 Web Programming I: Final Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManyuDhyani/Event-Rally.git"
+  },
+  "author": "Group-43",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManyuDhyani/Event-Rally/issues"
+  },
+  "homepage": "https://github.com/ManyuDhyani/Event-Rally#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "mongodb": "^4.12.1"
+  }
+}
