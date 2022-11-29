@@ -38,7 +38,16 @@ const createlike = async (eventId, userId, value) => {
     }
 
     // Recalculate the likes and dislikes for the event and return.
-    
+    numberOfLikeObject = getUpdatedEvent.likes.length;
+    let likeCount = 0, dislikesCount = 0;
+    getUpdatedEvent.likes.forEach(likeObject => {
+        if (likeObject.value === "like") {
+            likeCount += 1;
+        }
+      });
+    dislikesCount = numberOfLikeObject - likeCount;
+
+    return {like: likeCount, dislike: dislikesCount};
 };
 
 module.exports = {
