@@ -26,6 +26,51 @@ const idValidator = async (id) => {
 
 // Error handling for users
 
+// ##Username Validations
+const usernameValidator = async (username) => {
+    if (typeof username !== "string") throw {statusCode: 400, error: "Username should be a valid string"};
+    if (username.trim().length === 0) throw {statusCode: 400, error: "Username cannot be just empty spaces"};
+    let checkSpaces = username.split(" ");
+    if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the username is allowed"};
+    if (/^[0-9a-zA-Z]+$/.test(username) === false) throw  {statusCode: 400, error: "Username can be only alphanumeric characters"};
+    if (username.length < 5) throw {statusCode: 400, error: "Username should be at least 4 characters long"};
+};
+
+// ##Password Validations
+const passwordValidator = async (password) => {
+    if (typeof password !== "string") throw {statusCode: 400, error: "Password should be a valid string"};
+    checkSpaces = password.split(" ");
+    if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the password is allowed"};
+
+    /* 
+        Password Regex Validation breakdown:
+        (?=.*[0-9]) means that the password must contain a single digit from 1 to 9.
+        (?=.*[a-z]) means that the password must contain one lowercase letter.
+        (?=.*[A-Z]) means that the password must contain one uppercase letter.
+        (?=.*\W) means that the password must contain one special character.
+        .{8,16} means that the password must be 8-16 characters long. We must use this at the end of the regex, just before the $ symbol.
+    */
+
+    if (/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password) === false) throw {statusCode: 400, error: "Password must contain a single digit from 1 to 9, one lowercase letter, one uppercase letter, one special character and must be 8-16 characters long."};
+    // if (password.length < 8 and password.length > 16) throw {statusCode: 400, error: "Password should be at least 8 characters long and less than 16 character"};
+};
+
+// ##Email Validation
+const emailValidator = async (email) => {
+    if (typeof email !== "string") throw {statusCode: 400, error: " Email should be a valid string"};
+    if (email.trim().length === 0) throw {statusCode: 400, error: " Email cannot be just empty spaces"};
+    let checkSpaces = email.split(" ");
+    if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the Email is allowed"};
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) throw  {statusCode: 400, error: "Email should be Valid"};
+};
+
+// ##Boolean Field Validation: active, admin and verified
+
+const booleanValidator = async (active, admin, verified) => {
+    if (!active || !admin || !verified) throw {statusCode: 400, error: "Active, Admin, Verified boolean should be provided"};
+    if (typeof active !== "boolean" || typeof admin !== "boolean"  || typeof verified !== "boolean" ) throw {statusCode: 400, error: "Active, Admin, Verified boolean should be a valid boolean"};
+};
+
 // Error handling for profile
 
 // Error handling for events
@@ -40,5 +85,9 @@ const idValidator = async (id) => {
 
 
 module.exports = {
-    idValidator
+    idValidator,
+    usernameValidator,
+    passwordValidator,
+    emailValidator,
+    booleanValidator
 };
