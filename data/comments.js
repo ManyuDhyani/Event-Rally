@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('../validation');
+const validationFunctions = require('./validation');
 const comments = mongoCollections.comment;
 
 const createComment = async (parentComment, content) => {

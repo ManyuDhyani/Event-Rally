@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('../validation');
+const validationFunctions = require('./validation');
 const reports = mongoCollections.report;
 
 const createReport = async (userId, against, complaint) => {
