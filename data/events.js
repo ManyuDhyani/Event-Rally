@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('../validation');
+const validationFunctions = require('./validation');
 const event = mongoCollections.event;
 
 //function to create an event
