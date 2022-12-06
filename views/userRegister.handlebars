@@ -1,0 +1,17 @@
+<div class="container">
+    <form action="/register" method="post" id="registration-form">
+        <label for="usernameInput">Username:</label>
+        <input type="text" name="usernameInput" id="usernameInput"><br>
+        <label for="passwordInput">Password:</label>
+        <input type="password" name="passwordInput" id="passwordInput"><br>
+
+        {{#if errors}}
+            <div class="errorDiv">
+                <p>{{error}}</p>
+            </div>
+        {{/if}}
+         
+        <button type="submit">Submit</button><br><br>
+        <a href="/">Already have an account? Click here to log-in</a>
+    </form>
+</div>
