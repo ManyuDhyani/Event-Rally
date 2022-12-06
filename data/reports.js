@@ -4,6 +4,11 @@ const reports = mongoCollections.report;
 
 const createReport = async (userId, against, complaint) => {
     // validation
+    
+    validationFunctions.idValidator(userId);
+    validationFunctions.againstValidator(against);
+    validationFunctions.complaintValidator(complaint);
+
     userId = userId.trim();
     against = against.trim();
     complaint = complaint.trim();

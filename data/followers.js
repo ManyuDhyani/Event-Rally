@@ -4,6 +4,8 @@ const followers = mongoCollections.followers;
 
 const createFollowers = async (userId, followedUserId) => {
     // validation
+    validationFunctions.idValidator(userId);
+    validationFunctions.idValidator(followedUserId);
 
     userId = userId.trim();
     followedUserId = followedUserId.trim();
