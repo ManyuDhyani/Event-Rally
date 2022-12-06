@@ -1,14 +1,20 @@
 const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('../validation');
+const validationFunctions = require('./validation');
 const events = mongoCollections.event;
 let { ObjectId } = require('mongodb');
   
 const createlike = async (eventId, userId, value) => {
     // Validation
 
+    validationFunctions.idValidator(eventId);
+    validationFunctions.idValidator(userId);
+    validationFunctions.valueValidator(value);
+    
     eventId = eventId.trim();
     userId = userId.trim();
     value = value.trim();
+   
+
 
     // Current timestamp
     timestamp = new Date().toUTCString();

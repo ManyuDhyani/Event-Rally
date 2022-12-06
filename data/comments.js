@@ -1,9 +1,15 @@
 const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('../validation');
+const validationFunctions = require('./validation');
 const comments = mongoCollections.comment;
 
 const createComment = async (parentComment, content) => {
     // validation
+    // NOT NULL,string, lenght not zero AFTERN TRIM, 200 WORDS 
+
+    validationFunctions.idValidator(parentComment);
+    validationFunctions.contentValidator(content);
+
+
     parentComment = parentComment.trim();
     content = content.trim();
 
