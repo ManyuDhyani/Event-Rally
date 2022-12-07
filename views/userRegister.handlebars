@@ -1,9 +1,11 @@
 <div class="container">
     <form action="/register" method="post" id="registration-form">
-        <label for="usernameInput">Username:</label>
-        <input type="text" name="usernameInput" id="usernameInput"><br>
-        <label for="passwordInput">Password:</label>
-        <input type="password" name="passwordInput" id="passwordInput"><br>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username"><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email"><br
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password"><br>
 
         {{#if errors}}
             <div class="errorDiv">
