@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const comments = mongoCollections.comment;
+let { ObjectId } = require('mongodb');
 
 const createComment = async (userId, eventId, parentCommentId, content) => {
     // validation
@@ -59,7 +60,7 @@ const getAllEventParentComments = async (eventId) => {
     eventId = eventId.trim();
 
     let commentsCollection = await comments();
-    let commentsList = await commentsCollection.find({$and: [{event_id: eventId}, {parent_comment_id: null}]});
+    let commentsList = await commentsCollection.find({$and: [{event_id: ObjectId(eventId)}, {parent_comment_id: null}]});
 
     return commentsList;
 };
@@ -71,7 +72,7 @@ const getAllChildCommentsThread = async (parentCommentId) => {
     parentCommentId = parentCommentId.trim();
 
     let commentsCollection = await comments();
-    let commentsList = await commentsCollection.find({parent_comment_id: parentCommentId}).sort({"timestamp": -1});
+    let commentsList = await commentsCollection.find({parent_comment_id: ObjectId(parentCommentId)}).sort({"timestamp": -1});
 
     return commentsList;
 };
