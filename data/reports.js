@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const reports = mongoCollections.report;
+let { ObjectId } = require('mongodb');
 
 const createReport = async (userId, against, complaint) => {
     // validation
@@ -39,6 +40,30 @@ const createReport = async (userId, against, complaint) => {
     return {successfullySubmitted: false}
 };
 
+const getAllReports = async (userId) => {
+    // validation
+    await validationFunctions.idValidator(userId);
+
+    userId = userId.trim();
+
+    // First check if current user is admin or regular user
+    // Reports data can only be seen by admin
+    let userCollection = await users();
+    let checkAdmin = await userCollection.find({_id: ObjectId(userId)});
+    if (!checkAdmin){
+        throw {statusCode: 404, error: `No user in database with id ${userId}`};
+    }
+
+    if(checkAdmin.admin === true){
+        let reportsCollection = await reports();
+        let reportsData = await reportsCollection.find({}).sort({"timestamp": -1}).toArray();
+        return reportsData;
+    }else{
+        throw {statusCode: 403, error: "Forbidden to access the report data"};
+    }
+};
+
 module.exports = {
-    createReport
+    createReport,
+    getAllReports
 };
