@@ -77,6 +77,10 @@ const profileValidator = async(first_name, last_name, Age, Gender, website_link,
     
 }
 
+const ageValidator = async(age) => {
+    
+};
+
 // Error handling for events
 
 // Error handling for likes
@@ -127,5 +131,5 @@ module.exports = {
     againstValidator,
     complaintValidator,
     contentValidator,
-
+    ageValidator
 };
