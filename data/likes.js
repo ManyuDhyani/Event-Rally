@@ -56,6 +56,36 @@ const createlike = async (eventId, userId, value) => {
     return {like: likeCount, dislike: dislikesCount};
 };
 
+const getLikesDislikes = async (eventId) => {
+    // Validation
+    validationFunctions.idValidator(eventId);
+
+    eventId = eventId.trim();
+    let eventsCollection = await events();
+
+    let eventData = await eventsCollection.findOne({_id: ObjectId(eventId)});
+    if (!eventData) {
+        throw {statusCode: 404, error: "This event doesn't exist"}
+    }
+
+    if (eventData.likes.length === 0){
+        throw {statusCode: 404, error:`No likes or dislikes data for this event with id: ${id}`};
+    }
+
+    // Calculate the likes and dislikes for the event and return.
+    numberOfLikeObject = eventData.likes.length;
+    let likeCount = 0, dislikesCount = 0;
+    eventData.likes.forEach(likeObject => {
+        if (likeObject.value === "like") {
+            likeCount += 1;
+        }
+      });
+    dislikesCount = numberOfLikeObject - likeCount;
+
+    return {like: likeCount, dislike: dislikesCount};
+};
+
 module.exports = {
-    createlike
+    createlike,
+    getLikesDislikes
 };
