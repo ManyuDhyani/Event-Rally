@@ -23,14 +23,15 @@ router
   .post(async (req, res) => {
     //code here for POST
     let registerData = req.body;
-    let {username, email, password} = registerData;
+    let {username, email, age, password} = registerData;
     
     try {
       await validationFunctions.usernameValidator(username);
       await validationFunctions.emailValidator(email);
+      await validationFunctions.ageValidator(age);
       await validationFunctions.passwordValidator(password);
       
-      let registerationStatus = await usersData.createUser(username, email, password);
+      let registerationStatus = await usersData.createUser(username, email, age, password);
       if (registerationStatus.insertedUser === true) {
         res.redirect("/login");
       }
