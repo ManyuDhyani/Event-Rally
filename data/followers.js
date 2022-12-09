@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const followers = mongoCollections.followers;
+let { ObjectId } = require('mongodb');
 
 const createFollowers = async (userId, followedUserId) => {
     // validation
@@ -47,7 +48,7 @@ const getAllFollowers = async (userId) => {
     // As the followers data is created when current logged in user, start following some other user.
     // So, to get the count of people following the current logged in user, 
     // we have to get the record of the people in whoes followed_user_id is equal to current user's id.
-    let followersCount = await followersCollection.find({followed_user_id: userId}).count();
+    let followersCount = await followersCollection.find({followed_user_id: ObjectId(userId)}).count();
 
     return followersCount;
 };
