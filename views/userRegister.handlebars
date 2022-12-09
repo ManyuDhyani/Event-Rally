@@ -1,24 +1,93 @@
-<div class="container">
-    <form action="/register" method="post" id="registration-form">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username"><br>
+<main>   
+    <div class="container">
+        <form action="/register" method="POST" id="registration-form">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" class="inputFields" placeholder="Enter an username "><br>
 
-        <label for="email">Email:</label>
-        <input type="text" name="username" id="username"><br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="inputFields" placeholder="Enter your Email"><br>
 
-        <label for="age">Age:</label>
-        <input type="number" name="age" id="age"><br>
+            <label for="age">Age:</label>
+            <input type="number" name="age" id="age" class="inputFields" placeholder="Enter your Age"><br>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" minlength="8" class="inputFields" onblur="passwordOnBlur(this)" onfocus="passwordOnFocus(this)"  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 and less than equal to 16 characters" placeholder="Enter Password"><br>
 
-        {{#if errors}}
-            <div class="errorDiv">
-                <p>{{error}}</p>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" name="confirmPassword" id="confirmPassword" class="inputFields" placeholder="Retype your password"> <span id='confirmPasswordMessage'></span><br>
+
+            <div id="message">
+                <p id="lowercase" hidden>A <strong>lowercase</strong> letter</p>
+                <p id="uppercase" hidden>A <strong>uppercase</strong> letter</p>
+                <p id="number"  hidden>A <strong>number 0 to 9</strong></p>
+                <p id="length" hidden>Minimum <strong>8 characters</strong> and Maximum <strong>16 characters</strong> </p>
             </div>
-        {{/if}}
-         
-        <button type="submit">Submit</button><br><br>
-        <a href="/">Already have an account? Click here to log-in</a>
-    </form>
-</div>
+
+            {{#if errors}}
+                <div class="errorDiv">
+                    <p>{{error}}</p>
+                </div>
+            {{/if}}
+            
+            <button type="submit">Submit</button><br><br>
+            <a href="/">Already have an account? Click here to log-in</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    
+    <script>
+        function passwordOnBlur(x){
+            document.getElementById("message").style.display = "none";
+        }
+        function passwordOnFocus(x) {
+            var lowercase = document.getElementById("lowercase");
+            var uppercase = document.getElementById("uppercase");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+            document.getElementById("message").style.display = "block";
+            // When the user starts to type something inside the password field
+            x.onkeyup = function() {
+                // Validate lowercase letters
+                var lowerCaseLettersRegex = /[a-z]/g;
+                if(x.value.match(lowerCaseLettersRegex)) {  
+                    lowercase.hidden = true;
+                } else {
+                    lowercase.hidden = false;
+                }
+                
+                // Validate capital letters
+                var upperCaseLettersRegex = /[A-Z]/g;
+                if(x.value.match(upperCaseLettersRegex)) {  
+                    uppercase.hidden = true;
+                } else {
+                    uppercase.hidden = false;
+                }
+
+                // Validate numbers
+                var numbersRegex = /[0-9]/g;
+                if(x.value.match(numbersRegex)) {  
+                    number.hidden = true;
+                } else {
+                    number.hidden = false;
+                }
+                
+                // Validate length
+                if(x.value.length >= 8 && x.value.length <= 16) {
+                    length.hidden = true;
+                } else {
+                    length.hidden = false;
+                }
+            }
+        }
+
+        $('#password, #confirmPassword').on('keyup', function () {
+        if ($('#password').val() == $('#confirmPassword').val()) {
+            $('#confirmPasswordMessage').html('Password and Confirm Password Matched').css('color', 'green');
+        } else 
+            $('#confirmPasswordMessage').html('Password and Confirm Password not Matching').css('color', 'red');
+        });
+
+    </script>
+    <script src="/public/js/registerForm.js"></script>
+</main> 
