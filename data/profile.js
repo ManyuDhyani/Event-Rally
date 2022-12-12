@@ -77,6 +77,7 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
     await validationFunctions.idValidator(userId);
 
     //userId = userId.trim();
+    userId = userId.trim();
     firstName = firstName.trim();
     lastName = lastName.trim();
     gender = gender.trim();
@@ -112,6 +113,7 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
     }
 
     let newProfile = {
+        user_id: userId,
         firstName: firstName,
         lastName: lastName,
         gender: gender,

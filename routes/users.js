@@ -74,10 +74,18 @@ router
   })
 
 router
-  .route('/profile')
+  .route('/profile/:id?')
   .get(async (req, res) => {
     //code here for GET
-    res.render("profile", {title: "profile Page", username: req.session.username, timestamp: new Date().toUTCString()})
+    try {
+      res.render("profile", {title: "profile Page", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, timestamp: new Date().toUTCString()})
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("forbiddenAccess", {title: "Error", errors: true, error: e.error});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
   })
 
 router

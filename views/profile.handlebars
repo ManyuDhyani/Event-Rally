@@ -1,6 +1,347 @@
+<style>
+
+    body {
+    background: #F1F3FA;
+    }
+
+    /* Profile container */
+    .profile {
+    margin: 20px 0;
+    }
+
+    /* Profile sidebar */
+    .profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+    }
+
+    .avatar-wrapper-pp{
+        float: none;
+        margin-left: 24%;
+    }
+
+    .profile-userpic img {
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius: 50% !important;
+    margin: 20px;
+
+    object-fit: cover;
+    object-position: center right;
+
+    }
+
+    .profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+    }
+
+    .profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    }
+
+    .profile-usertitle-job {
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    }
+
+    .profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+    }
+
+    .profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+    }
+
+    .profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+    }
+
+    .profile-usermenu {
+    margin-top: 30px;
+    }
+
+    .profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+    }
+
+    .profile-usermenu ul li:last-child {
+    border-bottom: none;
+    }
+
+    .profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+    }
+
+    .profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+    }
+
+    .profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+    }
+
+    .profile-usermenu ul li.active {
+    border-bottom: none;
+    }
+
+    .profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+    }
+
+    /* Profile Content */
+    .profile-content {
+    padding: 20px;
+    background: #fff;
+    min-height: 460px;
+    }
+
+    a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, td, textarea, th, ul {
+        -webkit-border-radius: 0!important;
+        -moz-border-radius: 0!important;
+        border-radius: 0!important;
+    }
+    .dashboard-stat, .portlet {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        -o-border-radius: 4px;
+    }
+    .portlet {
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding: 0;
+        border-radius: 4px;
+    }
+    .portlet.bordered {
+        border-left: 2px solid #e6e9ec!important;
+    }
+    .portlet.light {
+        padding: 12px 20px 15px;
+        background-color: #fff;
+    }
+    .portlet.light.bordered {
+        border: 1px solid #e7ecf1!important;
+    }
+    .list-separated {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+    .profile-stat {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f0f4f7;
+    }
+    .profile-stat-title {
+        color: #7f90a4;
+        font-size: 25px;
+        text-align: center;
+    }
+    .uppercase {
+        text-transform: uppercase!important;
+    }
+
+    .profile-stat-text {
+        color: #5b9bd1;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+    }
+    .profile-desc-title {
+        color: #7f90a4;
+        font-size: 17px;
+        font-weight: 600;
+    }
+    .profile-desc-text {
+        color: #7e8c9e;
+        font-size: 14px;
+    }
+    .margin-top-20 {
+        margin-top: 20px!important;
+    }
+    [class*=" fa-"]:not(.fa-stack), [class*=" glyphicon-"], [class*=" icon-"], [class^=fa-]:not(.fa-stack), [class^=glyphicon-], [class^=icon-] {
+        display: inline-block;
+        line-height: 14px;
+        -webkit-font-smoothing: antialiased;
+    }
+    .profile-desc-link i {
+        width: 22px;
+        font-size: 19px;
+        color: #abb6c4;
+        margin-right: 5px;
+    }
+
+</style>
 
 <div class="container">
-    <h1>Welcome {{username}}!</h1><br>
-    <h2>Time is: {{timestamp}}</h2>
-    <a href="/logout">Logout</a>
+    <div class="row profile">
+        <div class="col-md-4">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                    <div class="avatar-wrapper-pp">
+                    <div class="profile-userpic">
+                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{username}}">
+                    </div>
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                <div class="profile-usertitle-name">
+                    {{ profile.firstname }}&nbsp;{{ profile.lastname }}
+                    {{#if user.verified }}
+                        <span class="fa fa-stack fa-sm" style="">
+                            <i class="fa fa-certificate fa-stack-2x" style="color: #2b90d9;font-size: 20px;margin-top:8px;"></i>
+                            <i class="fa fa-check fa-stack-1x fa-inverse" style="font-size: 10px;margin-top:8px;"></i>
+                        </span>
+                    {{/if}}
+                </div>
+                <div class="profile-usertitle-job">
+                    @{{ username }}
+                </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS  -->
+                {{#if user._id != profile.user_id }}
+                    <div class="profile-userbuttons">
+                {{#if follow_status}}
+                <button type="button" name="unfollow" onclick="window.location.href='?unfollow=1'" class="btn btn-primary btn-sm">Following</button>
+                {{ else }}
+                <button type="button" name="follow" onclick="window.location.href='?follow=1'" class="btn btn-primary btn-sm">Follow</button>
+                {{/if}}
+                    </div>
+                {{/if}}
+                <!-- END SIDEBAR BUTTONS -->
+                <br>
+                <!-- SIDEBAR MENU -->
+                {{#if user._id != profile.user_id }}
+                <div class="profile-usermenu">
+                <ul class="nav">
+                    <li class="active">
+                    <a href="#">
+                    <i class="glyphicon glyphicon-home"></i>
+                    Overview </a>
+                    </li>
+                    <li>
+                    <a href="/profile/details">
+                    <i class="glyphicon glyphicon-user"></i>
+                    Profile Details </a>
+                    </li>
+                    <li>
+                    <a href="/profile/account-settings">
+                    <i class="glyphicon glyphicon-flag"></i>
+                    Account Settings </a>
+                    </li>
+                </ul>
+                </div>
+                {{/if}}
+                <!-- END MENU -->
+            
+                <div class="portlet light bordered">
+                <!-- STAT -->
+                    <div class="row list-separated profile-stat">
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> {{followers}} </div>
+                            <div class="uppercase profile-stat-text"> Followers </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> {{event_view}} </div>
+                            <div class="uppercase profile-stat-text"> Views </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> {{total_event}} </div>
+                            <div class="uppercase profile-stat-text"> Events </div>
+                        </div>
+                    </div>
+                    <!-- END STAT -->
+                                                        
+                    <div>
+                        {{#if profile.bio }}
+                            {{#if user._id != profile.user_id }}
+                                <h4 class="profile-desc-title">About {{ user.username }}</h4>
+                            {{ else }}
+                                <h4 class="profile-desc-title">My Bio</h4>
+                            {{/if}}
+                                <span class="profile-desc-text"> {{profile.bio}} </span>
+                        {{/if}}
+                        {{#if profile.website_link }}
+                            <div class="margin-top-20 profile-desc-link">
+                                <i class="fa fa-globe"></i>
+                                <a href="{{profile.website_link}}">{{profile.website_link}}</a>
+                            </div>
+                        {{/if}}
+                        {{#if profile.youtube_link }}
+                            <div class="margin-top-20 profile-desc-link">
+                                <a href="{{profile.youtube_link}}">
+                                    <i class="fa fa-youtube">&nbsp;YouTube</i>
+                                </a>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="profile-content">
+                <div class="row">
+                    <!-- Latest Posts -->
+                    <main class="posts-listing col-lg-12">
+                        <div class="container">
+                            {{#if events.length != 0 }}
+                                <div class="row">
+                                <!-- post -->
+                                {{#each events }}
+                                    <div class="post col-xl-6">
+                                        <div class="post-thumbnail"><a href="/event/{{this._id}}"><img src="{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
+                                        <div class="post-details">
+                                        <div class="post-meta d-flex justify-content-between">
+                                            <div class="date"><i class="icon-clock"></i>{{ this.created }} ago</div>
+                                            <div class="category">
+                                                <a href="/category/{{this.category}}" style="font-size: 10px;">{{ this.category }}</a>
+                                            </div>
+                                        </div><a href="/event/{{this._id}}">
+                                            <h3 class="h4">{{ this.title }}</h3></a>
+                                        <p class="text-muted">{{ this.overview }}</p>
+                                        <footer class="post-footer d-flex align-items-center">
+                                            <a href="/profile/{{this.user_id}}" class="author d-flex align-items-center flex-wrap">
+                                            <div class="avatar"><img src="{{ profile.profile_picture }}" alt="{{ user.username }}" class="img-fluid"></div>
+                                            <div class="title"><span>{{ user.username }}</span></div>
+                                            </a>
+                                            <div class="views"><i class="icon-eye"></i>{{ this.views }}</div>
+                                            <div class="comments meta-last"><i class="icon-comment"></i>{{ this.comment_count }}</div>
+                                        </footer>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                                </div>
+                            {{ else }}
+                                    <div class="text-center">
+                                        <br>
+                                        <br>
+                                        <img src="https://static.hashstrix.com/hashstrix-static-files/img/page-blank.svg" style="width:20%; color:grey;">
+                                        <h2 style="color:#C8C8C8;padding-top:5%;">No Events Yet</h2>
+                                    </div>
+                            {{/if}}            
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
