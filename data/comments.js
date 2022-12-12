@@ -6,7 +6,10 @@ const createComment = async (parentComment, content) => {
     // validation
     // NOT NULL,string, lenght not zero AFTERN TRIM, 200 WORDS 
 
-    validationFunctions.idValidator(parentComment);
+    if (!parentComment) {
+        validationFunctions.idValidator(parentComment);
+    }
+
     validationFunctions.contentValidator(content);
 
 
