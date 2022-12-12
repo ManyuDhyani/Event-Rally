@@ -1,5 +1,5 @@
 (function ($) {
-    var registerForm = $('#registration-form'),
+    var $form = $('#registration-form'),
     newUsernameInput = $('#username'),
     newEmailInput = $('#email'),
     newAgeInput = $('#age'),
@@ -10,7 +10,7 @@
     function handleRegisteration (e) {
         e.preventDefault();
 
-        var newUsername = newAgeInput.val();
+        var newUsername = newUsernameInput.val();
         var newEmail = newEmailInput.val();
         var newAge = newAgeInput.val();
         var newPassword = newPasswordInput.val();
