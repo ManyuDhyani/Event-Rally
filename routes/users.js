@@ -7,11 +7,8 @@ const validationFunctions = data.validationFunctions
 router
   .route('/')
   .get(async (req, res) => {
-    //code here for GET
-    if (!req.session.login){
-      return res.render("userLogin", {title: "Login"});
-    }
-    res.redirect("/protected");
+    // render landin page
+    return res.render("index", {title: "Event Rally"});
   })
 
 router
@@ -21,17 +18,22 @@ router
     if (!req.session.login){
       return res.render("userRegister", {title: "Register"});
     }
-    res.redirect("/protected")
+    res.redirect("/profile")
   })
   .post(async (req, res) => {
     //code here for POST
     let registerData = req.body;
-    let {usernameInput, passwordInput} = registerData;
+    let {username, email, age, password} = registerData;
+    
     try {
-      await validationFunc.createValidator(usernameInput, passwordInput);
-      let registerationStatus = await usersData.createUser(usernameInput, passwordInput);
+      await validationFunctions.usernameValidator(username);
+      await validationFunctions.emailValidator(email);
+      await validationFunctions.ageValidator(age);
+      await validationFunctions.passwordValidator(password);
+      
+      let registerationStatus = await usersData.createUser(username, email, age, password);
       if (registerationStatus.insertedUser === true) {
-        res.redirect("/");
+        res.redirect("/login");
       }
     } catch (e) {
       if (e.statusCode) {
@@ -44,16 +46,24 @@ router
  
 router
   .route('/login')
+  .get(async (req, res) => {
+    //code here for GET
+    if (!req.session.login){
+      return res.render("userLogin", {title: "Login"});
+    }
+    res.redirect("/profile");
+  })
   .post(async (req, res) => {
     //code here for POST
     let loginData = req.body;
-    let {usernameInput, passwordInput} = loginData;
+    let {username, password} = loginData;
     try {
-      await validationFunc.createValidator(usernameInput, passwordInput);
-      let loginDetails = await usersData.checkUser(usernameInput, passwordInput);
+      await validationFunctions.usernameValidator(username);
+      await validationFunctions.passwordValidator(password);
+      let loginDetails = await usersData.checkUser(username, password)
       req.session.login = loginDetails;
-      req.session.username = usernameInput;
-      res.redirect("/protected");
+      req.session.username = username;
+      res.redirect("/profile");
     } catch (e) {
       if (e.statusCode) {
         res.status(e.statusCode).render("userLogin", {title: "Login", errors: true, error: e.error});
@@ -64,10 +74,18 @@ router
   })
 
 router
-  .route('/protected')
+  .route('/profile/:id?')
   .get(async (req, res) => {
     //code here for GET
-    res.render("private", {title: "Protected Page", username: req.session.username, timestamp: new Date().toUTCString()})
+    try {
+      res.render("profile", {title: "profile Page", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, timestamp: new Date().toUTCString()})
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("forbiddenAccess", {title: "Error", errors: true, error: e.error});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
   })
 
 router

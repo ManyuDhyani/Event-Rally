@@ -5,23 +5,28 @@ const bcrypt = require('bcrypt');
 const saltRounds = 16;
 let { ObjectId } = require('mongodb');
 
-const createUser = async(username, email, password) => {
+const createUser = async(username, email, age, password) => {
 
     // Validations
     await validationFunctions.usernameValidator(username);
     await validationFunctions.emailValidator(email);
+    await validationFunctions.ageValidator(age);
     await validationFunctions.passwordValidator(password);
+
+    username = username.trim();
+    email = email.trim();
+    age = age.trim();
 
     // Checking if the username and email already exists
     const userCollection = await users();
     username = username.toLowerCase();
     email = email.toLowerCase();
-    const username_present = await userCollection.findone(username);
-    const email_present = await userCollection.findone(email);
-    if(username_present) throw {statusCode: 400, error: "This username already exists!"};
-    if(email_present) throw {statusCode: 400, error: "This email is already registered!"};
 
-    
+    let userExist = await userCollection.findOne({username: username});
+    if (userExist) throw {statusCode: 400, error: "Already a user with that username exist in the Database"};
+    let emailExist = await userCollection.findOne({email: email});
+    if (emailExist) throw {statusCode: 400, error: "Already a user with that email exist in the Database"};
+
     let active = true;
     let admin = false;
     let verified = false;
@@ -32,6 +37,7 @@ const createUser = async(username, email, password) => {
     let newUser = {
         username: username,
         email: email,
+        age: age,
         password: encryptedPassword,
         active: active,
         admin: admin,
@@ -47,12 +53,11 @@ const createUser = async(username, email, password) => {
     return {insertedUser: true};
 }
 
-const checkUser = async (username, password, active, admin, verified) => { 
+const checkUser = async (username, password) => { 
 
     // Validations
     await validationFunctions.usernameValidator(username);
     await validationFunctions.passwordValidator(password);
-    await validationFunctions.booleanValidator(active, admin, verified);
   
     let userCollection = await users();
   
