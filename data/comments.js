@@ -8,7 +8,9 @@ const createComment = async (userId, eventId, parentCommentId, content) => {
     // NOT NULL,string, lenght not zero AFTERN TRIM, 200 WORDS 
     validationFunctions.idValidator(userId);
     validationFunctions.idValidator(eventId);
-    validationFunctions.idValidator(parentCommentId);
+    if (!parentComment) {
+        validationFunctions.idValidator(parentComment);
+    }
     validationFunctions.contentValidator(content);
 
     // Cleaning: Triming data before saving
