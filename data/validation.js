@@ -82,6 +82,81 @@ const ageValidator = async(age) => {
 };
 
 // Error handling for events
+//userId,title,overview,content, category, thumbnail1,thumbnail2,thumbnail3,thumbnail4, tags, location, price
+//title - 100
+//overivew - 400
+const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price) => {
+    if(!userId || !title || !overview || !content || !category || !thumbnail_1 || !tags || !location || !price)
+    {
+        throw {statusCode: 400, error: "All the required fields must be present"};
+    }
+    
+    if(typeof(userId)!=='string' || typeof(title)!=='string' || typeof(overview)!=='string' || typeof(content)!=='string' || typeof(location)!=='string' || typeof(price)!=='string')
+    {
+        throw {statusCode: 400, error: "All values must be valid strings"};
+    }
+
+    if(typeof(tags)!=='object' || Array.isArray(tags)!==true)
+    {
+        throw {statusCode: 400, error: "Tags should be an array with valid values"};
+    }
+
+    if(userId.trim().length==0 ||title.trim().length==0 ||overview.trim().length==0 ||content.trim().length==0 ||category.trim().length==0 ||tags.trim().length==0 || location.trim().length==0 || price.trim().length==0)
+    {
+        throw {statusCode: 400, error: "No empty values accepted for the requires fields"};
+    }
+
+    //title
+    if(title.trim().length>100)
+    {
+        throw {statusCode: 400, error: "Title character limit of 100 exceeded"};
+    }
+
+    //overview
+    if(overivew.trim().length>400)
+    {
+        throw {statusCode: 400, error: "Overivew character limit of 400 characters exceeded"};
+    }
+
+    //tags
+    for(let i = 0; i<tags.length;i++)
+    {
+        if(typeof(tags[i])!=='string')
+        {
+            throw {statusCode: 400, error: "All tags should be valid strings"};
+        }
+    }
+    //location 
+
+    //price
+    let price = /^[0-9.,]+$/
+    if(price===".")
+    {
+        price = "0.00";
+    }
+    if(reg.test(str4)===false)
+    {
+        throw {statusCode: 400, error: "Enter a valid value for price"};
+    }
+    
+    if(str4.includes("."))
+    {
+        substr = str4.split('.');
+        if(substr[1].length>2)
+        {
+            throw {statusCode: 400, error: "Enter a price till 2 decimals only"}; 
+        }
+    }
+
+    if(flag===1)
+    {
+        if(!ObjectId.isValid(eventId))
+        {
+            throw {statusCode: 400, error: "Event ID is not a valid ID"}; 
+        }
+    }
+
+}
 
 // Error handling for likes
 const valueValidator = async(value) => {
@@ -127,6 +202,7 @@ module.exports = {
     passwordValidator,
     emailValidator,
     booleanValidator,
+    eventObjValidator
     valueValidator,
     againstValidator,
     complaintValidator,
