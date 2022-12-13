@@ -164,16 +164,129 @@ const countryValidator = async(str) => {
 // ##Username Validations
 
 
+// Error handling for profile
+//link validator regex, pin code and age(no spe char), bio(char limit 100 words.), country state city(no number),
+const profileValidator = async(first_name, last_name, Age, Gender, website_link, youtube_link, Address_line_1, Address_line_2, City, State, Country, pincode, Bio) => {
+    
+}
+
+const ageValidator = async(age) => {
+    
+};
 
 // Error handling for events
+//userId,title,overview,content, category, thumbnail1,thumbnail2,thumbnail3,thumbnail4, tags, location, price
+//title - 100
+//overivew - 400
+const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price) => {
+    if(!userId || !title || !overview || !content || !category || !thumbnail_1 || !tags || !location || !price)
+    {
+        throw {statusCode: 400, error: "All the required fields must be present"};
+    }
+    
+    if(typeof(userId)!=='string' || typeof(title)!=='string' || typeof(overview)!=='string' || typeof(content)!=='string' || typeof(location)!=='string' || typeof(price)!=='string')
+    {
+        throw {statusCode: 400, error: "All values must be valid strings"};
+    }
+
+    if(typeof(tags)!=='object' || Array.isArray(tags)!==true)
+    {
+        throw {statusCode: 400, error: "Tags should be an array with valid values"};
+    }
+
+    if(userId.trim().length==0 ||title.trim().length==0 ||overview.trim().length==0 ||content.trim().length==0 ||category.trim().length==0 ||tags.trim().length==0 || location.trim().length==0 || price.trim().length==0)
+    {
+        throw {statusCode: 400, error: "No empty values accepted for the requires fields"};
+    }
+
+    //title
+    if(title.trim().length>100)
+    {
+        throw {statusCode: 400, error: "Title character limit of 100 exceeded"};
+    }
+
+    //overview
+    if(overview.trim().length>400)
+    {
+        throw {statusCode: 400, error: "Overivew character limit of 400 characters exceeded"};
+    }
+
+    //tags
+    for(let i = 0; i<tags.length;i++)
+    {
+        if(typeof(tags[i])!=='string')
+        {
+            throw {statusCode: 400, error: "All tags should be valid strings"};
+        }
+    }
+    //location 
+
+    //price
+    let reg = /^[0-9.,]+$/
+    if(price===".")
+    {
+        price = "0.00";
+    }
+    if(reg.test(str4)===false)
+    {
+        throw {statusCode: 400, error: "Enter a valid value for price"};
+    }
+    
+    if(str4.includes("."))
+    {
+        substr = str4.split('.');
+        if(substr[1].length>2)
+        {
+            throw {statusCode: 400, error: "Enter a price till 2 decimals only"}; 
+        }
+    }
+
+    if(flag===1)
+    {
+        if(!ObjectId.isValid(eventId))
+        {
+            throw {statusCode: 400, error: "Event ID is not a valid ID"}; 
+        }
+    }
+
+}
 
 // Error handling for likes
+const valueValidator = async(value) => {
+    if(!value) throw {statusCode: 400, error: "Value cannot be empty"};
+    if(typeof(value)!== "string") throw {statusCode: 400, error: "Value should be a string"};
+    if(value.trim().length === 0) throw {statusCode: 400, error: "Value cannot be empty"};
+    if(value!=="like" || value!=="dislike") throw {statusCode: 400, error: "Value should be either like or dislike"};
+}
+
+
 
 // Error handling for followers
 
 // Error handling for comments
+const contentValidator = async(content) => {
+    if(!content) throw {statusCode: 400, error: "Content field cannot be empty"};
+    if(typeof(content)!=="string")  throw {statusCode: 400, error: "Content field should be a string"};
+    if(content.trim().length===0)  throw {statusCode: 400, error: "Content field cannot be empty"};
+    if(content.length <= 200) throw {statusCode: 400, error: "Number of words allowed are upto 200."};
+
+}
+
 
 // Error handling for reports
+
+const againstValidator = async(against) => {
+    if(!against) throw {statusCode: 400, error: "This field cannot be empty"};
+    if(typeof(against)!=="string") throw {statusCode: 400, error: "This field should be a string"};
+    if(against!=="user" || against!=="event" || against!=="comment") throw {statusCode: 400, error: "Complaint report should be against user, event or comment"};
+
+}
+
+const complaintValidator = async(complaint) => {
+    if(!complaint) throw {statusCode: 400, error: "This field cannot be empty"};
+    if(typeof(complaint)!=="string") throw {statusCode: 400, error: "Complaint should be a string"};
+    if(complaint.trim().length===0) throw {statusCode: 400, error: "This field cannot be empty"};
+}
 
 
 module.exports = {
@@ -186,4 +299,14 @@ module.exports = {
     pincodeValidator,
     ageValidator,
     genderValidator
+    usernameValidator,
+    passwordValidator,
+    emailValidator,
+    booleanValidator,
+    eventObjValidator,
+    valueValidator,
+    againstValidator,
+    complaintValidator,
+    contentValidator,
+    ageValidator
 };

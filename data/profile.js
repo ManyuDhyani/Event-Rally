@@ -7,7 +7,6 @@ let { ObjectId } = require('mongodb');
 const createProfile = async(userId,
     firstName,
     lastName,
-    age,
     gender,
     profilePicture,
     websiteLink,
@@ -35,7 +34,6 @@ const createProfile = async(userId,
     userId = userId.trim();
     firstName = firstName.trim();
     lastName = lastName.trim();
-    age = age.trim();
     gender = gender.trim();
     addressLine1 = addressLine1.trim();
     addressLine2 = addressLine2.trim();
@@ -46,10 +44,9 @@ const createProfile = async(userId,
     bio = bio.trim();
 
     let newProfile = {
-      
+        user_id: userId,
         firstName: firstName,
         lastName: lastName,
-        age: age,
         gender: gender,
         profilePicture: profilePicture,
         websiteLink: websiteLink,
@@ -84,7 +81,7 @@ const createProfile = async(userId,
 
 
 
-const updateProfile = async(userId, firstName, lastName, age, gender, profilePicture, websiteLink, youtubeLink, addressLine1, addressLine2, city, state, country, pincode, bio) => {
+const updateProfile = async(userId, firstName, lastName, gender, profilePicture, websiteLink, youtubeLink, addressLine1, addressLine2, city, state, country, pincode, bio) => {
 
 
     //compare with create profile if not updated then throw error.
@@ -100,10 +97,10 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
     await validationFunctions.ageValidator(age);
     await validationFunctions.genderValidator(gender);
 
- 
+
+    userId = userId.trim();
     firstName = firstName.trim();
     lastName = lastName.trim();
-    age = age.trim();
     gender = gender.trim();
     addressLine1 = addressLine1.trim();
     addressLine2 = addressLine2.trim();
@@ -119,11 +116,26 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
         throw { statusCode: 404, error: `No such profile ` }
     }
 
+    // Check for updated fields.
+    if (
+      profile1.firstName === firstName &&
+      profile1.lastName === lastName &&
+      profile1.gender === gender &&
+      profile1.addressLine1 === addressLine1 &&
+      profile1.addressLine2 === addressLine2 &&
+      profile1.city === city &&
+      profile1.state === state &&
+      profile1.country === country &&
+      profile1.pincode === pincode &&
+      profile1.bio === bio
+    ) {
+        throw { statusCode: 400, error : `Atleast one changes need to be done in order to Update.`}
+    }
+
     let newProfile = {
-        //userId: userId,
+        user_id: userId,
         firstName: firstName,
         lastName: lastName,
-        age: age,
         gender: gender,
         profilePicture: profilePicture,
         websiteLink: websiteLink,
