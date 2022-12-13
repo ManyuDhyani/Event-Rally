@@ -19,9 +19,18 @@ const createProfile = async(userId,
     country,
     pincode,
     bio) => {
-    // Validations
 
     await validationFunctions.idValidator(userId);
+    await validationFunctions.firstNameValidator(firstName);
+    await validationFunctions.lastNameValidator(lastName);
+    await validationFunctions.cityValidator(city);
+    await validationFunctions.stateValidator(state);
+    await validationFunctions.countryValidator(country);
+
+    await validationFunctions.pincodeValidator(pincode);
+    await validationFunctions.ageValidator(age);
+
+    await validationFunctions.genderValidator(gender);
 
     userId = userId.trim();
     firstName = firstName.trim();
@@ -37,7 +46,7 @@ const createProfile = async(userId,
     bio = bio.trim();
 
     let newProfile = {
-        userId: userId,
+      
         firstName: firstName,
         lastName: lastName,
         age: age,
@@ -55,14 +64,16 @@ const createProfile = async(userId,
 
     }
     let profileCollection = await profile();
-    
+
+
 
     let result = await profileCollection.insertOne(newProfile);
-
+    console.log(newProfile);
+    console.log(result);
     if (result.modifiedCount === 0) {
         throw { statusCode: 500, error: `Unable to add profile` };
     }
-
+  
     return newProfile;
 
 
@@ -78,8 +89,18 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
 
     //compare with create profile if not updated then throw error.
     await validationFunctions.idValidator(userId);
+    await validationFunctions.idValidator(userId);
+    await validationFunctions.firstNameValidator(firstName);
+    await validationFunctions.lastNameValidator(lastName);
+    await validationFunctions.cityValidator(city);
+    await validationFunctions.stateValidator(state);
+    await validationFunctions.countryValidator(country);
 
-    //userId = userId.trim();
+    await validationFunctions.pincodeValidator(pincode);
+    await validationFunctions.ageValidator(age);
+    await validationFunctions.genderValidator(gender);
+
+ 
     firstName = firstName.trim();
     lastName = lastName.trim();
     age = age.trim();
@@ -91,29 +112,11 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
     country = country.trim();
     pincode = pincode.trim();
     bio = bio.trim();
-
     let profileCollection = await profile();
     let profile1 = await profileCollection.findOne({ userId: userId })
     console.log(profile1);
     if (!profile1) {
         throw { statusCode: 404, error: `No such profile ` }
-    }
-
-    // Check for updated fields.
-    if (
-      profile1.firstName === firstName &&
-      profile1.lastName === lastName &&
-      profile1.age === age &&
-      profile1.gender === gender &&
-      profile1.addressLine1 === addressLine1 &&
-      profile1.addressLine2 === addressLine2 &&
-      profile1.city === city &&
-      profile1.state === state &&
-      profile1.country === country &&
-      profile1.pincode === pincode &&
-      profile1.bio === bio
-    ) {
-        throw { statusCode: 400, error : `Atleast one changes need to be done in order to Update.`}
     }
 
     let newProfile = {
@@ -135,7 +138,7 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
 
     }
     var newvalues = { $set: newProfile };
-   
+
 
     let result = await profileCollection.updateOne({ userId: userId }, newvalues);
     console.log(result);
@@ -147,7 +150,7 @@ const updateProfile = async(userId, firstName, lastName, age, gender, profilePic
         throw { statusCode: 404, error: `Unable to get profile` };
     }
 
-    return updateProfile;
+
 
 
 };
