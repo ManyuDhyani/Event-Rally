@@ -113,7 +113,7 @@ const eventObjValidator = async (flag,eventId,userId,title,overview,content, cat
     }
 
     //overview
-    if(overivew.trim().length>400)
+    if(overview.trim().length>400)
     {
         throw {statusCode: 400, error: "Overivew character limit of 400 characters exceeded"};
     }
@@ -129,7 +129,7 @@ const eventObjValidator = async (flag,eventId,userId,title,overview,content, cat
     //location 
 
     //price
-    let price = /^[0-9.,]+$/
+    let reg = /^[0-9.,]+$/
     if(price===".")
     {
         price = "0.00";
@@ -202,7 +202,7 @@ module.exports = {
     passwordValidator,
     emailValidator,
     booleanValidator,
-    eventObjValidator
+    eventObjValidator,
     valueValidator,
     againstValidator,
     complaintValidator,

@@ -217,19 +217,19 @@
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS  -->
-                {{#if user._id != profile.user_id }}
+                {{#eq user._id profile.user_id }}
                     <div class="profile-userbuttons">
-                {{#if follow_status}}
-                <button type="button" name="unfollow" onclick="window.location.href='?unfollow=1'" class="btn btn-primary btn-sm">Following</button>
-                {{ else }}
-                <button type="button" name="follow" onclick="window.location.href='?follow=1'" class="btn btn-primary btn-sm">Follow</button>
-                {{/if}}
+                    {{#if follow_status}}
+                        <button type="button" name="unfollow" onclick="window.location.href='?unfollow=1'" class="btn btn-primary btn-sm">Following</button>
+                    {{ else }}
+                        <button type="button" name="follow" onclick="window.location.href='?follow=1'" class="btn btn-primary btn-sm">Follow</button>
+                    {{/if}}
                     </div>
-                {{/if}}
+                {{/eq}}
                 <!-- END SIDEBAR BUTTONS -->
                 <br>
                 <!-- SIDEBAR MENU -->
-                {{#if user._id != profile.user_id }}
+                {{#eq user._id profile.user_id }}
                 <div class="profile-usermenu">
                 <ul class="nav">
                     <li class="active">
@@ -249,7 +249,7 @@
                     </li>
                 </ul>
                 </div>
-                {{/if}}
+                {{/eq}}
                 <!-- END MENU -->
             
                 <div class="portlet light bordered">
@@ -272,11 +272,11 @@
                                                         
                     <div>
                         {{#if profile.bio }}
-                            {{#if user._id != profile.user_id }}
+                            {{#eq user._id profile.user_id }}
                                 <h4 class="profile-desc-title">About {{ user.username }}</h4>
                             {{ else }}
                                 <h4 class="profile-desc-title">My Bio</h4>
-                            {{/if}}
+                            {{/eq}}
                                 <span class="profile-desc-text"> {{profile.bio}} </span>
                         {{/if}}
                         {{#if profile.website_link }}
@@ -303,7 +303,7 @@
                     <!-- Latest Posts -->
                     <main class="posts-listing col-lg-12">
                         <div class="container">
-                            {{#if events.length != 0 }}
+                            {{#eq events.length 0 }}
                                 <div class="row">
                                 <!-- post -->
                                 {{#each events }}
@@ -337,7 +337,7 @@
                                         <img src="https://static.hashstrix.com/hashstrix-static-files/img/page-blank.svg" style="width:20%; color:grey;">
                                         <h2 style="color:#C8C8C8;padding-top:5%;">No Events Yet</h2>
                                     </div>
-                            {{/if}}            
+                            {{/eq}}            
                         </div>
                     </main>
                 </div>
