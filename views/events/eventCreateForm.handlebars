@@ -1,0 +1,42 @@
+<main>   
+    <div class="container">
+        <form action="/events/create" method="POST" id="event-creation-form">
+        
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Enter a title" required><br>
+            </div>
+            <div class="form-group">
+                <label for="overview">Overview:</label>
+                <input type="text" name="overview" id="overview" class="form-control" placeholder="Enter Overview" required><br>
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <input type="text" name="content" id="content" class="form-control" placeholder="Enter Content" required><br>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category"  class="form-control"  placeholder="Enter Category"><br>
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags:</label>
+                <input type="text" name="tags" id="tags" class="form-control" placeholder="Enter tags separated with commas"><br>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" name="location" id="location" class="form-control" placeholder="Enter Event's Location"><br>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" step="any" name="price" id="price" class="form-control" placeholder="Enter Event's Price"><br>
+            </div>
+            {{#if error}}
+                <div class="errorDiv">
+                    <p>{{error}}</p>
+                </div>
+            {{/if}}
+            
+            <button type="submit" class="btn btn-default">Create</button><br><br>
+        </form>
+    </div>
+</main> 
