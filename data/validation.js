@@ -51,7 +51,7 @@ const passwordValidator = async (password) => {
         .{8,16} means that the password must be 8-16 characters long. We must use this at the end of the regex, just before the $ symbol.
     */
 
-    if (/^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.\W)(?!.* ).{8,16}$/.test(password) === false) throw {statusCode: 400, error: "Password must contain a single digit from 1 to 9, one lowercase letter, one uppercase letter, one special character and must be 8-16 characters long."};
+    if (/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password) === false) throw {statusCode: 400, error: "Password must contain a single digit from 1 to 9, one lowercase letter, one uppercase letter, one special character and must be 8-16 characters long."};
     // if (password.length < 8 and password.length > 16) throw {statusCode: 400, error: "Password should be at least 8 characters long and less than 16 character"};
 };
 
@@ -61,7 +61,7 @@ const emailValidator = async (email) => {
     if (email.trim().length === 0) throw {statusCode: 400, error: " Email cannot be just empty spaces"};
     let checkSpaces = email.split(" ");
     if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the Email is allowed"};
-    if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email) === false) throw  {statusCode: 400, error: "Email should be Valid"};
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) throw  {statusCode: 400, error: "Email should be Valid"};
 };
 
 // ##Boolean Field Validation: active, admin and verified
