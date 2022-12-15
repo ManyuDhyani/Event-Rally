@@ -5,24 +5,29 @@ let { ObjectId } = require('mongodb')
 // Error Validation for common fields
 
 // Error handling for various ID objects like userID, profileID, eventID, followersID, reportID, LikesID, commentsID
-const idValidator = async (id) => {
 
-    if (!id){ 
+
+// Error handling for profile
+const idValidator = async(id) => {
+
+    if (!id) {
         throw 'Error: id cannot be empty';
     }
-    if (typeof id !== "string"){ 
+    if (typeof id !== "string") {
         throw 'Error: id must be a string';
     }
-    if (id.length === 0 || id.trim().length === 0){
+    if (id.length === 0 || id.trim().length === 0) {
         throw 'Error: id cannot be an empty string or just spaces';
     }
 
     id = id.trim();
-  
-    if (!ObjectId.isValid(id)){ 
+
+    if (!ObjectId.isValid(id)) {
         throw 'Error: Invalid object ID';
     }
 };
+
+// Error handling for users
 
 // Error handling for users
 
@@ -71,17 +76,61 @@ const booleanValidator = async (active, admin, verified) => {
     if (typeof active !== "boolean" || typeof admin !== "boolean"  || typeof verified !== "boolean" ) throw {statusCode: 400, error: "Active, Admin, Verified boolean should be a valid boolean"};
 };
 
-// Error handling for profile
-//link validator regex, pin code and age(no spe char), bio(char limit 100 words.), country state city(no number),
-const profileValidator = async(first_name, last_name, Age, Gender, website_link, youtube_link, Address_line_1, Address_line_2, City, State, Country, pincode, Bio) => {
-    
-}
 
-const ageValidator = async(age) => {
-    
+// Error handling for profile
+
+const pincodeValidator = async(num) => {
+    var num2 = Number.parseInt(num);
+    if (!num) {
+        throw 'Error: Pincode cannot be empty';
+    }
+
+    if (Number.isNaN(num2)) {
+        throw 'Error: Pincode value should be a numeric...String Given';
+    }
+    if (num.length === 0 || num.trim().length === 0) {
+        throw 'Error: Pincode Value cannot be an empty  or just spaces';
+    }
+
 };
 
 
+const ageValidator = async(num) => {
+    var num2 = Number.parseInt(num);
+    if (!num) {
+        throw 'Error: Age cannot be empty';
+    }
+
+    if (Number.isNaN(num2)) {
+        throw 'Error: Age should be a numeric';
+    }
+    if (num.length === 0 || num.trim().length === 0) {
+        throw 'Error: Age cannot be an empty  or just spaces';
+    }
+    if (num <= 13) {
+        throw 'Error: Age should be greater than 13';
+    }
+
+};
+
+const genderValidator = async(gender) => {
+    gender = gender.trim();
+
+    if (typeof gender !== "string") {
+        throw 'Error: Gender must be a string';
+    }
+
+    if (gender.length === 0 || gender.trim().length === 0) {
+        throw 'Error: Gender cannot be an empty string or just spaces';
+    }
+
+    if (gender !== "Male" && gender !== "Female" && gender !== "Transgender" && gender !== "NoNBinary") {
+        throw 'Error: Gender must be either Male, Female ,Transgender or Binary...Anything else will not accepted';
+    }
+
+
+
+};
 
 //Tags splitter
 const tagsSplitter = async(tags_string) =>{
@@ -126,6 +175,83 @@ const tagsSplitter = async(tags_string) =>{
 const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags_str, location, price) => {
 
     if(!userId || !title || !overview || !content || !category  || !tags_str || !location || !price)
+
+const firstNameValidator = async(str) => {
+    if (!str) {
+        throw 'Error: First Name cannot be empty';
+    }
+
+    if (typeof str !== "string") {
+        throw 'Error: First Name must be a string';
+    }
+    if (str.length === 0 || str.trim().length === 0) {
+        throw 'Error: First Name cannot be an empty string or just spaces';
+    }
+
+};
+
+const lastNameValidator = async(str) => {
+    if (!str) {
+        throw 'Error: Last Name cannot be empty';
+    }
+
+    if (typeof str !== "string") {
+        throw 'Error: Last Name must be a string';
+    }
+    if (str.length === 0 || str.trim().length === 0) {
+        throw 'Error: Last Name cannot be an empty string or just spaces';
+    }
+
+};
+
+
+const cityValidator = async(str) => {
+    if (!str) {
+        throw 'Error: City cannot be empty';
+    }
+
+    if (typeof str !== "string") {
+        throw 'Error: City must be a string';
+    }
+    if (str.length === 0 || str.trim().length === 0) {
+        throw 'Error: City cannot be an empty string or just spaces';
+    }
+
+};
+
+const stateValidator = async(str) => {
+    if (!str) {
+        throw 'Error: State cannot be empty';
+    }
+
+    if (typeof str !== "string") {
+        throw 'Error: State must be a string';
+    }
+    if (str.length === 0 || str.trim().length === 0) {
+        throw 'Error: State cannot be an empty string or just spaces';
+    }
+
+};
+
+const countryValidator = async(str) => {
+    if (!str) {
+        throw 'Error: Country cannot be empty';
+    }
+
+    if (typeof str !== "string") {
+        throw 'Error: Country must be a string';
+    }
+    if (str.length === 0 || str.trim().length === 0) {
+        throw 'Error: Country cannot be an empty string or just spaces';
+    }
+
+};
+
+
+// Error handling for events
+const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price) => {
+    if(!userId || !title || !overview || !content || !category || !thumbnail_1 || !tags || !location || !price)
+
     {
         throw {statusCode: 400, error: "All the required fields must be present"};
     }
@@ -241,6 +367,14 @@ const complaintValidator = async(complaint) => {
 
 module.exports = {
     idValidator,
+    firstNameValidator,
+    lastNameValidator,
+    cityValidator,
+    stateValidator,
+    countryValidator,
+    pincodeValidator,
+    ageValidator,
+    genderValidator,
     usernameValidator,
     passwordValidator,
     emailValidator,
