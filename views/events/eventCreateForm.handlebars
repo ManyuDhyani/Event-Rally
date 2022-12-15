@@ -1,6 +1,6 @@
 <main>   
     <div class="container">
-        <form action="/events/create" method="POST" id="event-creation-form">
+        <form action="/events/create" method="POST" id="event-creation-form" enctype="multipart/form-data">
         
             <div class="form-group">
                 <label for="title">Title:</label>
@@ -29,6 +29,10 @@
             <div class="form-group">
                 <label for="price">Price:</label>
                 <input type="number" step="any" name="price" id="price" class="form-control" placeholder="Enter Event's Price"><br>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail_1">Choose Thumbnail:</label>
+                <input type="file" name="thumbnail_1" class="form-control" required><br>
             </div>
             {{#if error}}
                 <div class="errorDiv">
