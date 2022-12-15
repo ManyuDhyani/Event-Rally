@@ -6,9 +6,9 @@ let { ObjectId } = require('mongodb');
 const createlike = async (eventId, userId, value) => {
     // Validation
 
-    validationFunctions.idValidator(eventId);
-    validationFunctions.idValidator(userId);
-    validationFunctions.valueValidator(value);
+    await validationFunctions.idValidator(eventId);
+    await validationFunctions.idValidator(userId);
+    await validationFunctions.valueValidator(value);
     
     eventId = eventId.trim();
     userId = userId.trim();
@@ -58,7 +58,7 @@ const createlike = async (eventId, userId, value) => {
 
 const getLikesDislikes = async (eventId) => {
     // Validation
-    validationFunctions.idValidator(eventId);
+    await validationFunctions.idValidator(eventId);
 
     eventId = eventId.trim();
     let eventsCollection = await events();

@@ -5,8 +5,8 @@ let { ObjectId } = require('mongodb');
 
 const createFollowers = async (userId, followedUserId) => {
     // validation
-    validationFunctions.idValidator(userId);
-    validationFunctions.idValidator(followedUserId);
+    await validationFunctions.idValidator(userId);
+    await validationFunctions.idValidator(followedUserId);
 
     userId = userId.trim();
     followedUserId = followedUserId.trim();
@@ -39,7 +39,7 @@ const createFollowers = async (userId, followedUserId) => {
 
 const getAllFollowers = async (userId) => {
     // validation
-    validationFunctions.idValidator(userId);
+    await validationFunctions.idValidator(userId);
 
     userId = userId.trim();
 

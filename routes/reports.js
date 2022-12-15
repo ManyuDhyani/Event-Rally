@@ -5,33 +5,29 @@ const reportsData = data.reports;
 const validationFunctions = data.validationFunctions;
 
 router
-    // .route('/comments/:eventID')
-    .route('/reports')
+    .route('/report')
     .get(async (req,res) => {
-        try {
-            if(!req.session.login){
-                return res.render("userLogin", {title: "Login"});
-            }
-            else{
-                validationFunctions.idValidator(req.session.userId);
-                return res.render("reportPage");
-            }
-        } catch (error) {
-            throw {statusCode: 500, error: e};
-        }
+        // code here for GET
+        // if (!req.session.login){
+        //     return res.render("userLogin", {title: "Login"});
+        // }
+        // else{
+        //     validationFunctions.idValidator(req.session.userId);
+            return res.render("./reports/reportPage",{title: "Report"});
+        // }
     })
 
     .post(async (req,res) => {
         try {
             let reportData = req.body
-            let {against, againstId, complaint} = reportsData;
+            let {against, againstId, complaint} = reportData;
             await validationFunctions.idValidator(req.session.userId);
             await validationFunctions.againstValidator(against);
             await validationFunctions.idValidator(againstId);
             await validationFunctions.complaintValidator(complaint);
 
             reportsData.createReport(req.session.userId, against, againstId, complaint);
-            
+
         } catch (error) {
             throw {statusCode: 500, error: e};
         }
