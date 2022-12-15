@@ -71,6 +71,7 @@ const checkUser = async (username, password) => {
     let comparePswd = await bcrypt.compare(password, userExist.password);
     if(!comparePswd) throw {statusCode: 400, error: "Either the username or password is invalid"};
 
+    userExist._id = userExist._id.toString();
     return {loggedUser: userExist, authenticatedUser: true};
   };
 

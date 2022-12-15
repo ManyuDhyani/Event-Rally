@@ -8,19 +8,19 @@ let { ObjectId } = require('mongodb')
 const idValidator = async (id) => {
 
     if (!id){ 
-        throw 'Error: id cannot be empty';
+        throw {statusCode: 400, error:'Error: id cannot be empty'};
     }
     if (typeof id !== "string"){ 
-        throw 'Error: id must be a string';
+        throw {statusCode: 400, error:'Error: id must be a string'};
     }
     if (id.length === 0 || id.trim().length === 0){
-        throw 'Error: id cannot be an empty string or just spaces';
+        throw {statusCode: 400, error:'Error: id cannot be an empty string or just spaces'};
     }
 
     id = id.trim();
   
     if (!ObjectId.isValid(id)){ 
-        throw 'Error: Invalid object ID';
+        throw {statusCode: 400, error: "Error: Invalid object ID"};
     }
 };
 

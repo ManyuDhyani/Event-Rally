@@ -1,0 +1,15 @@
+<div class="error">
+    {{#if notLogged}}
+    <p>The user is not logged in</p>
+    <a href="/">Go to login page</a>
+    {{/if}}
+    {{#if error404}}
+    <p>404: Page Not Found</p>
+    {{/if}}
+    {{#if error403}}
+    <p>403: Forbidden Request</p>
+    {{/if}}
+    {{#if error500}}
+    <p>500: Something Went wrong</p>
+    {{/if}}
+</div>
