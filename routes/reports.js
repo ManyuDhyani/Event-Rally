@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
@@ -7,30 +8,41 @@ const validationFunctions = data.validationFunctions;
 router
     .route('/report')
     .get(async (req,res) => {
-        // code here for GET
-        // if (!req.session.login){
-        //     return res.render("userLogin", {title: "Login"});
-        // }
-        // else{
-        //     validationFunctions.idValidator(req.session.userId);
-            return res.render("./reports/reportPage",{title: "Report"});
-        // }
+        try{
+            if (req.session.login){
+                return res.render("./reports/reportPage",{title: "Report"});
+            }
+            return res.redirect('/login');
+        } catch (e) {
+            if (e.statusCode) {
+              res.status(e.statusCode).render("error", {title: "Error", error404: true});
+            } else {
+              res.status(500).json("Internal Server Error");
+            }
+          }
     })
 
     .post(async (req,res) => {
         try {
-            let reportData = req.body
-            let {against, againstId, complaint} = reportData;
-            await validationFunctions.idValidator(req.session.userId);
-            await validationFunctions.againstValidator(against);
-            await validationFunctions.idValidator(againstId);
-            await validationFunctions.complaintValidator(complaint);
+            if (req.session.login){
+                let reportData = req.body
+                let {against, againstId, complaint} = reportData;
+                await validationFunctions.idValidator(req.session.login.loggedUser._id);
+                await validationFunctions.againstValidator(against);
+                await validationFunctions.idValidator(againstId);
+                await validationFunctions.complaintValidator(complaint);
 
-            reportsData.createReport(req.session.userId, against, againstId, complaint);
-
-        } catch (error) {
-            throw {statusCode: 500, error: e};
-        }
+                reportsData.createReport(req.session.login.loggedUser._id, against, againstId, complaint);
+            } else {
+                return res.redirect('/login');
+            }
+        } catch (e) {
+            if (e.statusCode) {
+              res.status(e.statusCode).render("error", {title: "Error", error404: true});
+            } else {
+              res.status(500).json("Internal Server Error");
+            }
+          }
     })
 
 module.exports = router; 
