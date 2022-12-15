@@ -1,0 +1,46 @@
+<div class="container">
+    <a href="#" class="navbar-brand">Real-Tweet Stream</a>
+    <div id="tweets">
+        {{#each twitterTweets}}
+            <div class = "card-body">
+                <h5 class="card-title">{{this.text}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{this.username}}</h6>
+                <a class="btn btn-primary mt-3" href="https://twitter.com/${this.username}/status/${this.id}">
+                    <i class="fab fa-twitter"></i> Go To Tweet
+                </a>
+            <div>
+        {{/each}}
+        {{twitterTweets}}
+    </div>
+</div>
+
+<script>
+    const tweets = document.getElementById('tweets')
+    const tweetsList = []
+
+console.log(twitterTweets)
+    async ((twitterTweets) => {
+        console.log(twitterTweets)
+        const tweetsData = {
+            id: twitterTweets.data.id,
+            text: twitterTweets.data.text,
+            username: `@${twitterTweets.includes.users[0].username}`
+        }
+        const tweetElement = document.createElement('div')
+        tweetElement.className = 'card my-4'
+        tweetElement.innerHTML = `
+            <div class = "card-body">
+                <h5 class="card-title">${tweetsData.text}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${tweetsData.username}</h6>
+                <a class="btn btn-primary mt-3" href="https://twitter.com/${tweetsData.username}/status/${tweetsData.id}">
+                    <i class="fab fa-twitter"></i> Go To Tweet
+                </a>
+            <div>
+        `
+
+        tweetsList.appendChild(tweetElement)
+
+        setTimeout(() => tweetElement.remove(), 5000)
+    })
+
+</script>
