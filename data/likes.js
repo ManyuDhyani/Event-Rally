@@ -67,9 +67,9 @@ const getLikesDislikes = async (eventId) => {
     if (!eventData) {
         throw {statusCode: 404, error: "This event doesn't exist"}
     }
-
+    
     if (eventData.likes.length === 0){
-        throw {statusCode: 404, error:`No likes or dislikes data for this event with id: ${id}`};
+        return {like: 0, dislike: 0};
     }
 
     // Calculate the likes and dislikes for the event and return.

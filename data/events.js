@@ -140,23 +140,17 @@ const getEventInfo = async (eventId) =>{
 // Func to get the attendee List from event collection
 const getAttendees = async (eventId) =>{
     validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
     let attendingList = await eventCollections.findOne({_id: ObjectId(eventId)}, {attending: 1});
-    if(attendingList === null)
-    {
-       throw {statusCode: 404, error: "Event does not exsist"};
-    }
-    return {attendeeCount: attendingList.length, attendingList: attendingList}
+    return {attendeeCount: attendingList.attending.length, attendingList: attendingList.attending}
 };
 
 // Func to get the followers List from event collection
 const getEventFollowers = async (eventId) =>{
     validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
     let followingList = await eventCollections.findOne({_id: ObjectId(eventId)}, {following: 1});
-    if(followingList === null)
-    {
-       throw {statusCode: 404, error: "Event does not exsist"};
-    }
-    return {followersCount: followingList.length, followingList: followingList}
+    return {followersCount: followingList.following.length, followingList: followingList.following}
 };
 
 module.exports = {
