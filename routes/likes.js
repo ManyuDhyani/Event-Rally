@@ -15,9 +15,9 @@ router
     .post(async(req,res) => {
         if(req.params.value === "like"){
             try {
-                validationFunctions.idValidator(req.params.eventID);
-                validationFunctions.idValidator(req.session.userId);
-                validationFunctions.valueValidator(req.params.value);
+                await validationFunctions.idValidator(req.params.eventID);
+                await validationFunctions.idValidator(req.session.userId);
+                await validationFunctions.valueValidator(req.params.value);
 
                 likeData.createLike(req.params.eventID,req.session.userId,req.params.value);
                 
