@@ -6,12 +6,12 @@ let { ObjectId } = require('mongodb');
 const createComment = async (userId, eventId, parentCommentId, content) => {
     // validation
     // NOT NULL,string, lenght not zero AFTERN TRIM, 200 WORDS 
-    validationFunctions.idValidator(userId);
-    validationFunctions.idValidator(eventId);
-    if (!parentComment) {
-        validationFunctions.idValidator(parentComment);
+    await validationFunctions.idValidator(userId);
+    await validationFunctions.idValidator(eventId);
+    if (!parentCommentId) {
+        await validationFunctions.idValidator(parentCommentId);
     }
-    validationFunctions.contentValidator(content);
+    await validationFunctions.contentValidator(content);
 
     // Cleaning: Triming data before saving
     userId = userId.trim();
@@ -57,7 +57,7 @@ const createComment = async (userId, eventId, parentCommentId, content) => {
 // This function get all comments for the particular event.
 const getAllEventParentComments = async (eventId) => {
     // validation
-    validationFunctions.idValidator(eventId);
+    await validationFunctions.idValidator(eventId);
 
     eventId = eventId.trim();
 
@@ -69,7 +69,7 @@ const getAllEventParentComments = async (eventId) => {
 
 const getAllChildCommentsThread = async (parentCommentId) => {
     // validation
-    validationFunctions.idValidator(parentCommentId);
+    await validationFunctions.idValidator(parentCommentId);
 
     parentCommentId = parentCommentId.trim();
 

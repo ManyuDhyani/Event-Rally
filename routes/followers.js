@@ -8,7 +8,7 @@ router
     // .route('/comments/:eventID')
     .route('/followers')
     .get(async (req,res) => {
-        validationFunctions.idValidator(req.params.eventId);
+        await validationFunctions.idValidator(req.params.eventId);
         
     })
 
