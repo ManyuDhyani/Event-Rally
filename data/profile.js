@@ -1,12 +1,13 @@
 const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('../data/validation');
-const profile = mongoCollections.profile;
+const hara = mongoCollections.profile
 let { ObjectId } = require('mongodb');
 
 //return all the objects
 const createProfile = async(userId,
     firstName,
     lastName,
+    age,
     gender,
     profilePicture,
     websiteLink,
@@ -18,7 +19,7 @@ const createProfile = async(userId,
     country,
     pincode,
     bio) => {
-
+    console.log(firstName)    
     await validationFunctions.idValidator(userId);
     await validationFunctions.firstNameValidator(firstName);
     await validationFunctions.lastNameValidator(lastName);
@@ -60,7 +61,7 @@ const createProfile = async(userId,
         bio: bio
 
     }
-    let profileCollection = await profile();
+    let profileCollection = await hara();
 
 
 
@@ -70,8 +71,8 @@ const createProfile = async(userId,
     if (result.modifiedCount === 0) {
         throw { statusCode: 500, error: `Unable to add profile` };
     }
-  
-    return newProfile;
+
+    return { insertedProfile: true };
 
 
 };
@@ -118,18 +119,18 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
 
     // Check for updated fields.
     if (
-      profile1.firstName === firstName &&
-      profile1.lastName === lastName &&
-      profile1.gender === gender &&
-      profile1.addressLine1 === addressLine1 &&
-      profile1.addressLine2 === addressLine2 &&
-      profile1.city === city &&
-      profile1.state === state &&
-      profile1.country === country &&
-      profile1.pincode === pincode &&
-      profile1.bio === bio
+        profile1.firstName === firstName &&
+        profile1.lastName === lastName &&
+        profile1.gender === gender &&
+        profile1.addressLine1 === addressLine1 &&
+        profile1.addressLine2 === addressLine2 &&
+        profile1.city === city &&
+        profile1.state === state &&
+        profile1.country === country &&
+        profile1.pincode === pincode &&
+        profile1.bio === bio
     ) {
-        throw { statusCode: 400, error : `Atleast one changes need to be done in order to Update.`}
+        throw { statusCode: 400, error: `Atleast one changes need to be done in order to Update.` }
     }
 
     let newProfile = {
@@ -166,9 +167,40 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
 
 
 };
+const getAllProfiles = async() => {
 
+
+    let profilecollection = await hara();
+    const profilelists = await profilecollection.find({}).toArray();
+
+    return profilelists
+
+
+
+
+
+
+    // console.log('kkkkk');
+    // const profileCollection = profile();
+    // const profileList = profileCollection.find({}).toArray()
+    // if (profileList) {
+    //     console.log('kkkkkkkk', profileList);
+    //     return profileList;
+    // }
+
+};
+
+const getProfileById = async(userId) => {
+    let profilecollection = await hara();
+    const profile = await profilecollection.findOne({ user_id: userId });
+
+    return profile
+
+}
 module.exports = {
     createProfile,
-    updateProfile
+    updateProfile,
+    getAllProfiles,
+    getProfileById
 
 };
