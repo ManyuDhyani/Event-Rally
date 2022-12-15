@@ -1,11 +1,13 @@
 const usersRoutes = require('./users');
 const commentRoutes = require('./comments');
+const eventRoutes = require('./events');
 const likesRoutes = require('./likes');
 const reportsRoutes = require('./reports');
 const followersRoutes = require('./followers');
 
 const constructorMethod = (app) => {
   app.use('/', usersRoutes);
+  app.use('/events',eventRoutes),
   app.use('/comments', commentRoutes);
   app.use('/likes',likesRoutes);
   app.use('/reports',reportsRoutes);

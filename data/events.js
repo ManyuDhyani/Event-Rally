@@ -10,7 +10,7 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
 
     //call the validation function
     //here we pass a flag 0 as 1st argument and null as eventId (2nd argument) to the eventObjValidator so that it can skip checking for the eventId as in case of the updateEvent function
-    validationFunctions.eventObjValidator(0,null,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price);
+    const tags_arr = await validationFunctions.eventObjValidator(0,null,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price);
 
     const eventCollections = await event();
     let newEvent = {
@@ -23,7 +23,7 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
         thumbnail_2:thumbnail_2,
         thumbnail_3:thumbnail_3,
         thumbnail_4:thumbnail_4,
-        tags:tags,
+        tags:tags_arr,
         location:location,
         price:price,
         likes:[],
@@ -34,10 +34,18 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
 
     //inserting newly created event object
     const insertInfo = await eventCollections.insertOne(newEvent);
-    if(!insertInfo.acknowledge || !insertInfo.insertedId)
+    if(!insertInfo.acknowledged || !insertInfo.insertedId)
     {
         throw {statusCode: 404, error: "Could not insert the event"};
     }
+   
+    let eventFetchBack = await eventCollections.findOne({_id: insertInfo.insertedId});
+    if(eventFetchBack===null)
+    {
+        throw {statusCode: 404, error: "Error in fetching back event after insertion"};
+    }
+
+    return eventFetchBack._id.toString();
 };
 
 
@@ -47,7 +55,7 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
 
     //validate everything here
     //here we pass flag value '1' as the 1st argument so that it validates eventId as well
-    validationFunctions.eventObjValidator(1,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price);
+    const tags_arr = await validationFunctions.eventObjValidator(1,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price);
 
 
     const eventCollections = await event();
@@ -76,7 +84,7 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         }
     }
 
-    if(compareArrays(beforeUpdate.tags,tags)===true)
+    if(compareArrays(beforeUpdate.tags,tags_arr)===true)
     {
         throw {statusCode: 404, error: "No different value to be updated"};
     }
@@ -92,7 +100,7 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         thumbnail_2:thumbnail_2,
         thumbnail_3:thumbnail_3,
         thumbnail_4:thumbnail_4,
-        tags:tags,
+        tags:tags_arr,
         location:location,
         price:price
     }
@@ -103,7 +111,32 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
     }
 };
 
+
+const getEventInfo = async (eventId) =>{
+
+//Handling eventId
+ if(!eventId)
+ {
+    throw {statusCode: 404, error: "EventId not provided"};
+ }
+ if(!ObjectId.isValid(eventId))
+ {
+    throw {statusCode: 404, error: "ID provided is not a valid ID"};
+ }
+
+ const eventCollections = await event();
+ const eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+ if(eventFetched === null)
+ {
+    throw {statusCode: 404, error: "Event does not exsist"};
+ }
+
+ return eventFetched;
+
+};
+
 module.exports = {
     createEvent,
-    updateEvent
+    updateEvent,
+    getEventInfo
 };

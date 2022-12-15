@@ -130,9 +130,51 @@ const genderValidator = async(gender) => {
 
 
 
-
-
 };
+
+//Tags splitter
+const tagsSplitter = async(tags_string) =>{
+
+    let reg = /#/;
+    let reg1= /^#/;
+    let reg2 = /^ /;
+    let reg3 =/ /;
+
+    if(!reg.test(tags_string))
+    {
+        throw {statusCode: 400, error: "tags should include # before every tag"};
+    }
+
+    if(!reg1.test(tags_string) && !reg2.test(tags_string))
+    {
+        throw {statusCode: 400, error: "tags should include # before every tag"};
+    }
+   
+    let temp = tags_string.split('#');
+    let tags = [];
+    let k=0;
+
+    for(let i=1;i<temp.length;i++)
+    {
+        temp[i]=temp[i].trim();
+        if(reg3.test(temp[i]))
+        {
+            throw {statusCode: 400, error: "Tags should have only words not sentences with spaces"};
+        }
+        tags[k]=temp[i];
+        k++;
+    }
+
+    return tags;
+}
+
+// Error handling for events
+//userId,title,overview,content, category, thumbnail1,thumbnail2,thumbnail3,thumbnail4, tags, location, price
+//title - 100
+//overivew - 400
+const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags_str, location, price) => {
+
+    if(!userId || !title || !overview || !content || !category  || !tags_str || !location || !price)
 
 const firstNameValidator = async(str) => {
     if (!str) {
@@ -209,23 +251,35 @@ const countryValidator = async(str) => {
 // Error handling for events
 const eventObjValidator = async (flag,eventId,userId,title,overview,content, category, thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4, tags, location, price) => {
     if(!userId || !title || !overview || !content || !category || !thumbnail_1 || !tags || !location || !price)
+
     {
         throw {statusCode: 400, error: "All the required fields must be present"};
     }
     
-    if(typeof(userId)!=='string' || typeof(title)!=='string' || typeof(overview)!=='string' || typeof(content)!=='string' || typeof(location)!=='string' || typeof(price)!=='string')
+    if(typeof(userId)!=='string' || typeof(title)!=='string' || typeof(overview)!=='string' || typeof(content)!=='string' || typeof(location)!=='string' || typeof(price)!=='string' || typeof(tags_str)!=='string')
     {
         throw {statusCode: 400, error: "All values must be valid strings"};
     }
+
+    if(userId.trim().length==0 ||title.trim().length==0 ||overview.trim().length==0 ||content.trim().length==0 ||category.trim().length==0 ||tags_str.trim().length==0 || location.trim().length==0 || price.trim().length==0)
+    {
+        throw {statusCode: 400, error: "No empty values accepted for the requires fields"};
+    }
+
+    //tags 
+    let tags = await tagsSplitter(tags_str);
 
     if(typeof(tags)!=='object' || Array.isArray(tags)!==true)
     {
         throw {statusCode: 400, error: "Tags should be an array with valid values"};
     }
 
-    if(userId.trim().length==0 ||title.trim().length==0 ||overview.trim().length==0 ||content.trim().length==0 ||category.trim().length==0 ||tags.trim().length==0 || location.trim().length==0 || price.trim().length==0)
+    for(let i = 0; i<tags.length;i++)
     {
-        throw {statusCode: 400, error: "No empty values accepted for the requires fields"};
+        if(typeof(tags[i])!=='string')
+        {
+            throw {statusCode: 400, error: "All tags should be valid strings"};
+        }
     }
 
     //title
@@ -239,37 +293,30 @@ const eventObjValidator = async (flag,eventId,userId,title,overview,content, cat
     {
         throw {statusCode: 400, error: "Overivew character limit of 400 characters exceeded"};
     }
-
-    //tags
-    for(let i = 0; i<tags.length;i++)
-    {
-        if(typeof(tags[i])!=='string')
-        {
-            throw {statusCode: 400, error: "All tags should be valid strings"};
-        }
-    }
+   
     //location 
 
+ 
     //price
     let reg = /^[0-9.,]+$/
     if(price===".")
     {
         price = "0.00";
     }
-    if(reg.test(str4)===false)
+    if(reg.test(price)===false)
     {
         throw {statusCode: 400, error: "Enter a valid value for price"};
     }
     
-    if(str4.includes("."))
+    if(price.includes("."))
     {
-        substr = str4.split('.');
+        substr = price.split('.');
         if(substr[1].length>2)
         {
             throw {statusCode: 400, error: "Enter a price till 2 decimals only"}; 
         }
     }
-
+    
     if(flag===1)
     {
         if(!ObjectId.isValid(eventId))
@@ -277,7 +324,7 @@ const eventObjValidator = async (flag,eventId,userId,title,overview,content, cat
             throw {statusCode: 400, error: "Event ID is not a valid ID"}; 
         }
     }
-
+    return tags;
 }
 
 // Error handling for likes
@@ -337,5 +384,6 @@ module.exports = {
     againstValidator,
     complaintValidator,
     contentValidator,
-    ageValidator
+    ageValidator,
+    tagsSplitter
 };
