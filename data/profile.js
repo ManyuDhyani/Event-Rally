@@ -64,7 +64,7 @@ const createProfile = async(userId,
     let profileCollection = await hara();
 
 
-
+    
     let result = await profileCollection.insertOne(newProfile);
     console.log(newProfile);
     console.log(result);
@@ -174,19 +174,6 @@ const getAllProfiles = async() => {
     const profilelists = await profilecollection.find({}).toArray();
 
     return profilelists
-
-
-
-
-
-
-    // console.log('kkkkk');
-    // const profileCollection = profile();
-    // const profileList = profileCollection.find({}).toArray()
-    // if (profileList) {
-    //     console.log('kkkkkkkk', profileList);
-    //     return profileList;
-    // }
 
 };
 

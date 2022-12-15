@@ -17,10 +17,10 @@ router
             const parentID = req.body.parentID;
             const content = req.body.content;
             //VALIDATIONS
-            validationFunctions.idValidator(userID);
-            validationFunctions.idValidator(eventID);
-            validationFunctions.idValidator(parentID);
-            validationFunctions.contentValidator(content);
+            await validationFunctions.idValidator(userID);
+            await validationFunctions.idValidator(eventID);
+            await validationFunctions.idValidator(parentID);
+            await validationFunctions.contentValidator(content);
             commentData.createComment(userID, eventID, parentID, content);
             
         }catch(e){

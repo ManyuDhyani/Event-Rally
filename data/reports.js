@@ -6,10 +6,10 @@ let { ObjectId } = require('mongodb');
 const createReport = async (userId, against, againstId, complaint) => {
     // validation
     
-    validationFunctions.idValidator(userId);
-    validationFunctions.againstValidator(against);
-    validationFunctions.idValidator(againstId);
-    validationFunctions.complaintValidator(complaint);
+    await validationFunctions.idValidator(userId);
+    await validationFunctions.againstValidator(against);
+    await validationFunctions.idValidator(againstId);
+    await validationFunctions.complaintValidator(complaint);
 
     userId = userId.trim();
     against = against.trim();

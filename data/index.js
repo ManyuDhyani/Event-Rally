@@ -4,6 +4,7 @@ const eventsData = require("./events");
 const commentsData = require("./comments");
 const followersData = require("./followers");
 const reportsData = require("./reports");
+const likesData = require("./likes");
 const validations = require("./validation")
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
     comments: commentsData,
     followers: followersData,
     reports: reportsData,
+    likes: likesData,
     validationFunctions: validations
 };
