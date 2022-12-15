@@ -196,14 +196,15 @@
                 <!-- SIDEBAR USERPIC -->
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
-                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{username}}">
+                    <img src="{{ finalresult.profile_picture }}" class="img-responsive" alt="{{username}}">
+                    <!--<img src="E:\PROJECT2\NEW PROJECT REQ\Event-Rally\static\Rajat.jpg" class="img-responsive" alt="{{username}}">-->
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{ profile.firstname }}&nbsp;{{ profile.lastname }}
+                    {{ firstName }}&nbsp;{{ finalresult.lastName }}
                     {{#if user.verified }}
                         <span class="fa fa-stack fa-sm" style="">
                             <i class="fa fa-certificate fa-stack-2x" style="color: #2b90d9;font-size: 20px;margin-top:8px;"></i>
@@ -238,7 +239,7 @@
                     Overview </a>
                     </li>
                     <li>
-                    <a href="/profile/details">
+                    <a href="/details">
                     <i class="glyphicon glyphicon-user"></i>
                     Profile Details </a>
                     </li>
@@ -271,23 +272,23 @@
                     <!-- END STAT -->
                                                         
                     <div>
-                        {{#if profile.bio }}
+                        {{#if finalresult.bio }}
                             {{#eq user._id profile.user_id }}
                                 <h4 class="profile-desc-title">About {{ user.username }}</h4>
                             {{ else }}
                                 <h4 class="profile-desc-title">My Bio</h4>
                             {{/eq}}
-                                <span class="profile-desc-text"> {{profile.bio}} </span>
+                                <span class="profile-desc-text"> {{finalresult.bio}} </span>
                         {{/if}}
-                        {{#if profile.website_link }}
+                        {{#if finalresult.website_link }}
                             <div class="margin-top-20 profile-desc-link">
                                 <i class="fa fa-globe"></i>
-                                <a href="{{profile.website_link}}">{{profile.website_link}}</a>
+                                <a href="{{finalresult.website_link}}">{{finalresult.website_link}}</a>
                             </div>
                         {{/if}}
-                        {{#if profile.youtube_link }}
+                        {{#if finalresult.youtube_link }}
                             <div class="margin-top-20 profile-desc-link">
-                                <a href="{{profile.youtube_link}}">
+                                <a href="{{finalresult.youtube_link}}">
                                     <i class="fa fa-youtube">&nbsp;YouTube</i>
                                 </a>
                             </div>

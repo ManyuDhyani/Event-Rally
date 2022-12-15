@@ -1,9 +1,8 @@
-const usersRoutes = require('./users');
-const commentRoutes = require('./comments');
 const eventRoutes = require('./events');
 const likesRoutes = require('./likes');
 const reportsRoutes = require('./reports');
 const followersRoutes = require('./followers');
+const profileRoutes = require('./userProfile')
 
 const constructorMethod = (app) => {
   app.use('/', usersRoutes);
@@ -12,10 +11,12 @@ const constructorMethod = (app) => {
   app.use('/likes',likesRoutes);
   app.use('/reports',reportsRoutes);
   app.use('/followers',followersRoutes);
+  app.use('/', profileRoutes)
+  
   app.use('*', (req, res) => {
     res.status(404).json('Page Not found');
   });
     
 };
-  
+
 module.exports = constructorMethod;
