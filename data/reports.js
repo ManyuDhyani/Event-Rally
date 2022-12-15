@@ -3,15 +3,17 @@ const validationFunctions = require('./validation');
 const reports = mongoCollections.report;
 let { ObjectId } = require('mongodb');
 
-const createReport = async (userId, against, complaint) => {
+const createReport = async (userId, against, againstId, complaint) => {
     // validation
     
     validationFunctions.idValidator(userId);
     validationFunctions.againstValidator(against);
+    validationFunctions.idValidator(againstId);
     validationFunctions.complaintValidator(complaint);
 
     userId = userId.trim();
     against = against.trim();
+    againstId = againstId.trim();
     complaint = complaint.trim();
 
     // Current timestamp
@@ -23,6 +25,7 @@ const createReport = async (userId, against, complaint) => {
     let newReport = {
         user_id: userId,
         against: against,
+        against_id: againstId,
         complaint: complaint,
         timestamp: timestamp
     }

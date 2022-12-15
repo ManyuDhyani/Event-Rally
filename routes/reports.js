@@ -23,12 +23,12 @@ router
 
     .post(async (req,res) => {
         try {
-            validationFunctions.idValidator(req.session.userId);
-            validationFunctions.againstValidator(req.params.against);
-            validationFunctions.complaintValidator(req.params.complaint);
-
-            const against = req.params.against.trim();
-            const complaint = req.params.complaint.trim();
+            let reportData = req.body
+            let {against, againstId, complaint} = reportsData;
+            await validationFunctions.idValidator(req.session.userId);
+            await validationFunctions.againstValidator(against);
+            await validationFunctions.idValidator(againstId);
+            await validationFunctions.complaintValidator(complaint);
 
             reportsData.createReport(req.session.userId,against,complaint);
             
