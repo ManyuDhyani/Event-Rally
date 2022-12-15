@@ -30,7 +30,7 @@ router
             await validationFunctions.idValidator(againstId);
             await validationFunctions.complaintValidator(complaint);
 
-            reportsData.createReport(req.session.userId,against,complaint);
+            reportsData.createReport(req.session.userId, against, againstId, complaint);
             
         } catch (error) {
             throw {statusCode: 500, error: e};
