@@ -1,12 +1,8 @@
 
-<main>
+<section>
     <div class="container">
-        <form action="/profile" method="POST" id="registration-form">
-            <div class="form-group">
-                <label for="userId">User Id:</label>
-                <input type="text" name="userId" id="userId" class="form-control" placeholder="Enter user id"
-                    required><br>
-            </div>
+        <form action="/profile/details" method="POST" id="profile-detail-form" enctype="multipart/form-data">
+            
             <div class="form-group">
                 <label for="firstName">FirstName:</label>
                 <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Enter firstName"
@@ -28,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="profilePicture">Profile Picture:</label>
-                <input type="file" name="profilePicture" id="profilePicture" class="form-control"  required><br>
+                <input type="file" class="form-control-file" name="avatar" id="profilePicture" class="form-control"  required><br>
             </div>
             <div class="form-group">
                 <label for="websiteLink">Website Link:</label>
@@ -68,15 +64,6 @@
                 <input type="text" name="bio" id="bio" class="form-control" placeholder="Enter your Bio" required><br>
             </div>
             
-            
-            
-    
-            <div id="message">
-                <p id="lowercase" hidden>A <strong>lowercase</strong> letter</p>
-                <p id="uppercase" hidden>A <strong>uppercase</strong> letter</p>
-                <p id="number" hidden>A <strong>number 0 to 9</strong></p>
-                <p id="length" hidden>Minimum <strong>8 characters</strong> and Maximum <strong>16 characters</strong> </p>
-            </div>
     
             {{#if errors}}
                 <div class="errorDiv">
@@ -87,4 +74,4 @@
             <button type="submit" class="btn btn-default">Submit</button><br><br>
         </form>
     </div>
-</main>
+</section>
