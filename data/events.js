@@ -153,10 +153,20 @@ const getEventFollowers = async (eventId) =>{
     return {followersCount: followingList.following.length, followingList: followingList.following}
 };
 
+
+// Get all events
+const getAllEvent = async () =>{
+    const eventCollections = await event();
+    let allEventsList = await eventCollections.find({}).toArray();
+    return allEventsList;
+};
+
+
 module.exports = {
     createEvent,
     updateEvent,
     getEventInfo,
     getAttendees,
-    getEventFollowers
+    getEventFollowers,
+    getAllEvent
 };

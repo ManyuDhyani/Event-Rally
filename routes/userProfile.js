@@ -73,13 +73,13 @@ router
         bio
       );
       if (profileStatus.insertedProfile === true) {
-        res.redirect("/profile/profile-home");
+        res.redirect(`/${req.session.login.loggedUser._id}`);
       }
     } catch (e) {
       if (e.statusCode) {
-        res.status(e.statusCode).render("userRegister", {
-          title: "Register",
-          errors: true,
+        res.status(e.statusCode).render("error", {
+          title: "error",
+          error403: true,
           error: e.error,
         });
       } else {

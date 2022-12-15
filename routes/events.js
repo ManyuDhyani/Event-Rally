@@ -115,7 +115,7 @@ router
         return res.render("events/event", {
           title: "Event Rally",
           event:eventFetched, 
-          is_authenticated: false,   
+          is_authenticated: false, 
           countlikesDislikes:countLikesDislikes, 
           parentComments: getEventParentComments,
           attending: AttendingData,
