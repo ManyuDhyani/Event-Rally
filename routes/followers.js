@@ -11,3 +11,5 @@ router
         validationFunctions.idValidator(req.params.eventId);
         
     })
+
+ module.exports = router; 

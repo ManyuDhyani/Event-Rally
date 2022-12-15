@@ -353,8 +353,6 @@ const countryValidator = async(str) => {
 
 };
 
-
-
 module.exports = {
     idValidator,
     usernameValidator,

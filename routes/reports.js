@@ -36,3 +36,5 @@ router
             throw {statusCode: 500, error: e};
         }
     })
+
+module.exports = router; 
