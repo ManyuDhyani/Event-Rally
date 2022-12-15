@@ -43,7 +43,6 @@ router
 
     let profileData = req.body;
     let {
-      userId,
       firstName,
       lastName,
       age,
@@ -67,7 +66,7 @@ router
       //await validationFunctions.passwordValidator(password);
 
       let profileStatus = await profilesData.createProfile(
-        userId,
+        req.session.login.loggedUser._id,
         firstName,
         lastName,
         age,

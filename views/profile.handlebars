@@ -1,60 +1,48 @@
 <style>
-
     body {
     background: #F1F3FA;
     }
-
     /* Profile container */
     .profile {
     margin: 20px 0;
     }
-
     /* Profile sidebar */
     .profile-sidebar {
     padding: 20px 0 10px 0;
     background: #fff;
     }
-
     .avatar-wrapper-pp{
         float: none;
         margin-left: 24%;
     }
-
     .profile-userpic img {
     width: 150px;
     height: 150px;
     -webkit-border-radius: 50% !important;
     margin: 20px;
-
     object-fit: cover;
     object-position: center right;
-
     }
-
     .profile-usertitle {
     text-align: center;
     margin-top: 20px;
     }
-
     .profile-usertitle-name {
     color: #5a7391;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 7px;
     }
-
     .profile-usertitle-job {
     color: #5b9bd1;
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 15px;
     }
-
     .profile-userbuttons {
     text-align: center;
     margin-top: 10px;
     }
-
     .profile-userbuttons .btn {
     text-transform: uppercase;
     font-size: 11px;
@@ -62,57 +50,46 @@
     padding: 6px 15px;
     margin-right: 5px;
     }
-
     .profile-userbuttons .btn:last-child {
     margin-right: 0px;
     }
-
     .profile-usermenu {
     margin-top: 30px;
     }
-
     .profile-usermenu ul li {
     border-bottom: 1px solid #f0f4f7;
     }
-
     .profile-usermenu ul li:last-child {
     border-bottom: none;
     }
-
     .profile-usermenu ul li a {
     color: #93a3b5;
     font-size: 14px;
     font-weight: 400;
     }
-
     .profile-usermenu ul li a i {
     margin-right: 8px;
     font-size: 14px;
     }
-
     .profile-usermenu ul li a:hover {
     background-color: #fafcfd;
     color: #5b9bd1;
     }
-
     .profile-usermenu ul li.active {
     border-bottom: none;
     }
-
     .profile-usermenu ul li.active a {
     color: #5b9bd1;
     background-color: #f6f9fb;
     border-left: 2px solid #5b9bd1;
     margin-left: -2px;
     }
-
     /* Profile Content */
     .profile-content {
     padding: 20px;
     background: #fff;
     min-height: 460px;
     }
-
     a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, td, textarea, th, ul {
         -webkit-border-radius: 0!important;
         -moz-border-radius: 0!important;
@@ -156,7 +133,6 @@
     .uppercase {
         text-transform: uppercase!important;
     }
-
     .profile-stat-text {
         color: #5b9bd1;
         font-size: 10px;
@@ -186,7 +162,6 @@
         color: #abb6c4;
         margin-right: 5px;
     }
-
 </style>
 
 <div class="container">
@@ -196,15 +171,14 @@
                 <!-- SIDEBAR USERPIC -->
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
-                    <img src="{{ finalresult.profile_picture }}" class="img-responsive" alt="{{username}}">
-                    <!--<img src="E:\PROJECT2\NEW PROJECT REQ\Event-Rally\static\Rajat.jpg" class="img-responsive" alt="{{username}}">-->
+                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{username}}">
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{ firstName }}&nbsp;{{ finalresult.lastName }}
+                    {{ profile.firstname }}&nbsp;{{ profile.lastname }}
                     {{#if user.verified }}
                         <span class="fa fa-stack fa-sm" style="">
                             <i class="fa fa-certificate fa-stack-2x" style="color: #2b90d9;font-size: 20px;margin-top:8px;"></i>
@@ -239,7 +213,7 @@
                     Overview </a>
                     </li>
                     <li>
-                    <a href="/details">
+                    <a href="/profile/details">
                     <i class="glyphicon glyphicon-user"></i>
                     Profile Details </a>
                     </li>
@@ -272,23 +246,23 @@
                     <!-- END STAT -->
                                                         
                     <div>
-                        {{#if finalresult.bio }}
+                        {{#if profile.bio }}
                             {{#eq user._id profile.user_id }}
                                 <h4 class="profile-desc-title">About {{ user.username }}</h4>
                             {{ else }}
                                 <h4 class="profile-desc-title">My Bio</h4>
                             {{/eq}}
-                                <span class="profile-desc-text"> {{finalresult.bio}} </span>
+                                <span class="profile-desc-text"> {{profile.bio}} </span>
                         {{/if}}
-                        {{#if finalresult.website_link }}
+                        {{#if profile.website_link }}
                             <div class="margin-top-20 profile-desc-link">
                                 <i class="fa fa-globe"></i>
-                                <a href="{{finalresult.website_link}}">{{finalresult.website_link}}</a>
+                                <a href="{{profile.website_link}}">{{profile.website_link}}</a>
                             </div>
                         {{/if}}
-                        {{#if finalresult.youtube_link }}
+                        {{#if profile.youtube_link }}
                             <div class="margin-top-20 profile-desc-link">
-                                <a href="{{finalresult.youtube_link}}">
+                                <a href="{{profile.youtube_link}}">
                                     <i class="fa fa-youtube">&nbsp;YouTube</i>
                                 </a>
                             </div>

@@ -102,7 +102,9 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         thumbnail_4:thumbnail_4,
         tags:tags_arr,
         location:location,
-        price:price
+        price:price,
+        following:[],
+        attending:[]
     }
 
     const updateInfo = await eventCollections.updateOne({_id: ObjectId(eventId)},{$set: updatedObj});
@@ -135,8 +137,32 @@ const getEventInfo = async (eventId) =>{
 
 };
 
+// Func to get the attendee List from event collection
+const getAttendees = async (eventId) =>{
+    validationFunctions.idValidator(eventId);
+    let attendingList = await eventCollections.findOne({_id: ObjectId(eventId)}, {attending: 1});
+    if(attendingList === null)
+    {
+       throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    return {attendeeCount: attendingList.length, attendingList: attendingList}
+};
+
+// Func to get the followers List from event collection
+const getEventFollowers = async (eventId) =>{
+    validationFunctions.idValidator(eventId);
+    let followingList = await eventCollections.findOne({_id: ObjectId(eventId)}, {following: 1});
+    if(followingList === null)
+    {
+       throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    return {followersCount: followingList.length, followingList: followingList}
+};
+
 module.exports = {
     createEvent,
     updateEvent,
-    getEventInfo
+    getEventInfo,
+    getAttendees,
+    getEventFollowers
 };

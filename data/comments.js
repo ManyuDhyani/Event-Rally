@@ -62,7 +62,7 @@ const getAllEventParentComments = async (eventId) => {
     eventId = eventId.trim();
 
     let commentsCollection = await comments();
-    let commentsList = await commentsCollection.find({$and: [{event_id: ObjectId(eventId)}, {parent_comment_id: null}]});
+    let commentsList = await commentsCollection.find({$and: [{event_id: ObjectId(eventId)}, {parent_comment_id: null}]}).toArray();
 
     return commentsList;
 };
@@ -74,7 +74,7 @@ const getAllChildCommentsThread = async (parentCommentId) => {
     parentCommentId = parentCommentId.trim();
 
     let commentsCollection = await comments();
-    let commentsList = await commentsCollection.find({parent_comment_id: ObjectId(parentCommentId)}).sort({"timestamp": -1});
+    let commentsList = await commentsCollection.find({parent_comment_id: ObjectId(parentCommentId)}).sort({"timestamp": -1}).toArray();
 
     return commentsList;
 };
