@@ -26,6 +26,12 @@
 <div class="container">
 <div class="row justify-content-center">
 <div class="col-md-6 text-center mb-5">
+    {{#if actionCompletedTrue }}
+        <p class="alert alert-success">The user value is updated</p>
+    {{/if}}
+    {{#if actionCompletedFalse }}
+        <p class="alert alert-danger">Something went wrong</p>
+    {{/if}}
 </div>
 </div>
 <div class="row">
@@ -45,27 +51,30 @@
 <th>&nbsp;</th>
 </tr>
 </thead>
-{{#each result}}
-<tbody>
-<tr class="alert" role="alert">
-<form action="" method="post">
-<td><label class="checkbox-wrap checkbox-primary">
-<input type="checkbox" ></td>
-<td><button type="submit">Submit</button></td>
-</form>
-<div>
-<td class="d-flex align-items-center">
-{{this._id}}
-</div>
-</td>
-<td>{{this.verified}}</td>
-<td class="status">{{this.active}}</span></td>
-<td>{{this.email}}</td>
-<td>{{this.username}}</td>
-<td>{{this.admin}}</td>
-</tr>
-</tbody>
-{{/each}}
+    {{#each result}}
+    <tbody>
+        <tr class="alert" role="alert">
+            <form action="/admin/allusers" method="post">
+                <td><label class="checkbox-wrap checkbox-primary">
+                <input type="hidden" id="userID" name="userID" value="{{this._id}}">
+                <input type="checkbox" value="revert" name="checkboxValue"></td>
+                <td><button type="submit">Submit</button></td>
+                <input name= '_method' value="patch" hidden/>
+            </form>
+        <div>
+            <td class="d-flex align-items-center">
+            {{this._id}}
+        </div>
+        </td>
+            <td>{{this.verified}}</td>
+            <td class="status">{{this.active}}</span></td>
+            <td>{{this.email}}</td>
+            <td>{{this.username}}</td>
+            <td>{{this.admin}}</td>
+            <td>{{this.age}}</td>
+        </tr>
+    </tbody>
+    {{/each}}
 </table>
 </div>
 </div>

@@ -77,19 +77,13 @@ const checkUser = async (username, password) => {
 
 const getAllUsers = async () => {
     const userCollection = await users();
-    const userlist = await userCollection.find({}).toArray();
-    
-    if(!userlist){
+    const userList = await userCollection.find({}, {projection:  {_id: 1, verified: 1, active: 1, username: 1, email: 1, admin: 1, age: 1}}).toArray();
+
+    if(!userList){
       throw {statusCode: 500, error: "Internal server error: Cannot get all Users"};
     }
 
-    let allUsersList = [];
-    if(userlist.length!==0){
-        for(let i =0;i<userlist.length;i++){
-            allUsersList[i] = userlist[i].username; 
-        }
-    }   
-    return allUsersList;
+    return userList;
 };
 
 // Get particular users data except password
@@ -98,13 +92,47 @@ const getUsersData = async (userID) =>{
     userID = userID.trim();
 
     const userCollection = await users();
-    let userData = await userCollection.findOne({_id: ObjectId(userID)}, {username: 1, email: 1, verified: 1});
+    let userData = await userCollection.findOne({_id: ObjectId(userID)});
     return userData;
 };
+
+
+// Update any user fields
+const updateVerifiedFieldData = async(userID) => {
+    validationFunctions.idValidator(userID);
+    userID = userID.trim();
+
+    userData = await getUsersData(userID)
+    
+    let updatedData = {}
+    // Make verified true if its false and vice-versa
+    if (userData.verified === true){
+        updatedData = {
+            verified: false
+        }
+    } else {
+        updatedData = {
+            verified: true
+        }
+    }
+   
+    const userCollection = await users();
+    let verifiedValue = await userCollection.updateOne(
+        {_id: ObjectId(userID)},
+        {$set: updatedData}
+    );
+    let verifiedUpdated = false;
+    if (verifiedValue.modifiedCount === 0){
+        return verifiedUpdated = false
+    }
+   
+    return verifiedUpdated = true
+}
 
 module.exports = {
     createUser,
     checkUser,
     getAllUsers,
-    getUsersData
+    getUsersData,
+    updateVerifiedFieldData
 }

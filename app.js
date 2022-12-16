@@ -40,6 +40,18 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
+// Middleware: Change Request Method
+const methodsChangeMiddleware = (req, res, next) => {
+  if (req.body && req.body._method) {
+    req.method = req.body._method;
+    delete req.body._method;
+  }
+  next();
+};
+app.use(methodsChangeMiddleware);
+
+
 configRoutes(app);
 
 app.listen(3000, () => {
