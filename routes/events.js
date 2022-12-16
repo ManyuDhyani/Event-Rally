@@ -67,6 +67,25 @@ router
 });
 
 router
+  .route('/all')
+  .get(async (req, res) => {
+    // render landing page
+    try {
+      let eventList = await eventData.getAllEvent();
+      if (req.session.login){
+        return res.render("events/allEvents", {title: "Events", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, events:eventList});
+      }
+      return res.render("events/allEvents", {title: "Events", events:eventList});
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("error", {title: "Error", error404: true, error: e.error});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
+  });
+
+router
   .route('/:id')
   .get(async (req, res) => {
     try
@@ -131,6 +150,5 @@ router
       }
     }
   });
-
 
 module.exports = router; 

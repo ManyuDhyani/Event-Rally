@@ -16,7 +16,7 @@ router
 
     } catch (e) {
       if (e.statusCode) {
-        res.status(e.statusCode).render("error", {title: "error", errors: true, error: e.error});
+        res.status(e.statusCode).render("error", {title: "error", error404: true, error: e.error});
       } else {
         res.status(500).json("Internal Server Error");
       }
