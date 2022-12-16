@@ -28,7 +28,7 @@ router
   try
   {
     if (req.session.login){
-      return res.render("events/eventCreateForm", {title:"Create Event", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser});
+      return res.render("events/eventCreateForm", {title:"Create Event", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
     }
     else
     {
@@ -73,7 +73,7 @@ router
     try {
       let eventList = await eventData.getAllEvent();
       if (req.session.login){
-        return res.render("events/allEvents", {title: "Events", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, events:eventList});
+        return res.render("events/allEvents", {title: "Events", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin, events:eventList});
       }
       return res.render("events/allEvents", {title: "Events", events:eventList});
     } catch (e) {
@@ -122,7 +122,8 @@ router
             event:eventFetched, 
             is_authenticated: req.session.login.authenticatedUser, 
             username: req.session.username, 
-            user: req.session.login.loggedUser, 
+            user: req.session.login.loggedUser,
+            is_admin: req.session.login.loggedUser.admin, 
             countlikesDislikes:countLikesDislikes, 
             parentComments: getEventParentComments,
             attending: AttendingData,
@@ -140,7 +141,8 @@ router
           attending: AttendingData,
           isAttending: loggedUserAttending,
           followers: followersData,
-          isFollowing: loggedUserfollowing
+          isFollowing: loggedUserfollowing,
+          is_admin: req.session.login.loggedUser.admin
         });
     } catch (e) {
       if (e.statusCode) {
