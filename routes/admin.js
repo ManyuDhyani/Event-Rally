@@ -39,10 +39,9 @@ router
             }
         })
         .patch(async (req, res) => {
-            let actionValue = xss(req.body.checkboxValue);
             let userID = xss(req.body.userID)
             try{
-                if (req.session.login && req.session.login.loggedUser.admin && actionValue){
+                if (req.session.login && req.session.login.loggedUser.admin){
                     let verfiedDataUpdated = await userData.updateVerifiedFieldData(userID);
 
                     // To activate certain message: error or success updatedAction and updatedActionFailed is used
