@@ -171,7 +171,7 @@
                 <!-- SIDEBAR USERPIC -->
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
-                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{user.username}}">
+                    <img src="\public\uploads\ProfilePictures/{{ profile.profile_picture }}" class="img-responsive" alt="{{user.username}}">
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
@@ -282,8 +282,8 @@
                                 <div class="row">
                                 <!-- post -->
                                 {{#each events }}
-                                    <div class="post col-xl-6">
-                                        <div class="post-thumbnail"><a href="/event/{{this._id}}"><img src="{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
+                                    <div class="col-xl-6">
+                                        <div class="post-thumbnail"><a href="/events/{{this._id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
                                         <div class="post-details">
                                         <div class="post-meta d-flex justify-content-between">
                                             <div class="date"><i class="icon-clock"></i>{{ this.created }} ago</div>
