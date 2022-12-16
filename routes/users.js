@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const usersData = data.users;
+const profileData = data.profile;
+const followersData = data.followers;
+const eventsData = data.events;
 const validationFunctions = data.validationFunctions
 
 router
@@ -84,23 +87,7 @@ router
         res.status(500).json("Internal Server Error");
       }
     }
-  })
-
-router
-  .route('/:id')
-  .get(async (req, res) => {
-    //code here for GET
-    try {
-      await validationFunctions.idValidator(req.params.id)
-      res.render("profile", {title: "profile Page", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, timestamp: new Date().toUTCString()})
-    } catch (e) {
-      if (e.statusCode) {
-        res.status(e.statusCode).render("error", {title: "Error", error404: true});
-      } else {
-        res.status(500).json("Internal Server Error");
-      }
-    }
-  })
+  });
 
 router
   .route('/logout')
@@ -108,6 +95,45 @@ router
     //code here for GET
     req.session.destroy();
     res.render("logout", {title: "Logged Out"});
-  })
+  });
+
+router
+  .route('/:id')
+  .get(async (req, res) => {
+    //code here for GET
+    try {
+      userID = req.params.id
+      await validationFunctions.idValidator(req.params.id)
+      userID = userID.trim();
+
+      // Get profile data of the user
+      let profileDetails = await profileData.getProfileById(userID);
+      // Get followers count of the user, like how many are following him
+      let getUsersFollowers = await followersData.getAllFollowers(userID);
+      // Get all the event published by the user
+      let getUsersEvent = await eventsData.getUsersEvents(userID);
+      // Get user data except password
+      let userDetails = await usersData.getUsersData(userID);
+      let {eventCount, events} = getUsersEvent;
+      
+      res.render("profile", {
+          title: "profile Page", 
+          is_authenticated: req.session.login.authenticatedUser, 
+          username: req.session.username, 
+          userSessionData: req.session.login.loggedUser,
+          profile: profileDetails,
+          followersCount: getUsersFollowers,
+          eventCount: eventCount,
+          events: events,
+          user: userDetails
+        });
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("error", {title: "Error", error404: true});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
+  });
 
 module.exports = router;

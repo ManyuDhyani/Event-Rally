@@ -40,7 +40,6 @@ router
     let {
       firstName,
       lastName,
-      age,
       gender,
       websiteLink,
       youtubeLink,
@@ -59,7 +58,6 @@ router
         req.session.login.loggedUser._id,
         firstName,
         lastName,
-        age,
         gender,
         req.file,
         websiteLink,

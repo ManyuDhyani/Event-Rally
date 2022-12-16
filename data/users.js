@@ -92,8 +92,19 @@ const getAllUsers = async () => {
     return allUsersList;
 };
 
+// Get particular users data except password
+const getUsersData = async (userID) =>{
+    validationFunctions.idValidator(userID);
+    userID = userID.trim();
+
+    const userCollection = await users();
+    let userData = await userCollection.findOne({_id: ObjectId(userID)}, {username: 1, email: 1, verified: 1});
+    return userData;
+};
+
 module.exports = {
     createUser,
     checkUser,
-    getAllUsers
+    getAllUsers,
+    getUsersData
 }

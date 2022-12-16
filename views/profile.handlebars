@@ -171,14 +171,14 @@
                 <!-- SIDEBAR USERPIC -->
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
-                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{username}}">
+                    <img src="{{ profile.profile_picture }}" class="img-responsive" alt="{{user.username}}">
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
-                    {{ profile.firstname }}&nbsp;{{ profile.lastname }}
+                    {{ profile.firstName }}&nbsp;{{ profile.lastName }}
                     {{#if user.verified }}
                         <span class="fa fa-stack fa-sm" style="">
                             <i class="fa fa-certificate fa-stack-2x" style="color: #2b90d9;font-size: 20px;margin-top:8px;"></i>
@@ -187,12 +187,12 @@
                     {{/if}}
                 </div>
                 <div class="profile-usertitle-job">
-                    @{{ username }}
+                    @{{ user.username }}
                 </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS  -->
-                {{#eq user._id profile.user_id }}
+                {{#neq userSessionData._id profile.user_id }}
                     <div class="profile-userbuttons">
                     {{#if follow_status}}
                         <button type="button" name="unfollow" onclick="window.location.href='?unfollow=1'" class="btn btn-primary btn-sm">Following</button>
@@ -200,15 +200,15 @@
                         <button type="button" name="follow" onclick="window.location.href='?follow=1'" class="btn btn-primary btn-sm">Follow</button>
                     {{/if}}
                     </div>
-                {{/eq}}
+                {{/neq}}
                 <!-- END SIDEBAR BUTTONS -->
                 <br>
                 <!-- SIDEBAR MENU -->
-                {{#eq user._id profile.user_id }}
+                {{#eq userSessionData._id profile.user_id }}
                 <div class="profile-usermenu">
                 <ul class="nav">
                     <li class="active">
-                    <a href="#">
+                    <a href='/{{userSessionData._id}}'>
                     <i class="glyphicon glyphicon-home"></i>
                     Overview </a>
                     </li>
@@ -231,7 +231,7 @@
                 <!-- STAT -->
                     <div class="row list-separated profile-stat">
                         <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> {{followers}} </div>
+                            <div class="uppercase profile-stat-title"> {{followersCount}} </div>
                             <div class="uppercase profile-stat-text"> Followers </div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-6">
@@ -247,10 +247,10 @@
                                                         
                     <div>
                         {{#if profile.bio }}
-                            {{#eq user._id profile.user_id }}
-                                <h4 class="profile-desc-title">About {{ user.username }}</h4>
-                            {{ else }}
+                            {{#eq userSessionData._id profile.user_id }}
                                 <h4 class="profile-desc-title">My Bio</h4>
+                            {{ else }}
+                                <h4 class="profile-desc-title">About {{ user.username }}</h4>
                             {{/eq}}
                                 <span class="profile-desc-text"> {{profile.bio}} </span>
                         {{/if}}
@@ -278,7 +278,7 @@
                     <!-- Latest Posts -->
                     <main class="posts-listing col-lg-12">
                         <div class="container">
-                            {{#eq events.length 0 }}
+                            {{#neq eventCount 0 }}
                                 <div class="row">
                                 <!-- post -->
                                 {{#each events }}
@@ -312,7 +312,7 @@
                                         <img src="https://static.hashstrix.com/hashstrix-static-files/img/page-blank.svg" style="width:20%; color:grey;">
                                         <h2 style="color:#C8C8C8;padding-top:5%;">No Events Yet</h2>
                                     </div>
-                            {{/eq}}            
+                            {{/neq}}            
                         </div>
                     </main>
                 </div>

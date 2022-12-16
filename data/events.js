@@ -153,6 +153,17 @@ const getEventFollowers = async (eventId) =>{
     return {followersCount: followingList.following.length, followingList: followingList.following}
 };
 
+// Get all events published by the users
+const getUsersEvents = async (userID) =>{
+    validationFunctions.idValidator(userID);
+    userID = userID.trim()
+    //{userId: ObjectId(userID)}, { sort: { created: -1 }, projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}
+    // { sort: { created: -1 }, projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}
+    //let getEventInfo = await eventCollections.find({userId: ObjectId(userID)});
+    const eventCollections = await event();
+    const getEventInfo = await eventCollections.find({}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}).sort({created: -1}).toArray();
+    return {eventCount: getEventInfo.length, events: getEventInfo};
+};
 
 // Get all events
 const getAllEvent = async () =>{
@@ -168,5 +179,6 @@ module.exports = {
     getEventInfo,
     getAttendees,
     getEventFollowers,
+    getUsersEvents,
     getAllEvent
 };

@@ -7,7 +7,6 @@ let { ObjectId } = require('mongodb');
 const createProfile = async(userId,
     firstName,
     lastName,
-    age,
     gender,
     profilePicture,
     websiteLink,
@@ -19,17 +18,14 @@ const createProfile = async(userId,
     country,
     pincode,
     bio) => {
-    console.log(firstName)    
+    
     await validationFunctions.idValidator(userId);
     await validationFunctions.firstNameValidator(firstName);
     await validationFunctions.lastNameValidator(lastName);
     await validationFunctions.cityValidator(city);
     await validationFunctions.stateValidator(state);
     await validationFunctions.countryValidator(country);
-
     await validationFunctions.pincodeValidator(pincode);
-    await validationFunctions.ageValidator(age);
-
     await validationFunctions.genderValidator(gender);
 
     userId = userId.trim();
@@ -66,8 +62,7 @@ const createProfile = async(userId,
 
     
     let result = await profileCollection.insertOne(newProfile);
-    console.log(newProfile);
-    console.log(result);
+
     if (result.modifiedCount === 0) {
         throw { statusCode: 500, error: `Unable to add profile` };
     }
@@ -93,9 +88,7 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
     await validationFunctions.cityValidator(city);
     await validationFunctions.stateValidator(state);
     await validationFunctions.countryValidator(country);
-
     await validationFunctions.pincodeValidator(pincode);
-    await validationFunctions.ageValidator(age);
     await validationFunctions.genderValidator(gender);
 
 
@@ -112,7 +105,7 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
     bio = bio.trim();
     let profileCollection = await profile();
     let profile1 = await profileCollection.findOne({ userId: userId })
-    console.log(profile1);
+    
     if (!profile1) {
         throw { statusCode: 404, error: `No such profile ` }
     }
@@ -154,7 +147,7 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
 
 
     let result = await profileCollection.updateOne({ userId: userId }, newvalues);
-    console.log(result);
+
     if (result.modifiedCount === 0) {
         throw { statusCode: 500, error: `Unable to update profile` };
     }
@@ -163,10 +156,8 @@ const updateProfile = async(userId, firstName, lastName, gender, profilePicture,
         throw { statusCode: 404, error: `Unable to get profile` };
     }
 
-
-
-
 };
+
 const getAllProfiles = async() => {
 
 
@@ -178,16 +169,16 @@ const getAllProfiles = async() => {
 };
 
 const getProfileById = async(userId) => {
+    await validationFunctions.idValidator(userId)
+    userId = userId.trim();
     let profilecollection = await hara();
     const profile = await profilecollection.findOne({ user_id: userId });
-
     return profile
-
 }
+
 module.exports = {
     createProfile,
     updateProfile,
     getAllProfiles,
     getProfileById
-
 };
