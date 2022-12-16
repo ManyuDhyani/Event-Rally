@@ -6,6 +6,7 @@ const followersData = require("./followers");
 const reportsData = require("./reports");
 const likesData = require("./likes");
 const validations = require("./validation")
+const adminData = require('./admin');
 
 module.exports = {
     users: usersData,
@@ -15,5 +16,6 @@ module.exports = {
     followers: followersData,
     reports: reportsData,
     likes: likesData,
-    validationFunctions: validations
+    validationFunctions: validations,
+    adminData: adminData
 };
