@@ -192,7 +192,7 @@
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS  -->
-                {{#neq userSessionData._id profile.user_id }}
+                {{#neq userSessionData._id openedProfileID }}
                     <div class="profile-userbuttons">
                     {{#if follow_status}}
                         <button type="button" name="unfollow" onclick="window.location.href='?unfollow=1'" class="btn btn-primary btn-sm">Following</button>
@@ -204,7 +204,7 @@
                 <!-- END SIDEBAR BUTTONS -->
                 <br>
                 <!-- SIDEBAR MENU -->
-                {{#eq userSessionData._id profile.user_id }}
+                {{#eq userSessionData._id openedProfileID }}
                 <div class="profile-usermenu">
                 <ul class="nav">
                     <li class="active">
@@ -247,7 +247,7 @@
                                                         
                     <div>
                         {{#if profile.bio }}
-                            {{#eq userSessionData._id profile.user_id }}
+                            {{#eq userSessionData._id openedProfileID }}
                                 <h4 class="profile-desc-title">My Bio</h4>
                             {{ else }}
                                 <h4 class="profile-desc-title">About {{ user.username }}</h4>
@@ -290,7 +290,7 @@
                                             <div class="category">
                                                 <a href="/category/{{this.category}}" style="font-size: 10px;">{{ this.category }}</a>
                                             </div>
-                                        </div><a href="/event/{{this._id}}">
+                                        </div><a href="/events/{{this._id}}">
                                             <h3 class="h4">{{ this.title }}</h3></a>
                                         <p class="text-muted">{{ this.overview }}</p>
                                         <footer class="post-footer d-flex align-items-center">

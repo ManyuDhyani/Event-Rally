@@ -117,7 +117,8 @@ router
       let {eventCount, events} = getUsersEvent;
       
       res.render("profile", {
-          title: "profile Page", 
+          title: "profile Page",
+          openedProfileID: userID,
           is_authenticated: req.session.login.authenticatedUser, 
           username: req.session.username, 
           userSessionData: req.session.login.loggedUser,
