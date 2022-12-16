@@ -1,0 +1,39 @@
+
+        <div class="container mt-5">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Report</button>
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <form action="/report" method="post" id="report-form">
+                            <!--The following two hidden input field will change like for user its same but for event value will become "event" and event._id respectively-->
+                                <input type="hidden" id="custId" name="custId" value="comment">
+                                <input type="hidden" id="custId" name="custId" value="{{comment._id}}">
+                                <label for="complaint">Complaint</label>
+                                <select name="complaint" id="complaint">
+                                    <option value="Sexual content" name="complaint">Sexual content</option>
+                                    <option value="Violent or repulsive content" name="complaint">Violent or repulsive content</option>
+                                    <option value="Harassment or bullying" name="complaint">Harassment or bullying</option>
+                                    <option value="Harmful or dangerous acts" name="complaint">Harmful or dangerous acts</option>
+                                    <option value="Misinformation" name="complaint">Misinformation</option>
+                                    <option value="Child abuse" name="complaint">Child abuse</option>
+                                    <option value="Promotes terrorism" name="Promotes terrorism">Promotes terrorism</option>
+                                    <option value="Spam or misleading" name="Spam or misleading">Spam or misleading</option>
+                                    <option value="Infringes my rights" name="complaint">Infringes my rights</option>
+                                    <option value="Title issue" name="complaint">Title issue</option>
+                                    <br>
+                                    <br><br>
+                                </select>
+                                <button type="submit">Submit Report</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
