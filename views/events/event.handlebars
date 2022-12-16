@@ -72,4 +72,30 @@
             {{event.content}}
         </div>
     </div>
+    <div id="map"></div>
+    <p id="hidden_location" hidden>{{event.location}}</p>
 </div>
+<script>
+    geocode();
+    //this function gets lat and lon of the address provided and places the marker on the google map on that location
+    function geocode()
+    {
+        let location_temp = document.getElementById('hidden_location').innerHTML;
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          address:location_temp,
+          key:'AIzaSyDcRs0sa21dO5jEBhHPoOq0sUClaWHwung'
+        }
+      })
+      .then(function(response){
+        // Geometry
+        var lat = response.data.results[0].geometry.location.lat;
+        var lng = response.data.results[0].geometry.location.lng;
+        let loc ={lat:lat,lng:lng};
+        addMarker(loc);
+      })
+      .catch(function(error){
+        console.log(error);
+      });
+    }
+</script>
