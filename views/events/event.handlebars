@@ -1,11 +1,75 @@
-<main>
-    <p>{{event.title}}</p>
-    <p>{{event.overview}}</p>
-    <p>{{event.content}}</p>
-    <p>{{event.category}}</p>
-    <p>{{event.tags}}</p>
-    <p>{{event.location}}</p>
-    <p>{{event.price}}</p>
-    <p>{{event.created}}</p>
-    <img src ="thumbnail_1_1671086208937_4646.jpg" width=300 alt="Hello">
-</main>
+<div class="container">
+    <div class = "card-wrapper">
+        <div class = "card">
+            <!-- card left -->
+            <div class = "event-imgs">
+                <div class = "img-display">
+                <div class = "img-showcase">
+                    <img src = "{{ event.thumbnail_1 }}" alt = "{{ event.title }}">
+                    <img src = "{{ event.thumbnail_2 }}" alt = "{{ event.title }}">
+                    <img src = "{{ event.thumbnail_3 }}" alt = "{{ event.title }}">
+                    <img src = "{{ event.thumbnail_4 }}" alt = "{{ event.title }}">
+                </div>
+                </div>
+                <div class = "img-select">
+                <div class = "img-item">
+                    <a href = "#" data-id = "1">
+                    <img src = "{{ event.thumbnail_1 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    </a>
+                </div>
+                <div class = "img-item">
+                    <a href = "#" data-id = "2">
+                    <img src = "{{ event.thumbnail_2 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    </a>
+                </div>
+                <div class = "img-item">
+                    <a href = "#" data-id = "3">
+                    <img src = "{{ event.thumbnail_3 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    </a>
+                </div>
+                <div class = "img-item">
+                    <a href = "#" data-id = "4">
+                    <img src = "{{ event.thumbnail_4 }}" alt = "{{ event.title }}" style="width:100%;height:auto;">
+                    </a>
+                </div>
+                </div>
+            </div>
+            <!-- card right -->
+            <div class = "event-content">
+                <h2 class = "event-title" style="margin-top: 2rem;">{{event.title}}</h2>
+                <a href = "#" class = "event-link" style="background: #5fc7f4;"><strong>{{event.category}}</strong></a>
+    
+                <div class = "event-price">
+                    <p class = "price">Price: <span><i class = "fa fa-dollar" style="color: rgb(13, 13, 13);"></i> {{event.price}}</span></p>
+                </div>
+    
+                <div class = "event-detail">
+                    <h2>Overview: </h2>
+                    <p>{{event.overview}}</p>
+                    <ul>
+                        <li><i class = "fa fa-car" style="color: rgb(13, 13, 13);"></i> &nbsp; Location: <span>{{ event.location }}</span></li>
+                        <li><i class="fa fa-arrow-circle-right"></i> &nbsp; Time of posting: <span>{{ event.created }}</span></li>
+                    </ul>
+                </div>
+    
+                <!-- Check if user has bought Ticket (Attending), no need to show Buy Button-->
+                <div class = "purchase-info">
+                    
+                    <button type = "button" class = "btn">
+                        Attend Event <i class = "fa fa-paypal"></i>
+                    </button>
+                    <button type = "button" class = "btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container" style="max-width: 1100px; margin: auto auto; padding: 2rem 1rem;; margin-top: -8%;">
+        <div class="col-12">
+            <h3 style="margin-top: 2rem;">About {{ event.title }}</h3>
+            {{event.content}}
+        </div>
+    </div>
+</div>
