@@ -6,6 +6,7 @@ const followersRoutes = require('./followers');
 const profileRoutes = require('./userProfile')
 const commentRoutes = require('./comments');
 const adminRoutes = require('./admin');
+const searchRoutes = require('./search');
 
 const constructorMethod = (app) => {
   app.use('/', usersRoutes);
@@ -16,6 +17,7 @@ const constructorMethod = (app) => {
   app.use('/followers',followersRoutes);
   app.use('/profile', profileRoutes);
   app.use('/admin', adminRoutes);
+  app.use('/search', searchRoutes);
   
   app.use('*', (req, res) => {
     res.status(404).json('Page Not found');
