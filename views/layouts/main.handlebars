@@ -19,10 +19,16 @@
                 <li><a href="#">Trending</a></li>
                 <li><a href="#">Latest</a></li>
             </ul>
+            
+            
             {{#if is_authenticated}}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/{{user._id}}"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
                     <li><a href="/events/create"><span class="glyphicon glyphicon-user"></span> Create</a></li>
+                    {{!-- {{#if is_admin}} --}}
+                        <li><a href="/admin/allusers"><span class="glyphicon glyphicon-log-in"></span> USERS</a></li>
+                        <li><a href="/admin/allreports"><span class="glyphicon glyphicon-log-in"></span> REPORTS</a></li>
+                    {{!-- {{/if}} --}}
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             {{else}}

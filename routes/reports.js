@@ -10,7 +10,7 @@ router
     .get(async (req,res) => {
         try{
             if (req.session.login){
-                return res.render("./reports/reportPage",{title: "Report"});
+                return res.render("./partials/reportUser",{title: "Report"});
             }
             return res.redirect('/login');
         } catch (e) {
