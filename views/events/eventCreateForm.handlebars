@@ -44,3 +44,13 @@
         </form>
     </div>
 </main> 
+<script>
+    //code for auto suggestion for location
+          $(document).ready(function(){
+            let autocomplete;
+            let id = "location";
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(id)),{
+                types:['geocode'],
+            })
+        });
+</script>
