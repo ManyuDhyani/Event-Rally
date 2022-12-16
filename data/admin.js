@@ -11,9 +11,7 @@ const allReports = async() => {
     return allReports;
 };
 const allUsers =  async() => {
-    const userCollection = await users();
-    const userlist = await userCollection.find({}).toArray();
- 
+    const userlist = await usersFunctions.getAllUsers();
     return userlist;
 };
 
