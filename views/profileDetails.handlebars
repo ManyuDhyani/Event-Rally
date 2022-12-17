@@ -14,13 +14,20 @@
                     required><br>
             </div>
             
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input type="text" name="gender" id="gender" class="form-control" placeholder="Enter your gender"><br>
+                       <div class="form-group">
+                <label class="  my-1 mr-2" for="gender">Gender:</label>
+                <select name="gender" style="outline:none !important; padding: 5px 10px" class="custom-select  my-1 mr-sm-2"
+                    id="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Transgender">Transgender</option>
+                    <option value="NoNBinary">NoNBinary</option>
+                    <option value="Rathernot">Rathernot</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="profilePicture">Profile Picture:</label>
-                <input type="file" class="form-control-file" name="avatar" id="profilePicture" class="form-control"><br>
+                <input type="file" class="form-control-file" name="profilePicture" id="profilePicture" class="form-control"><br>
             </div>
             <div class="form-group">
                 <label for="websiteLink">Website Link:</label>
