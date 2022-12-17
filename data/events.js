@@ -225,6 +225,27 @@ const getAllEvent = async () =>{
 };
 
 
+// Delete a particular Event
+const deleteEvent = async (eventId) => {
+    // validation
+    await validationFunctions.idValidator(eventId);
+
+    eventId = eventId.trim();
+
+    let eventCollections = await event();
+    let eventData = await eventCollections.findOne({_id: ObjectId(eventId)})
+    if (!eventData) {
+        throw {statusCode: 500, error: "Internal Server Error: The Event was not found in the Database"};
+    }
+
+    let deletedEvent = await eventCollections.deleteOne({_id: ObjectId(eventId)});
+    if (deletedEvent.deletedCount === 0) {
+        throw {statusCode: 500, error: "Internal Server Error: The Event could not be deleted"};
+    }
+
+    return {isDeleted: true};
+};
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -235,5 +256,6 @@ module.exports = {
     getAllEvent,
     pushEventFollower,
     removeEventFollower,
-    checkEventFollower
+    checkEventFollower,
+    deleteEvent
 };

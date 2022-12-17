@@ -19,6 +19,7 @@ const constructorMethod = (app) => {
   app.use('/admin', adminRoutes);
   app.use('/search', searchRoutes);
   
+  
   app.use('*', (req, res) => {
     res.status(404).json('Page Not found');
   });

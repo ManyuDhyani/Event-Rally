@@ -55,9 +55,9 @@
     <tbody>
         <tr class="alert" role="alert">
             <form action="/admin/allusers" method="post">
-                <td><label class="checkbox-wrap checkbox-primary">
+                <td>
                 <input type="hidden" id="userID" name="userID" value="{{this._id}}">
-                <td><button type="submit">Verify / Disprove</button></td>
+                <td><button class="btn btn-primary" type="submit">Verify / Disprove</button></td>
                 <input name= '_method' value="patch" hidden/>
             </form>
         <div>

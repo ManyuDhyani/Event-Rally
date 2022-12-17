@@ -76,6 +76,19 @@
             <h3 style="margin-top: 2rem;">About {{ event.title }}</h3>
             {{event.content}}
         </div>
+        <!--Event Options: Update & Delete-->
+        {{#if is_authenticated}}
+        <br>
+            <footer>
+                {{#eq ./user._id event.userId}}
+                    <form action="/events/delete" method="post">
+                        <input type="hidden" id="eventID" name="eventID" value="{{event._id}}">
+                        <button class="btn btn-primary" type="submit">Delete this Event</button>
+                        <input name= '_method' value="delete" hidden/>
+                    </form>
+                {{/eq}}
+            </footer>
+        {{/if}}
     </div>
     <!--Comments-->
     <header>
@@ -96,14 +109,18 @@
                 {{this.content}}
             </p>
             <!--Comment Options: View Thread, Reply, Delete-->
-            <footer class="small">
-                <a class="comment-reply-btn" href="#">{{#eq childrenCount 1 }} View 1 Reply {{/eq}} {{#gt childrenCount 1 }}View {{ childrenCount }} Replies{{/gt}}</a>
-                {{#gt childrenCount 0 }}&nbsp;|{{/gt}}<a class="comment-reply-btn" href="#">&nbsp;Reply&nbsp;</a> 
-                {{is_authenticated}}
-                {{#if is_authenticated}}h 
-                {{#eq user._id this._id}} |<a class="confirm-delete" href='/comments/{{this._id}}'>&nbsp;Delete</a> {{/eq}}
-                {{/if}} 
+            {{#if ../is_authenticated}}
+            <footer>
+                {{#eq ../user._id this.user_id}}
+                    <form action="/comments/delete" method="post">
+                        <input type="hidden" id="eventID" name="eventID" value="{{../event._id}}">
+                        <input type="hidden" id="commentID" name="commentID" value="{{this._id}}">
+                        <button class="btn btn-primary" type="submit">Delete</button>
+                        <input name= '_method' value="delete" hidden/>
+                    </form>
+                {{/eq}}
             </footer>
+            {{/if}}
         </div>
         <hr>
     {{/each}}
@@ -113,7 +130,7 @@
             <h3>Leave a Comment</h3>
         </header>
         <form action="/comments/create" method="post">
-            <input type="hidden" id="userID" name="eventID" value="{{event._id}}">
+            <input type="hidden" id="eventID" name="eventID" value="{{event._id}}">
             <div class="form-group col-md-6">
                 <textarea name="content" cols="40" rows="4" class="form-control" placeholder="Type your comment...." id="parentComment" required></textarea>
             </div>

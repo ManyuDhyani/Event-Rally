@@ -87,6 +87,28 @@ router
   });
 
 router
+  .delete('/delete', async (req, res) => {
+      try {
+          if (req.session.login){
+              const eventID = xss(req.body.eventID);
+              
+              let success = await eventData.deleteEvent(eventID);
+              if (success.isDeleted){
+                  return res.redirect(`/${req.session.login.loggedUser._id}`)
+              } else {
+                  return res.render("error", {title: "Error", error500: true})
+              }
+          }
+      } catch(e) {
+          if (e.statusCode) {
+              res.status(e.statusCode).render("error", {title: "Error", error404: true});
+            } else {
+              res.status(500).json("Internal Server Error");
+          }
+      }
+});
+
+router
   .route('/:id')
   .get(async (req, res) => {
     try

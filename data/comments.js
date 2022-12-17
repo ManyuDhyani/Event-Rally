@@ -93,8 +93,29 @@ const getAllChildCommentsThread = async (parentCommentId) => {
 };
 
 
+const deleteComment = async (commentId) => {
+    // validation
+    await validationFunctions.idValidator(commentId);
+
+    commentId = commentId.trim();
+
+    let commentsCollection = await comments();
+    let commentData = await commentsCollection.findOne({_id: ObjectId(commentId)})
+    if (!commentData) {
+        throw {statusCode: 500, error: "Internal Server Error: The Comment was not found in the Database"};
+    }
+
+    let deletedComment = await commentsCollection.deleteOne({_id: ObjectId(commentId)});
+    if (deletedComment.deletedCount === 0) {
+        throw {statusCode: 500, error: "Internal Server Error: The Comment could not be deleted"};
+    }
+
+    return {isDeleted: true};
+};
+
 module.exports = {
     createComment,
     getAllEventParentComments,
-    getAllChildCommentsThread
+    getAllChildCommentsThread,
+    deleteComment
 }; 
