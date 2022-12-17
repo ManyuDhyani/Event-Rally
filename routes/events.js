@@ -5,6 +5,7 @@ const eventData = data.events;
 const likesData = data.likes;
 const commentsData = data.comments
 const validationFunctions = data.validationFunctions
+const xss = require('xss');
 const multer = require('multer');
 
 //image upload
@@ -129,7 +130,7 @@ router
             attending: AttendingData,
             isAttending: loggedUserAttending,
             followers: followersData,
-            isFollowing: loggedUserfollowing
+            isFollowing: loggedUserfollowing,
           });
         }
         return res.render("events/event", {
@@ -142,7 +143,6 @@ router
           isAttending: loggedUserAttending,
           followers: followersData,
           isFollowing: loggedUserfollowing,
-          is_admin: req.session.login.loggedUser.admin
         });
     } catch (e) {
       if (e.statusCode) {
