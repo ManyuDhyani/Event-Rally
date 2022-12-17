@@ -7,6 +7,7 @@ const reportsData = require("./reports");
 const likesData = require("./likes");
 const validations = require("./validation")
 const adminData = require('./admin');
+const searchData = require('./search');
 
 module.exports = {
     users: usersData,
@@ -17,5 +18,6 @@ module.exports = {
     reports: reportsData,
     likes: likesData,
     validationFunctions: validations,
-    adminData: adminData
+    adminData: adminData,
+    search: searchData
 };

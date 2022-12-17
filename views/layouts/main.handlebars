@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href= "/public/css/main.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/public/js/mapApi.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>{{title}}</title>
 </head>
 <body>
@@ -25,17 +28,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/{{user._id}}"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
                     <li><a href="/events/create"><span class="glyphicon glyphicon-user"></span> Create</a></li>
-                    {{!-- {{#if is_admin}} --}}
+                    {{#if is_admin}}
                         <li><a href="/admin/allusers"><span class="glyphicon glyphicon-log-in"></span> USERS</a></li>
                         <li><a href="/admin/allreports"><span class="glyphicon glyphicon-log-in"></span> REPORTS</a></li>
-                    {{!-- {{/if}} --}}
+                    {{/if}}
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             {{else}}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href="/reports/report"><span class="glyphicon glyphicon-log-in"></span> Report</a></li>
                 </ul>
             {{/if}}
         </div>
@@ -44,6 +46,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcRs0sa21dO5jEBhHPoOq0sUClaWHwung&callback=initMap&v=weekly&libraries=places" defer></script>
 </body>
 </html>
 

@@ -4,11 +4,8 @@ const data = require('../data');
 const commentData = data.comments;
 const validationFunctions = data.validationFunctions;
 
-// post(parentID, content)
-// delete(:id)
 router
-    // .route('/comments/:eventID')
-    .route('/')
+    .route('/create')
     .post(async (req,res) => {
         //code for POST here
         try{

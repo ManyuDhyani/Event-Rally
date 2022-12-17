@@ -11,6 +11,12 @@
 body{
     line-height: 1.5;
 }
+
+.post-thumbnail {
+    width: 30rem; 
+    height:auto
+}
+
 .card-wrapper{
     max-width: 1100px;
     margin: 0 auto;
@@ -164,6 +170,7 @@ img{
     transition: all 0.5s ease;
 }
 
+
 /* Event Cards -All */
 
 
@@ -236,3 +243,10 @@ img {
     color: white;
     border-radius: 5px;
 }
+
+#map {
+    align-self: center;
+    height: 500px;
+    width: 700px;
+  }
+

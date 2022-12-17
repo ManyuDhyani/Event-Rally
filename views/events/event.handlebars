@@ -5,31 +5,31 @@
             <div class = "event-imgs">
                 <div class = "img-display">
                 <div class = "img-showcase">
-                    <img src = "{{ event.thumbnail_1 }}" alt = "{{ event.title }}">
-                    <img src = "{{ event.thumbnail_2 }}" alt = "{{ event.title }}">
-                    <img src = "{{ event.thumbnail_3 }}" alt = "{{ event.title }}">
-                    <img src = "{{ event.thumbnail_4 }}" alt = "{{ event.title }}">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_1 }}" alt = "{{ event.title }}">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_2 }}" alt = "{{ event.title }}">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_3 }}" alt = "{{ event.title }}">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}">
                 </div>
                 </div>
                 <div class = "img-select">
                 <div class = "img-item">
                     <a href = "#" data-id = "1">
-                    <img src = "{{ event.thumbnail_1 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_1 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "2">
-                    <img src = "{{ event.thumbnail_2 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_2 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "3">
-                    <img src = "{{ event.thumbnail_3 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_3 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "4">
-                    <img src = "{{ event.thumbnail_4 }}" alt = "{{ event.title }}" style="width:100%;height:auto;">
+                    <img src = "\public\uploads\events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 </div>
@@ -72,4 +72,30 @@
             {{event.content}}
         </div>
     </div>
+    <div id="map"></div>
+    <p id="hidden_location" hidden>{{event.location}}</p>
 </div>
+<script>
+    geocode();
+    //this function gets lat and lon of the address provided and places the marker on the google map on that location
+    function geocode()
+    {
+        let location_temp = document.getElementById('hidden_location').innerHTML;
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          address:location_temp,
+          key:'AIzaSyDcRs0sa21dO5jEBhHPoOq0sUClaWHwung'
+        }
+      })
+      .then(function(response){
+        // Geometry
+        var lat = response.data.results[0].geometry.location.lat;
+        var lng = response.data.results[0].geometry.location.lng;
+        let loc ={lat:lat,lng:lng};
+        addMarker(loc);
+      })
+      .catch(function(error){
+        console.log(error);
+      });
+    }
+</script>

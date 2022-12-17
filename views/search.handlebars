@@ -1,0 +1,22 @@
+<p>List of all events is here:</p>
+{{#each result}}
+<link rel="stylesheet" href="/public/css/search.css">
+    <section id="content">
+    <div class="container">
+        <div id="main">
+            <div class="imageselect row add-clearfix image-imagebox">
+                <div class="col-sm-6">
+                    <article class="imagebox">
+                        <figure> <a href="/events/{{_id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt=""></a>
+                            <figcaption> <span class="price">{{ this.overview }}</span>
+                                <h2 class="caption-title"><a href="/events/{{_id}}">{{this.title}}</a></h2>
+                            </figcaption>
+                        </figure>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{/each}}
+

@@ -13,8 +13,7 @@ router
     // render landing page
     try {
       if (req.session.login){
-        console.log(session.login.loggedUser.admin);
-        return res.render("index", {title: "Event Rally", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: session.login.loggedUser.admin});
+        return res.render("index", {title: "Event Rally", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
       }
       return res.render("index", {title: "Event Rally"});
 
@@ -118,10 +117,12 @@ router
       let {eventCount, events} = getUsersEvent;
       
       res.render("profile", {
-          title: "profile Page", 
+          title: "profile Page",
+          openedProfileID: userID,
           is_authenticated: req.session.login.authenticatedUser, 
           username: req.session.username, 
           userSessionData: req.session.login.loggedUser,
+          is_admin: req.session.login.loggedUser.admin,
           profile: profileDetails,
           followersCount: getUsersFollowers,
           eventCount: eventCount,

@@ -14,7 +14,7 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
 
     const eventCollections = await event();
     let newEvent = {
-        userId:userId,
+        userId: ObjectId(userId),
         title:title,
         overview:overview,
         content:content,
@@ -91,7 +91,7 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
   
     //creating a new object with updated values
     let updatedObj = {
-        userId:userId,
+        userId: ObjectId(userId),
         title:title,
         overview:overview,
         content:content,
@@ -133,6 +133,7 @@ const getEventInfo = async (eventId) =>{
     throw {statusCode: 404, error: "Event does not exsist"};
  }
 
+ eventFetched.userId = eventFetched.userId.toString();
  return eventFetched;
 
 };
@@ -157,11 +158,9 @@ const getEventFollowers = async (eventId) =>{
 const getUsersEvents = async (userID) =>{
     validationFunctions.idValidator(userID);
     userID = userID.trim()
-    //{userId: ObjectId(userID)}, { sort: { created: -1 }, projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}
-    // { sort: { created: -1 }, projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}
-    //let getEventInfo = await eventCollections.find({userId: ObjectId(userID)});
+
     const eventCollections = await event();
-    const getEventInfo = await eventCollections.find({}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}).sort({created: -1}).toArray();
+    const getEventInfo = await eventCollections.find({userId: ObjectId(userID)}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}).sort({created: -1}).toArray();
     return {eventCount: getEventInfo.length, events: getEventInfo};
 };
 
