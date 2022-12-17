@@ -1,1 +1,25 @@
-<h1>Checkout our Events</h1>
+
+<div class="custom ">
+    {{#each events}}
+        <div class="card">
+            <div class="image">
+                <img src="\public\uploads\events/{{this.thumbnail_1}}" alt='broken image' class="card-img-top" />
+        
+            </div>
+            <div class="content">
+                <h2 class="card-title">{{this.title}}</h2>
+                <p class="card-text">
+                    {{events.content}}
+                </p>
+                <p>{{this.overview}}</p>
+                <p class="category">{{this.category}}</p>
+                <div class="container-tags">
+                <p class="tag">{{this.tags}}</p>
+                </div>
+                <p>{{this.location}}</p>
+                <p>{{this.price}}</p>
+                <button id="event-btn">Read More</button>
+            </div>
+        </div>
+    {{/each}}
+</div>
