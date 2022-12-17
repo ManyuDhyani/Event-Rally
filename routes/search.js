@@ -23,5 +23,21 @@ router
           }
     })
 
+router
+    .route('/category')
+    .post(async (req,res) => {
+      try{
+          const searchEventByCategory = req.body.category;
+          const final_data = await searchData.searchEventByCategory(searchEventByCategory);
+            return res.render("search",{title: "Search",result: final_data});
+      }catch (e) {
+            if (e.statusCode) {
+              res.status(e.statusCode).render("error", {title: "Error", error404: true});
+            } else {
+              res.status(500).json("Internal Server Error");
+            }
+          }
+    })
+
 
 module.exports = router;

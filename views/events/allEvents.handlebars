@@ -3,22 +3,21 @@
     {{#each events}}
         <div class="card">
             <div class="image">
-                <img src="\public\uploads\events/{{this.thumbnail_1}}" alt='broken image' class="card-img-top" />
+                <a href="/events/{{_id}}"><img src="\public\uploads\events/{{this.thumbnail_1}}" alt='broken image' class="card-img-top" /></a>
         
             </div>
             <div class="content">
-                <h2 class="card-title">{{this.title}}</h2>
+                <h2 class="card-title"><a href="/events/{{_id}}">{{this.title}}</a></h2>
                 <p class="card-text">
                     {{events.content}}
                 </p>
-                <p>{{this.overview}}</p>
-                <p class="category">{{this.category}}</p>
+                <p>Overview: {{this.overview}}</p>
+                <p>Category: {{this.category}}</p>
                 <div class="container-tags">
-                <p class="tag">{{this.tags}}</p>
+                <p class="tag">#{{this.tags}}</p>
                 </div>
-                <p>{{this.location}}</p>
-                <p>{{this.price}}</p>
-                <button id="event-btn">Read More</button>
+                <p>Location: {{this.location}}</p>
+                <p>Price: {{this.price}}</p>
             </div>
         </div>
     {{/each}}
