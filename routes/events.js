@@ -151,6 +151,45 @@ router
         res.status(500).json("Internal Server Error");
       }
     }
+  }).post(async(req,res) =>{
+    try{
+      let userId = req.body.userId;
+      let eventId = req.body.eventId;
+      let removefollower = req.body.removefollower;
+      let firstcall = req.body.firstcall;
+      
+      await validationFunctions.idValidator(userId);
+      await validationFunctions.idValidator(eventId);
+      if(firstcall===true)
+      {
+        let result = await eventData.checkEventFollower(userId,eventId);
+        return res.send({response: result});
+      }
+      else
+      {
+        if(removefollower===true)
+        {
+          await eventData.removeEventFollower(userId,eventId);
+        }
+        else if(removefollower===false)
+        {
+          await eventData.pushEventFollower(userId,eventId);
+        }
+        else
+        {
+          throw {statusCode: 404, error: "Error in adding follower"};
+        }
+      }
+      
+    }
+    catch(e)
+    {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("error", {title: "Error", error404: true});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
   });
 
 module.exports = router; 
