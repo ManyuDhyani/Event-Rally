@@ -154,6 +154,59 @@ const getEventFollowers = async (eventId) =>{
     return {followersCount: followingList.following.length, followingList: followingList.following}
 };
 
+//function to push followers for an event
+const pushEventFollower = async (userId,eventId) =>{
+    validationFunctions.idValidator(userId);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    
+    const addFollower = await eventCollections.updateOne({ _id: ObjectId(eventId) }, { $push: { following: ObjectId(userId)}});
+    if (addFollower.modifiedCount === 0) {
+        throw {statusCode: 404, error: "Error in adding follower"};
+    }
+};
+//function to remove a follower from an event
+const removeEventFollower = async(user_id,eventId) =>{
+    validationFunctions.idValidator(user_id);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    const removeFollower = await eventCollections.updateOne({_id:ObjectId(eventId)},{$pull :{ following:ObjectId(user_id)}});
+    if (removeFollower.modifiedCount === 0) {
+        throw {statusCode: 404, error: "Error in adding follower"};
+    }
+}
+//check if the follower is present for the given event or not
+const checkEventFollower = async(userId,eventId) =>{
+    validationFunctions.idValidator(userId);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    let following_arr = eventFetched.following;
+    
+    for(let i=0;i<following_arr.length;i++)
+    {
+        if(following_arr[i].toString()===userId)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Get all events published by the users
 const getUsersEvents = async (userID) =>{
     validationFunctions.idValidator(userID);
@@ -179,5 +232,8 @@ module.exports = {
     getAttendees,
     getEventFollowers,
     getUsersEvents,
-    getAllEvent
+    getAllEvent,
+    pushEventFollower,
+    removeEventFollower,
+    checkEventFollower
 };
