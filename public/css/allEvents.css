@@ -1,0 +1,72 @@
+/* Event Cards -All */
+
+
+.custom {
+    margin-top: 50px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;;
+    margin: 0 auto;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.card {
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 300px;
+    height: auto;
+}
+
+.card-text{
+    justify-content: center;
+}
+.category{
+    font-weight: bolder;
+}
+.container-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+    width:100%;
+    /* background-color: black; */
+    align-items: center;
+    padding: 5px 5px;
+}
+.tag{
+    background-color: #0984e3;
+    border-radius: 5px;
+    padding: 5px 5px;
+    color: black;
+    font-weight: 600;
+    text-align: center;
+}
+.image {
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.content {
+    padding: 20px 10px;
+
+}
+
+
+#event-btn{
+    background-color: black;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+}

@@ -53,17 +53,19 @@
                 </div>
     
                 <!-- Check if user has bought Ticket (Attending), no need to show Buy Button-->
-                <div class = "purchase-info">
-                    
-                    <button type = "button" class = "btn">
-                        Attend Event <i class = "fa fa-paypal"></i>
-                    </button>
-                    <button type = "button" class = "btn" id="follow_btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
-                </div>
-                <div class="feedback-info">
-                    <button type="button" class="btn" id="like_btn"><i class="fa fa-thumbs-up"></i></button> 
-                    <button type="button" class="btn" id="dislike_btn"><i class="fa fa-thumbs-down"></i></button> 
-                </div>
+                {{#if is_authenticated}}
+                    <div class = "purchase-info">
+                        
+                        <button type = "button" class = "btn">
+                            Attend Event <i class = "fa fa-paypal"></i>
+                        </button>
+                        <button type = "button" class = "btn" id="follow_btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
+                    </div>
+                    <div class="feedback-info">
+                        <button type="button" class="btn" id="like_btn"><i class="fa fa-thumbs-up"></i></button> 
+                        <button type="button" class="btn" id="dislike_btn"><i class="fa fa-thumbs-down"></i></button> 
+                    </div>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -113,8 +115,7 @@
         <form action="/comments/create" method="post">
             <input type="hidden" id="userID" name="eventID" value="{{event._id}}">
             <div class="form-group col-md-6">
-                <textarea name="content" cols="40" rows="4" class="form-control" placeholder="Type your comment...." id="parentComment" required>
-                </textarea>
+                <textarea name="content" cols="40" rows="4" class="form-control" placeholder="Type your comment...." id="parentComment" required></textarea>
             </div>
             <div class="form-group col-md-6">
                 <button type="submit" class="btn btn-secondary">Submit</button>
