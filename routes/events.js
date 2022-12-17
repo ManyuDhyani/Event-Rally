@@ -157,9 +157,12 @@ router
       let eventId = req.body.eventId;
       let removefollower = req.body.removefollower;
       let firstcall = req.body.firstcall;
+      let removeattender = req.body.removeattender;
       
+
       await validationFunctions.idValidator(userId);
       await validationFunctions.idValidator(eventId);
+      if(removeattender === undefined ){
       if(firstcall===true)
       {
         let result = await eventData.checkEventFollower(userId,eventId);
@@ -180,6 +183,29 @@ router
           throw {statusCode: 404, error: "Error in adding follower"};
         }
       }
+    }
+    else{
+      if(firstcall===true)
+      {
+        let result = await eventData.checkEventAttender(userId,eventId);
+        return res.send({response: result});
+      }
+      else
+      {
+        if(removeattender===true)
+        {
+          await eventData.removeEventAttender(userId,eventId);
+        }
+        else if(removeattender===false)
+        {
+          await eventData.pushEventAttender(userId,eventId);
+        }
+        else
+        {
+          throw {statusCode: 404, error: "Error in adding follower"};
+        }
+      }
+    }
       
     }
     catch(e)
@@ -191,5 +217,12 @@ router
       }
     }
   });
+
+router
+  .route('/update/:id')
+  .get(async (req, res) => {
+      await validationFunctions.idValidator(req.params._id);
+      console.log("in update/id route");
+  })
 
 module.exports = router; 
