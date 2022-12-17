@@ -209,7 +209,7 @@ const contentValidator = async(content) => {
     if(!content) throw {statusCode: 400, error: "Content field cannot be empty"};
     if(typeof(content)!=="string")  throw {statusCode: 400, error: "Content field should be a string"};
     if(content.trim().length===0)  throw {statusCode: 400, error: "Content field cannot be empty"};
-    if(content.length <= 200) throw {statusCode: 400, error: "Number of words allowed are upto 200."};
+    if(content.length > 200) throw {statusCode: 400, error: "Number of words allowed are upto 200."};
 
 }
 

@@ -21,7 +21,7 @@ module.exports = {
   users: getCollectionFn('users'),
   profile: getCollectionFn('profile'),
   event: getCollectionFn('event'),
-  comment: getCollectionFn('comment'),
+  comments: getCollectionFn('comments'),
   followers: getCollectionFn('followers'),
   report: getCollectionFn('report'),
 };
