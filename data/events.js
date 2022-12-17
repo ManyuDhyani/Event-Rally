@@ -170,6 +170,24 @@ const pushEventFollower = async (userId,eventId) =>{
         throw {statusCode: 404, error: "Error in adding follower"};
     }
 };
+
+//push attender function
+const pushEventAttender = async (userId,eventId) =>{
+    validationFunctions.idValidator(userId);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    
+    const addAttender = await eventCollections.updateOne({ _id: ObjectId(eventId) }, { $push: { attending: ObjectId(userId)}});
+    if (addAttender.modifiedCount === 0) {
+        throw {statusCode: 404, error: "Error in adding follower"};
+    }
+};
+
 //function to remove a follower from an event
 const removeEventFollower = async(user_id,eventId) =>{
     validationFunctions.idValidator(user_id);
@@ -185,6 +203,23 @@ const removeEventFollower = async(user_id,eventId) =>{
         throw {statusCode: 404, error: "Error in adding follower"};
     }
 }
+
+//remove attender function
+const removeEventAttender = async(user_id,eventId) =>{
+    validationFunctions.idValidator(user_id);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    const removeAttender = await eventCollections.updateOne({_id:ObjectId(eventId)},{$pull :{ attending:ObjectId(user_id)}});
+    if (removeAttender.modifiedCount === 0) {
+        throw {statusCode: 404, error: "Error in adding follower"};
+    }
+}
+
 //check if the follower is present for the given event or not
 const checkEventFollower = async(userId,eventId) =>{
     validationFunctions.idValidator(userId);
@@ -200,6 +235,28 @@ const checkEventFollower = async(userId,eventId) =>{
     for(let i=0;i<following_arr.length;i++)
     {
         if(following_arr[i].toString()===userId)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// check attender is present function
+const checkEventAttender = async(userId,eventId) =>{
+    validationFunctions.idValidator(userId);
+    validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    let attending_arr = eventFetched.attending;
+    
+    for(let i=0;i<attending_arr.length;i++)
+    {
+        if(attending_arr[i].toString()===userId)
         {
             return true;
         }
@@ -257,5 +314,9 @@ module.exports = {
     pushEventFollower,
     removeEventFollower,
     checkEventFollower,
+    pushEventAttender,
+    removeEventAttender,
+    checkEventAttender,
     deleteEvent
+
 };
