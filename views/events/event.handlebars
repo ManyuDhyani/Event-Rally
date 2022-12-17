@@ -58,9 +58,12 @@
                     <button type = "button" class = "btn">
                         Attend Event <i class = "fa fa-paypal"></i>
                     </button>
-                    <button type = "button" class = "btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
+                    <button type = "button" class = "btn" id="follow_btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
                 </div>
-
+                <div class="feedback-info">
+                    <button type="button" class="btn" id="like_btn"><i class="fa fa-thumbs-up"></i></button> 
+                    <button type="button" class="btn" id="dislike_btn"><i class="fa fa-thumbs-down"></i></button> 
+                </div>
             </div>
         </div>
     </div>
@@ -122,8 +125,12 @@
     <!--Maps-->
     <div id="map"></div>
     <p id="hidden_location" hidden>{{event.location}}</p>
+    <p id="hidden_user_id" hidden>{{user._id}}</p>
+    <p id="hidden_event_id" hidden>{{event._id}}</p>
 </div>
+<script src="../../public/js/eventInteraction.js"></script>
 <script>
+    //call geocode function for setting lat and long for marker on maps
     geocode();
     //this function gets lat and lon of the address provided and places the marker on the google map on that location
     function geocode()
