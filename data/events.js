@@ -413,7 +413,7 @@ module.exports = {
     removeEventAttender,
     checkEventAttender,
     deleteEvent,
-    getEventsByTag
+    getEventsByTag,
     getEventFollowersCounts,
     getEventAttendersCounts
 };
