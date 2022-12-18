@@ -62,8 +62,12 @@
                         <button type = "button" class = "btn" id="follow_btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
                     </div>
                     <div class="feedback-info">
-                        <button type="button" class="btn" id="like_btn"><i class="fa fa-thumbs-up"></i></button> 
-                        <button type="button" class="btn" id="dislike_btn"><i class="fa fa-thumbs-down"></i></button> 
+                        <button type="button" class="like_dislike" id="like_btn"><i class="fa fa-thumbs-up" style="color: coral;"></i></button> 
+                        <button type="button" class="like_dislike" id="dislike_btn"><i class="fa fa-thumbs-down" style="color: coral;"></i></button> 
+                    </div>
+                    <div class="like_dislike_counts">
+                        <p id="like_counts"></p>
+                        <p id="dislike_counts"></p>
                     </div>
                 {{/if}}
             </div>
