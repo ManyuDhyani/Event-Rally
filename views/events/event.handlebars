@@ -62,8 +62,12 @@
                         <button type = "button" class = "btn" id="follow_btn">Follow Event <i class = "fa fa-hand-spock-o"></i></button>
                     </div>
                     <div class="feedback-info">
-                        <button type="button" class="btn" id="like_btn"><i class="fa fa-thumbs-up"></i></button> 
-                        <button type="button" class="btn" id="dislike_btn"><i class="fa fa-thumbs-down"></i></button> 
+                        <button type="button" class="like_dislike" id="like_btn"><i class="fa fa-thumbs-up" style="color: coral;"></i></button> 
+                        <button type="button" class="like_dislike" id="dislike_btn"><i class="fa fa-thumbs-down" style="color: coral;"></i></button> 
+                    </div>
+                    <div class="like_dislike_counts">
+                        <p id="like_counts"></p>
+                        <p id="dislike_counts"></p>
                     </div>
                 {{/if}}
             </div>
@@ -87,6 +91,11 @@
                         <input name= '_method' value="delete" hidden/>
                     </form>
                 {{/eq}}
+                <div>    
+                {{#neq ./user._id event.userId }}
+                    <h5>{{> reportEvent eventID=event._id}}</h5>
+                {{/neq}}
+                </div>
             </footer>
         {{/if}}
     </div>
@@ -99,7 +108,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex flex-start align-items-center">
-                    <h6 class="fw-bold text-primary mb-1">{{this.user_name}}</h6>
+                    <a href="/{{user_id}}"><h6 class="fw-bold text-primary mb-1">{{this.user_name}}</h6></a>
                     <p class="text-muted small mb-0">
                         Shared publicly - {{this.timestamp}}
                     </p>
@@ -119,6 +128,9 @@
                         <input name= '_method' value="delete" hidden/>
                     </form>
                 {{/eq}}
+                {{#neq ../user._id this.user_id }}
+                    <h5>{{> reportComment commentID=this._id}}</h5>
+                {{/neq}}
             </footer>
             {{/if}}
         </div>

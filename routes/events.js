@@ -141,7 +141,7 @@ router
             }
           });
           return res.render("events/event", {
-            title: "Event Rally",
+            title: eventFetched.title,
             event:eventFetched, 
             is_authenticated: req.session.login.authenticatedUser, 
             username: req.session.username, 
@@ -156,7 +156,7 @@ router
           });
         }
         return res.render("events/event", {
-          title: "Event Rally",
+          title: eventFetched.title,
           event:eventFetched, 
           is_authenticated: false, 
           countlikesDislikes:countLikesDislikes, 
@@ -180,11 +180,14 @@ router
       let removefollower = req.body.removefollower;
       let firstcall = req.body.firstcall;
       let removeattender = req.body.removeattender;
-      
+      let likes_dislikes = req.body.likes_dislikes;
+      let interaction = req.body.interaction;
 
       await validationFunctions.idValidator(userId);
       await validationFunctions.idValidator(eventId);
-      if(removeattender === undefined ){
+
+
+      if(interaction === "following" ){
       if(firstcall===true)
       {
         let result = await eventData.checkEventFollower(userId,eventId);
@@ -206,7 +209,7 @@ router
         }
       }
     }
-    else{
+    else if(interaction === "attending"){
       if(firstcall===true)
       {
         let result = await eventData.checkEventAttender(userId,eventId);
@@ -226,6 +229,45 @@ router
         {
           throw {statusCode: 404, error: "Error in adding follower"};
         }
+      }
+    }
+    else if(interaction === "like_dislike")
+    {
+      if(firstcall===true)
+      {
+        let val =await likesData.getLikesDislikesByUserId(userId,eventId);
+        let countObj = await likesData.getLikesDislikes(eventId);
+        if (val ==="none")
+        {
+          return res.send({likestatus: 1,like_counts:countObj.like,dislike_counts:countObj.dislike});
+        }
+        else if(val ==="like")
+        {
+          return res.send({likestatus: 2,like_counts:countObj.like,dislike_counts:countObj.dislike});
+        }
+        else if(val ==="dislike")
+        {
+          return res.send({likestatus:3,like_counts:countObj.like,dislike_counts:countObj.dislike});
+        }
+        else
+        {
+          throw {statusCode: 404, error: "Error getting like dislike status of the event by the user"};
+        }
+      }
+      else if(firstcall===false)
+      {
+        let value = req.body.value;
+        const createlike = await likesData.createlike(eventId,userId,value);
+        let countObj = await likesData.getLikesDislikes(eventId);
+        if(createlike ==="dislikeoverlike")
+        {
+          return res.send({changebtn:0,like_counts:countObj.like,dislike_counts:countObj.dislike});
+        }
+        else if(createlike ==="likeoverdislike")
+        {
+          return res.send({changebtn:1,like_counts:countObj.like,dislike_counts:countObj.dislike});
+        }
+        res.send({like_counts:countObj.like,dislike_counts:countObj.dislike});
       }
     }
       

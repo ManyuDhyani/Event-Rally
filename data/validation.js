@@ -33,7 +33,7 @@ const usernameValidator = async (username) => {
     let checkSpaces = username.split(" ");
     if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the username is allowed"};
     if (/^[0-9a-zA-Z]+$/.test(username) === false) throw  {statusCode: 400, error: "Username can be only alphanumeric characters"};
-    if (username.length < 5) throw {statusCode: 400, error: "Username should be at least 4 characters long"};
+    if (username.length < 4) throw {statusCode: 400, error: "Username should be at least 4 characters long"};
 };
 
 // ##Password Validations
@@ -221,9 +221,7 @@ const contentValidator = async(content) => {
 
 const againstValidator = async(against) => {
     if(!against) throw {statusCode: 400, error: "This field cannot be empty"};
-    if(typeof(against)!=="string") throw {statusCode: 400, error: "This field should be a string"};
-    if(against!=="user" || against!=="event" || against!=="comment") throw {statusCode: 400, error: "Complaint report should be against user, event or comment"};
-
+    if(typeof against !=="string") throw {statusCode: 400, error: "This field should be a string"};
 }
 
 const complaintValidator = async(complaint) => {
@@ -278,10 +276,6 @@ const genderValidator = async(gender) => {
 
     if (gender.length === 0 || gender.trim().length === 0) {
         throw 'Error: Gender cannot be an empty string or just spaces';
-    }
-
-    if (gender !== "Male" && gender !== "Female" && gender !== "Transgender" && gender !== "NoNBinary") {
-        throw 'Error: Gender must be either Male, Female ,Transgender or Binary...Anything else will not accepted';
     }
 
 };

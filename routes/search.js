@@ -12,6 +12,17 @@ router
             const searchEventByTitle = req.body.searchTitle;
             const final_data = await searchData.searchEventByTitle(searchEventByTitle);
 
+            if(req.session.login){
+              return res.render("search",{
+                title: "Search",
+                result: final_data,
+                is_authenticated: req.session.login.authenticatedUser, 
+                username: req.session.username, 
+                user: req.session.login.loggedUser, 
+                is_admin: req.session.login.loggedUser.admin
+              });
+            }
+
             return res.render("search",{title: "Search",result: final_data});
 
         } catch (e) {
@@ -29,7 +40,19 @@ router
       try{
           const searchEventByCategory = req.body.category;
           const final_data = await searchData.searchEventByCategory(searchEventByCategory);
-            return res.render("search",{title: "Search",result: final_data});
+
+          if(req.session.login){
+            return res.render("search",{
+              title: req.body.category,
+              result: final_data,
+              is_authenticated: req.session.login.authenticatedUser, 
+              username: req.session.username, 
+              user: req.session.login.loggedUser, 
+              is_admin: req.session.login.loggedUser.admin
+            });
+          }
+          
+          return res.render("search",{title: req.body.category, result: final_data});
       }catch (e) {
             if (e.statusCode) {
               res.status(e.statusCode).render("error", {title: "Error", error404: true});

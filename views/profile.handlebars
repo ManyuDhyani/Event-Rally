@@ -171,7 +171,9 @@
                 <!-- SIDEBAR USERPIC -->
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
-                    <img src="\public\uploads\ProfilePictures/{{ profile.profile_picture }}" class="img-responsive" alt="{{user.username}}">
+                    <figure>
+                    <img src="\public\uploads\ProfilePictures/{{ profile.profilePicture }}" class="img-responsive" alt="{{user.username}}">
+                    </figure>
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
@@ -236,7 +238,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-6">
                             <div class="uppercase profile-stat-title"> {{event_view}} </div>
-                            <div class="uppercase profile-stat-text"> Views </div>
+                            <div class="uppercase profile-stat-text"> Likes </div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-6">
                             <div class="uppercase profile-stat-title"> {{total_event}} </div>
@@ -269,6 +271,11 @@
                         {{/if}}
                     </div>
                 </div>
+                <div>
+                    {{#neq userSessionData._id openedProfileID }}
+                        <h5>{{> reportUser userID=openedProfileID}}</h5>
+                    {{/neq}}
+                </div>
             </div>
         </div>
 
@@ -286,16 +293,16 @@
                                         <div class="post-thumbnail"><a href="/events/{{this._id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
                                         <div class="post-details">
                                         <div class="post-meta d-flex justify-content-between">
-                                            <div class="date"><i class="icon-clock"></i>{{ this.created }} ago</div>
+                                            <div class="text-muted">Published On: <small>{{ this.created }}</small></div>
                                             <div class="category">
                                                 <a href="/category/{{this.category}}" style="font-size: 10px;">{{ this.category }}</a>
                                             </div>
                                         </div><a href="/events/{{this._id}}">
                                             <h3 class="h4">{{ this.title }}</h3></a>
                                         <p class="text-muted">{{ this.overview }}</p>
-                                         <a href="/events/update/{{this._id}}" style="font-size: 10px;">UPDATE EVENT</a>
                                         <footer class="post-footer d-flex align-items-center">
                                             <a href="/profile/{{this.user_id}}" class="author d-flex align-items-center flex-wrap">
+                                            <div class="avatar"><img src="{{ profile.profile_picture }}" alt="{{ user.username }}" class="img-fluid"></div>
                                             <div class="title"><span>{{ user.username }}</span></div>
                                             </a>
                                             <div class="views"><i class="icon-eye"></i>{{ this.views }}</div>
