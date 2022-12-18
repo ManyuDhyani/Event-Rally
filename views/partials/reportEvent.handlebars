@@ -1,19 +1,18 @@
 
         <div class="container mt-5">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Report</button>
-        <div class="modal" id="myModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mycommentModal">Report</button>
+        <div class="modal" id="mycommentModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Report</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h5 class="modal-title">Report This Event</h5>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <form action="/report" method="post" id="report-form">
+                            <form action="/reports/event" method="post" id="report-form">
                             <!--The following two hidden input field will change like for user its same but for event value will become "event" and event._id respectively-->
-                                <input type="hidden" id="custId" name="custId" value="event">
-                                <input type="hidden" id="custId" name="custId" value="{{event._id}}">
+                                <input type="hidden" id="against" name="against" value="event">
+                                <input type="hidden" id="againstId" name="againstId" value="{{eventID}}">
                                 <label for="complaint">Complaint</label>
                                 <select name="complaint" id="complaint">
                                     <option value="Sexual content" name="complaint">Sexual content</option>
@@ -29,7 +28,7 @@
                                     <br>
                                     <br><br>
                                 </select>
-                                <button type="submit">Submit Report</button>
+                                <button class="btn btn-danger" type="submit">Submit Report</button>
                             </form>
                         </div>
                     </div>

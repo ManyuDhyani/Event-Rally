@@ -1,19 +1,18 @@
 
         <div class="container mt-5">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Report</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Report this comment</button>
         <div class="modal" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Report</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h5 class="modal-title">Report this Comment</h5>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <form action="/report" method="post" id="report-form">
+                            <form action="/reports/comment" method="post" id="report-form">
                             <!--The following two hidden input field will change like for user its same but for event value will become "event" and event._id respectively-->
-                                <input type="hidden" id="custId" name="custId" value="comment">
-                                <input type="hidden" id="custId" name="custId" value="{{comment._id}}">
+                                <input type="hidden" id="against" name="against" value="comment">
+                                <input type="hidden" id="againstId" name="againstId" value="{{commentID}}">
                                 <label for="complaint">Complaint</label>
                                 <select name="complaint" id="complaint">
                                     <option value="Sexual content" name="complaint">Sexual content</option>
@@ -25,11 +24,11 @@
                                     <option value="Promotes terrorism" name="Promotes terrorism">Promotes terrorism</option>
                                     <option value="Spam or misleading" name="Spam or misleading">Spam or misleading</option>
                                     <option value="Infringes my rights" name="complaint">Infringes my rights</option>
-                                    <option value="Title issue" name="complaint">Title issue</option>
+                                    <option value="Content issue" name="complaint">Content issue</option>
                                     <br>
                                     <br><br>
                                 </select>
-                                <button type="submit">Submit Report</button>
+                                <button class="btn btn-danger" type="submit">Submit Report</button>
                             </form>
                         </div>
                     </div>
