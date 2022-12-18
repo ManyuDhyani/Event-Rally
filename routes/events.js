@@ -18,9 +18,12 @@ let storage = multer.diskStorage({
   },
 });
 
-let upload = multer({
-  storage: storage,
-}).single('thumbnail_1');
+// let upload = multer({
+//   storage: storage,
+// }).single('thumbnail_1');
+
+let upload = multer({storage:storage});
+let uploadMultiple = upload.fields([{name:"thumbnail_1",maxCount:10},{name:"thumbnail_2",maxCount:10},{name:"thumbnail_3",maxCount:10},{name:"thumbnail_4",maxCount:10}]);
 
 
 router
@@ -43,14 +46,14 @@ router
     }
   }
 })
-.post(upload,async(req, res) => {
+.post(uploadMultiple,async(req, res) => {
   // validation for req.body all fileds here
   try
   { 
     if (req.session.login){
-
-      await validationFunctions.eventObjValidator(0,null,req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.file.filename, req.body.thumbnail_2, req.body.thumbnail_3, req.body.thumbnail_4, req.body.tags, req.body.location, req.body.price);
-      const createEvent = await eventData.createEvent(req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.file.filename, req.body.thumbnail_2, req.body.thumbnail_3, req.body.thumbnail_4, req.body.tags, req.body.location, req.body.price);
+      //console.log(req.body);
+      await validationFunctions.eventObjValidator(0,null,req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename, req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, req.body.tags, req.body.location, req.body.price);
+      const createEvent = await eventData.createEvent(req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename,req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, req.body.tags, req.body.location, req.body.price);
       
       res.redirect('/events/'+createEvent);
     }
@@ -237,6 +240,9 @@ router
       {
         let val =await likesData.getLikesDislikesByUserId(userId,eventId);
         let countObj = await likesData.getLikesDislikes(eventId);
+        console.log("here 1");
+        await eventData.getEventwithMaxLikes();
+        console.log("here 2");
         if (val ==="none")
         {
           return res.send({likestatus: 1,like_counts:countObj.like,dislike_counts:countObj.dislike});

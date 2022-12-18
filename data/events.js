@@ -3,6 +3,7 @@ const validationFunctions = require('./validation');
 const event = mongoCollections.event;
 const { ObjectId } = require('mongodb');
 const profileData = require('./profile');
+const likesData = require('./likes');
 
 
 
@@ -253,7 +254,6 @@ const getEventFollowersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let follow_arr = eventFetched.following;
-    console.log(follow_arr);
     let male_followers = 0;
     let female_followers = 0;
     let trans_followers = 0;
@@ -303,7 +303,6 @@ const getEventAttendersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let attend_arr = eventFetched.attending;
-    console.log(attend_arr);
     let male_attenders = 0;
     let female_attenders = 0;
     let trans_attenders = 0;
@@ -404,6 +403,32 @@ const deleteEvent = async (eventId) => {
     return {isDeleted: true};
 };
 
+//function to get sorted events based on  maximum likes
+const getEventwithMaxLikes = async () =>{
+   let allEvents = await getAllEvent();
+   let relative_likes = 0;
+   let newObj = {};
+   for(i=0;i<allEvents.length;i++)
+   {
+    let likes_dislikes = await likesData.getLikesDislikes(allEvents[i]._id.toString());
+    relative_likes = (likes_dislikes.like - likes_dislikes.dislike);
+    newObj[allEvents[i]._id.toString()] = relative_likes;
+   }
+ 
+   let sortable = [];
+    for (var event in newObj) {
+        sortable.push([event, newObj[event]]);
+    }
+
+    sortable.sort(function(a, b) {
+    return a[1] - b[1];
+    });
+
+    //getting top 4 events from bottom of this array
+    
+   console.log(sortable);
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -420,6 +445,6 @@ module.exports = {
     checkEventAttender,
     deleteEvent,
     getEventFollowersCounts,
-    getEventAttendersCounts
-
+    getEventAttendersCounts,
+    getEventwithMaxLikes
 };
