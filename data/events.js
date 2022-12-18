@@ -4,6 +4,7 @@ const event = mongoCollections.event;
 const { ObjectId } = require('mongodb');
 const { events } = require('.');
 const profileData = require('./profile');
+const likesData = require('./likes');
 
 
 //function to create an event
@@ -231,7 +232,7 @@ const getEventFollowersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let follow_arr = eventFetched.following;
-    
+
     let male_followers = 0;
     let female_followers = 0;
     let trans_followers = 0;
@@ -390,6 +391,32 @@ const deleteEvent = async (eventId) => {
     return {isDeleted: true};
 };
 
+
+//function to get sorted events based on  maximum likes
+const getEventwithMaxLikes = async () =>{
+   let allEvents = await getAllEvent();
+   let relative_likes = 0;
+   let newObj = {};
+   for(i=0;i<allEvents.length;i++)
+   {
+    let likes_dislikes = await likesData.getLikesDislikes(allEvents[i]._id.toString());
+    relative_likes = (likes_dislikes.like - likes_dislikes.dislike);
+    newObj[allEvents[i]._id.toString()] = relative_likes;
+   }
+ 
+   let sortable = [];
+    for (var event in newObj) {
+        sortable.push([event, newObj[event]]);
+    }
+
+    sortable.sort(function(a, b) {
+    return a[1] - b[1];
+    });
+
+    //getting top 4 events from bottom of this array
+    
+   console.log(sortable);
+
 const getEventsByTag = async (tag) => {
     tag = tag.trim();
     const eventCollections = await event();
@@ -413,6 +440,7 @@ const getLatestEvent = async () => {
         return {noEvents: true}
     }
     return allLatestEventsList;
+
 }
 
 module.exports = {
@@ -433,5 +461,6 @@ module.exports = {
     getEventsByTag,
     getEventFollowersCounts,
     getEventAttendersCounts,
+    getEventwithMaxLikes,
     getLatestEvent
 };
