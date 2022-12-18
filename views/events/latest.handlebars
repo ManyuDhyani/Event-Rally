@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/public/css/allEvents.css">
+<div class="custom ">
+    {{#each events}}
+        <div class="card">
+            <div class="image">
+                <a href="/events/{{_id}}"><img src="\public\uploads\events/{{this.thumbnail_1}}" alt='broken image' class="card-img-top" /></a>
+        
+            </div>
+            <div class="content">
+                <h2 class="card-title"><a href="/events/{{_id}}">{{this.title}}</a></h2>
+                <p class="card-text">
+                    {{events.content}}
+                </p>
+                <p>Overview: {{this.overview}}</p>
+                <p>Category: {{this.category}}</p>
+                {{#each tags as |item|}}
+                <div class="container-tags">
+                <a href="/events/tags/{{item}}"><p class="tag">#{{item}}</p></a>
+                </div>
+                {{/each}}
+                <p>Location: {{this.location}}</p>
+                <p>Price: {{this.price}}</p>
+            </div>
+        </div>
+    {{/each}}
+</div>

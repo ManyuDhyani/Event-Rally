@@ -21,7 +21,7 @@ const createReport = async (userId, against, againstId, complaint) => {
     complaint = complaint.trim();
 
     // Current timestamp
-    timestamp = new Date().toUTCString();
+    timestamp = new Date();
 
     let reportsCollection = await reports();
 
@@ -60,7 +60,7 @@ const getAllReports = async (userId) => {
 
     if(checkAdmin.admin === true){
         let reportsCollection = await reports();
-        let reportsData = await reportsCollection.find({}).sort({"timestamp": -1}).toArray();
+        let reportsData = await reportsCollection.find({}).sort({timestamp: -1}).toArray();
         if (reportsData.length === 0){
             return {noReports: true}
         }
