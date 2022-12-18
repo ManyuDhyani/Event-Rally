@@ -1,18 +1,22 @@
 <form action="/search/events" method="POST">
                     <label for="SearchTitle">Search Event</label>
                     <input type="text" id="SearchTitle" name="searchTitle">
-                    <button id ="button-id" class="btn-submit" type="submit">Submit</button>
+                    <button id ="button-id" class="btn btn-default" type="submit">Submit</button>
 </form>
-
+<br>
 <form action="/search/category" method="POST">
-                    <label for="SearchTitle">Search Event by Category</label>
-                    <select name="category" id="cars">
-                        <option value="Sports">Sports</option>
-                        <option value="Education">Education</option>
-                        <option value="Food and Drink">Food and Drink</option>
-                        <option value="Music">Music</option>
-                        <option value="Dance">Dance</option>
-                        <option value="Performing and Visual Arts">Performing and Visual Arts</option>
-                    </select>
-                    <button id ="button-id" class="btn-submit" type="submit">Submit</button>
+    <div class="form-group">
+        <label class="my-1 mr-2" for="searchByCategory">Category:</label>
+        <select name="category" style="outline:none !important; padding: 5px 10px" class="custom-select my-1 mr-sm-2" id="searchByCategory">
+            <option value="Music">Music</option>
+            <option value="Food and Drinks">FoodandDrinks</option>
+            <option value="Business">Business</option>
+            <option value="Sports">Sports</option>
+            <option value="Health">Health</option>
+            <option value="Hobbies">Hobbies</option>
+            <option value="Arts">Arts</option>
+            <option value="House Parties">Home Party</option>
+        </select>
+        <button id ="button-id" class="btn btn-default" type="submit">Submit</button>
+    </div>
 </form>

@@ -11,6 +11,20 @@
 body{
     line-height: 1.5;
 }
+.groupFortyThree{
+    background-color: white;
+    border: 1px solid transparent;
+    border-color: #f1f1f1;
+    color: black;
+    cursor: pointer;
+    border-color: white;
+}
+
+.groupFortyThree:hover{
+    color: black;
+    border-color: black;
+    transition-duration: 0.4s;
+}
 
 .post-thumbnail {
     width: 30rem; 

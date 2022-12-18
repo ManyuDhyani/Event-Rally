@@ -12,10 +12,19 @@ router
   .get(async (req, res) => {
     // render landing page
     try {
+      let latest = await eventsData.getLatestEvent();
+      // We need latest 4 on landing page
+      latest = latest.slice(0,4)
       if (req.session.login){
-        return res.render("index", {title: "Event Rally", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
+        return res.render("index", {title: "Event Rally", 
+        is_authenticated: req.session.login.authenticatedUser, 
+        username: req.session.username, 
+        user: req.session.login.loggedUser, 
+        is_admin: req.session.login.loggedUser.admin,
+        latests: latest
+      });
       }
-      return res.render("index", {title: "Event Rally"});
+      return res.render("index", {title: "Event Rally", latests: latest});
 
     } catch (e) {
       if (e.statusCode) {
