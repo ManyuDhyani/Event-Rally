@@ -231,7 +231,7 @@ const getEventFollowersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let follow_arr = eventFetched.following;
-    console.log(follow_arr);
+    
     let male_followers = 0;
     let female_followers = 0;
     let trans_followers = 0;
@@ -246,7 +246,11 @@ const getEventFollowersCounts = async (eventId) =>{
     for(let i =0;i<follow_arr.length;i++)
     {
         let user = await profileData.getProfileById(follow_arr[i].toString());
-        if(user.gender==="Male")
+        if (!user)
+        {
+            unknown_followers++;
+        }
+        else if(user.gender==="Male")
         {
             male_followers++;
         }
@@ -262,7 +266,7 @@ const getEventFollowersCounts = async (eventId) =>{
         {
             nonbinary_followers++;
         }
-        else if(user.gender==="Unknown")
+        else if(!user || !user.gender || user.gender==="Unknown" || user.gender===null)
         {
             unknown_followers++;
         }
@@ -281,7 +285,7 @@ const getEventAttendersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let attend_arr = eventFetched.attending;
-    console.log(attend_arr);
+
     let male_attenders = 0;
     let female_attenders = 0;
     let trans_attenders = 0;
@@ -296,7 +300,11 @@ const getEventAttendersCounts = async (eventId) =>{
     for(let i =0;i<attend_arr.length;i++)
     {
         let user = await profileData.getProfileById(attend_arr[i].toString());
-        if(user.gender==="Male")
+        if (!user)
+        {
+            unknown_attenders++;
+        }
+        else if(user.gender==="Male")
         {
             male_attenders++;
         }
@@ -388,7 +396,7 @@ const getEventsByTag = async (tag) => {
     let allEventsList = await eventCollections.find({}).toArray();
     let neededEvents = [];
     let index = 0;
-    // console.log(allEventsList);
+    
     for(let i = 0 ; i < allEventsList.length; i++){
         if(allEventsList[i].tags.includes(tag)){
             neededEvents[index] = allEventsList[i];
