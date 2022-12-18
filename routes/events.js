@@ -143,9 +143,12 @@ router
         let getEventParentComments = await commentsData.getAllEventParentComments(eventID);
         // Fetch attending count and check if current user is attending the event
         let AttendingData = await eventData.getAttendees(eventID);
+        // Fetch the event Attendees Gender Distribution
+        let AttendingGenders = await eventData.getEventAttendersCounts(eventID);
         // Fetch followers for the event and check if current user is following the event or not
         let followersData = await eventData.getEventFollowers(eventID);
-
+        // Fetch the event followers Gender Distribution
+        let FollowersGenders = await eventData.getEventFollowersCounts(eventID);
         // Check user is attending or following or not only when user is logged in
         let loggedUserAttending = false, loggedUserfollowing = false;
         if (req.session.login){
@@ -171,7 +174,9 @@ router
             parentComments: getEventParentComments,
             attending: AttendingData,
             isAttending: loggedUserAttending,
+            attendingGender: AttendingGenders,
             followers: followersData,
+            followersGender: FollowersGenders,
             isFollowing: loggedUserfollowing,
           });
         }
@@ -183,7 +188,9 @@ router
           parentComments: getEventParentComments,
           attending: AttendingData,
           isAttending: loggedUserAttending,
+          attendingGender: AttendingGenders,
           followers: followersData,
+          followersGender: FollowersGenders,
           isFollowing: loggedUserfollowing,
         });
     } catch (e) {
@@ -308,7 +315,6 @@ router
       await validationFunctions.idValidator(req.params.id);
       let event_id = req.params.id;
       let eventInfo = await eventData.getEventInfo(event_id);
-      // console.log(eventInfo);
       return res.render("events/updateEvent",eventInfo);
   })
   .post(upload, async (req,res) => {

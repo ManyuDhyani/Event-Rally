@@ -172,7 +172,10 @@ const getProfileById = async(userId) => {
     await validationFunctions.idValidator(userId)
     userId = userId.trim();
     let profilecollection = await hara();
-    const profile = await profilecollection.findOne({ user_id: userId });
+    let profile = await profilecollection.findOne({ user_id: userId });
+    if (!profile) {
+        return null
+    }
     return profile
 }
 
