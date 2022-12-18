@@ -1,0 +1,67 @@
+<main>   
+    <div class="container">
+        <form action="/events/update/{{_id}}" method="POST" id="event-creation-form" enctype="multipart/form-data">
+            {{!-- <form action="/{{_id}}" method="POST" id="event-creation-form" enctype="multipart/form-data"> --}}
+
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" class="form-control"  placeholder="Enter a title" value="{{title}}" required><br>
+            </div>
+            <div class="form-group">
+                <label for="overview">Overview:</label>
+                <input type="text" name="overview" id="overview" class="form-control" value="{{overview}}" placeholder="Enter Overview" required><br>
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <input type="text" name="content" id="content" class="form-control" value="{{content}}" placeholder="Enter Content" required><br>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category"  class="form-control" value="{{category}}" placeholder="Enter Category"><br>
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags:</label>
+                <input type="text" name="tags" id="tags" class="form-control" value="#{{tags}}" placeholder="Enter tags separated with commas"><br>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" name="location" id="location" class="form-control" value="{{location}}" placeholder="Enter Event's Location"><br>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" step="any" name="price" id="price" class="form-control" value="{{price}}" placeholder="Enter Event's Price"><br>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail_1">Choose Thumbnail:</label>
+                <input type="file" name="thumbnail_1" value="{{thumbnail_1}}" class="form-control" required><br>
+            </div>
+            {{#if error}}
+                <div class="errorDiv">
+                    <p>{{error}}</p>
+                </div>
+            {{/if}}
+            
+            <button type="submit" class="btn btn-default">Update</button><br><br>
+        </form>
+    </div>
+</main> 
+<script>
+    //code for auto suggestion for location
+          $(document).ready(function(){
+            let autocomplete;
+            let id = "location";
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(id)),{
+                types:['geocode'],
+            })
+        });
+</script>
+
+<script>
+$("#filter").change(function(){
+if($(this).val()==''){
+$(this).removeAttr("name"); // if no filter selected
+}else{
+$(this).attr("name","filter"); // if filter 1 or filter 2 selected
+}
+});
+</script>

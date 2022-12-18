@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const event = mongoCollections.event;
 const { ObjectId } = require('mongodb');
+const { events } = require('.');
 
 
 
@@ -66,29 +67,6 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         throw {statusCode: 404, error: "Event to be updated does not exsist"};
     }
 
-    //Check if the exsisting obj and the new fileds to be updated does not have any change or not
-    if(beforeUpdate.userId===userId || beforeUpdate.title===title || beforeUpdate.overview===overview || beforeUpdate.content===content || beforeUpdate.category===category || beforeUpdate.thumbnail_1===thumbnail_1 || beforeUpdate.thumbnail_2===thumbnail_2|| beforeUpdate.thumbnail_3===thumbnail_3|| beforeUpdate.thumbnail_4===thumbnail_4|| beforeUpdate.location===location|| beforeUpdate.price===price)
-    {
-        throw {statusCode: 404, error: "No different value to be updated"};
-    }
-
-    //Function to compare if 2 arrays are same or not
-    const compareArrays = (a, b) =>{
-        if(a.length === b.length && a.every((element, index) => element === b[index]))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    if(compareArrays(beforeUpdate.tags,tags_arr)===true)
-    {
-        throw {statusCode: 404, error: "No different value to be updated"};
-    }
-  
     //creating a new object with updated values
     let updatedObj = {
         userId: ObjectId(userId),
@@ -103,8 +81,9 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         tags:tags_arr,
         location:location,
         price:price,
-        following:[],
-        attending:[]
+        likes:beforeUpdate.likes,
+        following:beforeUpdate.following,
+        attending:beforeUpdate.attending
     }
 
     const updateInfo = await eventCollections.updateOne({_id: ObjectId(eventId)},{$set: updatedObj});
@@ -303,6 +282,22 @@ const deleteEvent = async (eventId) => {
     return {isDeleted: true};
 };
 
+const getEventsByTag = async (tag) => {
+    tag = tag.trim();
+    const eventCollections = await event();
+    let allEventsList = await eventCollections.find({}).toArray();
+    let neededEvents = [];
+    let index = 0;
+    // console.log(allEventsList);
+    for(let i = 0 ; i < allEventsList.length; i++){
+        if(allEventsList[i].tags.includes(tag)){
+            neededEvents[index] = allEventsList[i];
+            index= index+1;
+        }
+    }
+    return (neededEvents);
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -317,6 +312,7 @@ module.exports = {
     pushEventAttender,
     removeEventAttender,
     checkEventAttender,
-    deleteEvent
+    deleteEvent,
+    getEventsByTag
 
 };

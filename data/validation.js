@@ -104,6 +104,9 @@ const tagsSplitter = async(tags_string) =>{
         {
             throw {statusCode: 400, error: "Tags should have only words not sentences with spaces"};
         }
+        if(temp[i].includes(',')){
+            temp[i]=temp[i].slice(0,-1);
+        }
         tags[k]=temp[i];
         k++;
     }
