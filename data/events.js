@@ -416,6 +416,7 @@ const getEventwithMaxLikes = async () =>{
     //getting top 4 events from bottom of this array
     
    console.log(sortable);
+}
 
 const getEventsByTag = async (tag) => {
     tag = tag.trim();
