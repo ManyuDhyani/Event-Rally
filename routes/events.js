@@ -86,6 +86,26 @@ router
     }
   });
 
+
+  router
+  .route('/latest')
+  .get(async (req, res) => {
+    // render landing page
+    try {
+      let eventList = await eventData.getLatestEvent();
+      if (req.session.login){
+        return res.render("events/latest", {title: "Latest Events", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin, events: eventList});
+      }
+      return res.render("events/latest", {title: "Latest Events", events: eventList});
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("error", {title: "Error", error404: true, error: e.error});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
+  });
+
 router
   .delete('/delete', async (req, res) => {
       try {

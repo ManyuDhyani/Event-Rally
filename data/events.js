@@ -30,7 +30,7 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
         likes:[],
         following:[],
         attending:[],
-        created:new Date().toUTCString()
+        created:new Date()
     }
 
     //inserting newly created event object
@@ -398,6 +398,15 @@ const getEventsByTag = async (tag) => {
     return (neededEvents);
 }
 
+const getLatestEvent = async () => {
+    const eventCollections = await event();
+    let allLatestEventsList = await eventCollections.find({}).sort({created: -1}).toArray();
+    if (allLatestEventsList.length === 0){
+        return {noEvents: true}
+    }
+    return allLatestEventsList;
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -415,5 +424,6 @@ module.exports = {
     deleteEvent,
     getEventsByTag,
     getEventFollowersCounts,
-    getEventAttendersCounts
+    getEventAttendersCounts,
+    getLatestEvent
 };

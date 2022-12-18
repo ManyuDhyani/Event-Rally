@@ -16,7 +16,7 @@ const createlike = async (eventId, userId, value) => {
     value = value.trim();
    
     // Current timestamp
-    timestamp = new Date().toUTCString();
+    timestamp = new Date();
     
     let eventsCollection = await events();
 

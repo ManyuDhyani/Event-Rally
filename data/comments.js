@@ -22,7 +22,7 @@ const createComment = async (userId, eventId, username, parentCommentId, content
     content = content.trim();
 
     // Current timestamp
-    timestamp = new Date().toUTCString();
+    timestamp = new Date();
 
     // If parentComment comes in empty, means this comment is a parent comment itself. So this comment's parent_comment_id will be null.
     if (parentCommentId == null) {

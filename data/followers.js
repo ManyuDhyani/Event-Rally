@@ -12,7 +12,7 @@ const createFollowers = async (userId, followedUserId) => {
     followedUserId = followedUserId.trim();
 
     // Current timestamp
-    timestamp = new Date().toUTCString();
+    timestamp = new Date();
     
     let followersCollection = await followers();
 
