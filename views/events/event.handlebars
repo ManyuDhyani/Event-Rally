@@ -81,6 +81,11 @@
             <h3 style="margin-top: 2rem;">About {{ event.title }}</h3>
             {{event.content}}
         </div>
+        {{#each event.tags as |item|}}
+                <div class="container-tags">
+                <a href="/events/tags/{{item}}">#{{item}}</a>
+                </div>
+        {{/each}}
         <!--Event Options: Update & Delete-->
         {{#if is_authenticated}}
         <br>

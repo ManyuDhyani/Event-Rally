@@ -1,22 +1,30 @@
 <p>List of all events is here:</p>
-<link rel="stylesheet" href="/public/css/search.css">
-{{#each result}}
-    <section id="content">
-    <div class="container">
-        <div id="main">
-            <div class="imageselect row add-clearfix image-imagebox">
-                <div class="col-sm-6">
-                    <article class="imagebox">
-                        <figure> <a href="/events/{{_id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt=""></a>
-                            <figcaption> <span class="price">{{ this.overview }}</span>
-                                <h2 class="caption-title"><a href="/events/{{_id}}">{{this.title}}</a></h2>
-                            </figcaption>
-                        </figure>
-                    </article>
+
+
+<link rel="stylesheet" href="/public/css/allEvents.css">
+<div class="custom ">
+    {{#each result}}
+        <div class="card">
+            <div class="image">
+                <a href="/events/{{_id}}"><img src="\public\uploads\events/{{this.thumbnail_1}}" alt='broken image' class="card-img-top" /></a>
+        
+            </div>
+            <div class="content">
+                <h2 class="card-title"><a href="/events/{{_id}}">{{this.title}}</a></h2>
+                <p class="card-text">
+                    {{result.content}}
+                </p>
+                <p>Overview: {{this.overview}}</p>
+                <p>Category: {{this.category}}</p>
+                {{#each tags as |item|}}
+                <div class="container-tags">
+                <a href="/events/tags/{{item}}"><p class="tag">#{{item}}</p></a>
                 </div>
+                {{/each}}
+                <p>Location: {{this.location}}</p>
+                <p>Price: {{this.price}}</p>
             </div>
         </div>
-    </div>
-</section>
-{{/each}}
+    {{/each}}
+</div>
 
