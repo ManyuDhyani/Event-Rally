@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const event = mongoCollections.event;
 const { ObjectId } = require('mongodb');
+const profileData = require('./profile');
 
 
 
@@ -242,6 +243,106 @@ const checkEventFollower = async(userId,eventId) =>{
     return false;
 }
 
+//gettotalfollowers for the given eventId
+const getEventFollowersCounts = async (eventId) =>{
+    await validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    let follow_arr = eventFetched.following;
+    console.log(follow_arr);
+    let male_followers = 0;
+    let female_followers = 0;
+    let trans_followers = 0;
+    let nonbinary_followers = 0;
+    let unknown_followers = 0;
+
+    if(follow_arr.length===0)
+    {
+        return {male_followers:0,female_followers:0,trans_followers:0,nonbinary_followers:0,unknown_followers:0}
+    }
+
+    for(let i =0;i<follow_arr.length;i++)
+    {
+        let user = await profileData.getProfileById(follow_arr[i].toString());
+        if(user.gender==="Male")
+        {
+            male_followers++;
+        }
+        else if(user.gender==="Female")
+        {
+            female_followers++;
+        }
+        else if(user.gender==="Transgender")
+        {
+            trans_followers++;
+        }
+        else if(user.gender==="Non Binary")
+        {
+            nonbinary_followers++;
+        }
+        else if(user.gender==="Unknown")
+        {
+            unknown_followers++;
+        }
+    }
+
+    return {male_followers:male_followers,female_followers:female_followers,trans_followers:trans_followers,nonbinary_followers:nonbinary_followers,unknown_followers:unknown_followers};
+}
+
+//gettotalattenders for the given eventId
+const getEventAttendersCounts = async (eventId) =>{
+    await validationFunctions.idValidator(eventId);
+    const eventCollections = await event();
+    let eventFetched = await eventCollections.findOne({_id: ObjectId(eventId)});
+    if(eventFetched === null)
+    {
+        throw {statusCode: 404, error: "Event does not exsist"};
+    }
+    let attend_arr = eventFetched.attending;
+    console.log(attend_arr);
+    let male_attenders = 0;
+    let female_attenders = 0;
+    let trans_attenders = 0;
+    let nonbinary_attenders = 0;
+    let unknown_attenders = 0;
+
+    if(attend_arr.length===0)
+    {
+        return {male_attenders:0,female_attenders:0,trans_attenders:0,nonbinary_attenders:0,unknown_attenders:0}
+    }
+
+    for(let i =0;i<attend_arr.length;i++)
+    {
+        let user = await profileData.getProfileById(attend_arr[i].toString());
+        if(user.gender==="Male")
+        {
+            male_attenders++;
+        }
+        else if(user.gender==="Female")
+        {
+            female_attenders++;
+        }
+        else if(user.gender==="Transgender")
+        {
+            trans_attenders++;
+        }
+        else if(user.gender==="Non Binary")
+        {
+            nonbinary_attenders++;
+        }
+        else if(user.gender==="Unknown")
+        {
+            unknown_attenders++;
+        }
+    }
+
+    return {male_attenders:male_attenders,female_attenders:female_attenders,trans_attenders:trans_attenders,nonbinary_attenders:nonbinary_attenders,unknown_attenders:unknown_attenders};
+}
+
 // check attender is present function
 const checkEventAttender = async(userId,eventId) =>{
     validationFunctions.idValidator(userId);
@@ -317,6 +418,8 @@ module.exports = {
     pushEventAttender,
     removeEventAttender,
     checkEventAttender,
-    deleteEvent
+    deleteEvent,
+    getEventFollowersCounts,
+    getEventAttendersCounts
 
 };

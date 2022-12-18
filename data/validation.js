@@ -33,7 +33,7 @@ const usernameValidator = async (username) => {
     let checkSpaces = username.split(" ");
     if (checkSpaces.length > 1) throw {statusCode: 400, error: "No spaces in the username is allowed"};
     if (/^[0-9a-zA-Z]+$/.test(username) === false) throw  {statusCode: 400, error: "Username can be only alphanumeric characters"};
-    if (username.length < 5) throw {statusCode: 400, error: "Username should be at least 4 characters long"};
+    if (username.length < 4) throw {statusCode: 400, error: "Username should be at least 4 characters long"};
 };
 
 // ##Password Validations
