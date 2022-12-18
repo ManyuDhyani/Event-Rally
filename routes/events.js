@@ -285,8 +285,48 @@ router
 router
   .route('/update/:id')
   .get(async (req, res) => {
-      await validationFunctions.idValidator(req.params._id);
-      console.log("in update/id route");
+      await validationFunctions.idValidator(req.params.id);
+      let event_id = req.params.id;
+      let eventInfo = await eventData.getEventInfo(event_id);
+      // console.log(eventInfo);
+      return res.render("events/updateEvent",eventInfo);
+  })
+  .post(upload, async (req,res) => {
+    try{
+      let event_id = req.params.id;
+      let userId = req.session.login.loggedUser._id;
+      let title = req.body.title;
+      let overview = req.body.overview;
+      let content = req.body.content;
+      let category = req.body.category;
+      let thumbnail_1 = req.body.thumbnail_1;
+      let thumbnail_2 = req.body.thumbnail_2;
+      let thumbnail_3 = req.body.thumbnail_3;
+      let thumbnail_4 = req.body.thumbnail_4;
+      let tags = req.body.tags;
+      let location = req.body.location;
+      let price = req.body.price;
+
+
+      await eventData.updateEvent(event_id,userId,title,overview,content,category,req.file.filename,thumbnail_2,thumbnail_3,thumbnail_4,req.body.tags,location,price);
+      res.redirect('/events/'+event_id);
+      }catch(e)
+      {
+        if (e.statusCode) {
+          res.status(e.statusCode).render("error", {title: "Error", error404: true});
+        } else {
+          res.status(500).json("Internal Server Error");
+        }
+      }
+
+  })
+
+router
+  .route('/tags/:tag')
+  .get(async(req,res) => {
+    const tag = req.params.tag;
+    let eventByTag = await eventData.getEventsByTag(tag);
+    return res.render("events/eventsByTag", {title: "Events", events:eventByTag});
   })
 
 module.exports = router; 
