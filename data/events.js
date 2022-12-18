@@ -270,7 +270,7 @@ const getUsersEvents = async (userID) =>{
     userID = userID.trim()
 
     const eventCollections = await event();
-    const getEventInfo = await eventCollections.find({userId: ObjectId(userID)}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1}}).sort({created: -1}).toArray();
+    const getEventInfo = await eventCollections.find({userId: ObjectId(userID)}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1, created: 1}}).sort({created: -1}).toArray();
     return {eventCount: getEventInfo.length, events: getEventInfo};
 };
 

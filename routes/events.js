@@ -141,7 +141,7 @@ router
             }
           });
           return res.render("events/event", {
-            title: "Event Rally",
+            title: eventFetched.title,
             event:eventFetched, 
             is_authenticated: req.session.login.authenticatedUser, 
             username: req.session.username, 
@@ -156,7 +156,7 @@ router
           });
         }
         return res.render("events/event", {
-          title: "Event Rally",
+          title: eventFetched.title,
           event:eventFetched, 
           is_authenticated: false, 
           countlikesDislikes:countLikesDislikes, 

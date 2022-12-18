@@ -23,6 +23,8 @@ Handlebars.registerHelper('gt', function(a, b, options) {
 });
 
 app.use('/public', static);
+app.use('/static', express.static('public'))
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 

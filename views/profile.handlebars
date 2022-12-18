@@ -239,7 +239,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-6">
                             <div class="uppercase profile-stat-title"> {{event_view}} </div>
-                            <div class="uppercase profile-stat-text"> Views </div>
+                            <div class="uppercase profile-stat-text"> Likes </div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-6">
                             <div class="uppercase profile-stat-title"> {{total_event}} </div>
@@ -289,7 +289,7 @@
                                         <div class="post-thumbnail"><a href="/events/{{this._id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
                                         <div class="post-details">
                                         <div class="post-meta d-flex justify-content-between">
-                                            <div class="date"><i class="icon-clock"></i>{{ this.created }} ago</div>
+                                            <div class="text-muted">Published On: <small>{{ this.created }}</small></div>
                                             <div class="category">
                                                 <a href="/category/{{this.category}}" style="font-size: 10px;">{{ this.category }}</a>
                                             </div>
