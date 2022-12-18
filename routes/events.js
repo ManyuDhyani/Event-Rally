@@ -178,6 +178,7 @@ router
             followers: followersData,
             followersGender: FollowersGenders,
             isFollowing: loggedUserfollowing,
+            tags: eventFetched.tags
           });
         }
         return res.render("events/event", {
