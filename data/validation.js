@@ -218,9 +218,7 @@ const contentValidator = async(content) => {
 
 const againstValidator = async(against) => {
     if(!against) throw {statusCode: 400, error: "This field cannot be empty"};
-    if(typeof(against)!=="string") throw {statusCode: 400, error: "This field should be a string"};
-    if(against!=="user" || against!=="event" || against!=="comment") throw {statusCode: 400, error: "Complaint report should be against user, event or comment"};
-
+    if(typeof against !=="string") throw {statusCode: 400, error: "This field should be a string"};
 }
 
 const complaintValidator = async(complaint) => {
@@ -275,10 +273,6 @@ const genderValidator = async(gender) => {
 
     if (gender.length === 0 || gender.trim().length === 0) {
         throw 'Error: Gender cannot be an empty string or just spaces';
-    }
-
-    if (gender !== "Male" && gender !== "Female" && gender !== "Transgender" && gender !== "NoNBinary") {
-        throw 'Error: Gender must be either Male, Female ,Transgender or Binary...Anything else will not accepted';
     }
 
 };

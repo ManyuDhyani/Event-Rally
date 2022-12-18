@@ -174,7 +174,6 @@
                     <figure>
                     <img src="\public\uploads\ProfilePictures/{{ profile.profilePicture }}" class="img-responsive" alt="{{user.username}}">
                     </figure>
-                    <!--<img src="public\uploads\profilePictures\profilePicture_1671265575023_Rajat.jpg" class="img-responsive" alt="{{user.username}}">-->
                     </div>
                 </div>
                 <!-- END SIDEBAR USERPIC -->
@@ -271,6 +270,11 @@
                             </div>
                         {{/if}}
                     </div>
+                </div>
+                <div>
+                    {{#neq userSessionData._id openedProfileID }}
+                        <h5>{{> reportUser userID=openedProfileID}}</h5>
+                    {{/neq}}
                 </div>
             </div>
         </div>

@@ -91,6 +91,11 @@
                         <input name= '_method' value="delete" hidden/>
                     </form>
                 {{/eq}}
+                <div>    
+                {{#neq ./user._id event.userId }}
+                    <h5>{{> reportEvent eventID=event._id}}</h5>
+                {{/neq}}
+                </div>
             </footer>
         {{/if}}
     </div>
@@ -123,6 +128,9 @@
                         <input name= '_method' value="delete" hidden/>
                     </form>
                 {{/eq}}
+                {{#neq ../user._id this.user_id }}
+                    <h5>{{> reportComment commentID=this._id}}</h5>
+                {{/neq}}
             </footer>
             {{/if}}
         </div>

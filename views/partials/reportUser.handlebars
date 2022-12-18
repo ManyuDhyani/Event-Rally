@@ -5,15 +5,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Report</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h5 class="modal-title">Report this User</h5>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <form action="/report" method="post" id="report-form">
+                            <form action="/reports/user" method="post">
                             <!--The following two hidden input field will change like for user its same but for event value will become "event" and event._id respectively-->
-                                <input type="hidden" id="custId" name="custId" value="user">
-                                <input type="hidden" id="custId" name="custId" value="{{user._id}}">
+                                <input type="hidden" id="against" name="against" value="user">
+                                <input type="hidden" id="againstId" name="againstId" value="{{userID}}">
                                 <label for="complaint">Complaint</label>
                                 <select name="complaint" id="complaint">
                                     <option value="Sexual content" name="complaint">Sexual content</option>
@@ -25,11 +24,11 @@
                                     <option value="Promotes terrorism" name="Promotes terrorism">Promotes terrorism</option>
                                     <option value="Spam or misleading" name="Spam or misleading">Spam or misleading</option>
                                     <option value="Infringes my rights" name="complaint">Infringes my rights</option>
-                                    <option value="Title issue" name="complaint">Title issue</option>
+                                    <option value="Fake Profile" name="complaint">Fake Profile</option>
                                     <br>
                                     <br><br>
                                 </select>
-                                <button type="submit">Submit Report</button>
+                                <button class="btn btn-danger" type="submit">Report</button>
                             </form>
                         </div>
                     </div>

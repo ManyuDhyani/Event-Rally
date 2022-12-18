@@ -39,14 +39,18 @@ router
     .get(async(req, res) => {
 
         try {
-            res.render("profileDetails", { title: "User Detail" });
+            res.render("profileDetails", { title: "User Detail" , is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
         } catch (e) {
-            console.log("error profiledetails");
+            if (e.statusCode) {
+                res.status(e.statusCode).render("error", {title: "Error", error404: true, is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
+              } else {
+                res.status(500).json("Internal Server Error");
+              }
         }
     })
     .post(upload, async(req, res) => {
         let profileData = req.body;
-        //console.log("Request Body", profileData);
+        
         let {
             firstName,
             lastName,
@@ -80,7 +84,7 @@ router
                 pincode,
                 bio
             );
-            //console.log(req.file);
+            
             if (profileStatus.insertedProfile === true) {
                 res.redirect(`/${req.session.login.loggedUser._id}`);
             }
