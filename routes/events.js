@@ -89,6 +89,26 @@ router
     }
   });
 
+
+  router
+  .route('/latest')
+  .get(async (req, res) => {
+    // render landing page
+    try {
+      let eventList = await eventData.getLatestEvent();
+      if (req.session.login){
+        return res.render("partials/latest", {title: "Latest Events", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin, events: eventList});
+      }
+      return res.render("partials/latest", {title: "Latest Events", events: eventList});
+    } catch (e) {
+      if (e.statusCode) {
+        res.status(e.statusCode).render("error", {title: "Error", error404: true, error: e.error});
+      } else {
+        res.status(500).json("Internal Server Error");
+      }
+    }
+  });
+
 router
   .delete('/delete', async (req, res) => {
       try {
@@ -126,9 +146,12 @@ router
         let getEventParentComments = await commentsData.getAllEventParentComments(eventID);
         // Fetch attending count and check if current user is attending the event
         let AttendingData = await eventData.getAttendees(eventID);
+        // Fetch the event Attendees Gender Distribution
+        let AttendingGenders = await eventData.getEventAttendersCounts(eventID);
         // Fetch followers for the event and check if current user is following the event or not
         let followersData = await eventData.getEventFollowers(eventID);
-
+        // Fetch the event followers Gender Distribution
+        let FollowersGenders = await eventData.getEventFollowersCounts(eventID);
         // Check user is attending or following or not only when user is logged in
         let loggedUserAttending = false, loggedUserfollowing = false;
         if (req.session.login){
@@ -154,8 +177,11 @@ router
             parentComments: getEventParentComments,
             attending: AttendingData,
             isAttending: loggedUserAttending,
+            attendingGender: AttendingGenders,
             followers: followersData,
+            followersGender: FollowersGenders,
             isFollowing: loggedUserfollowing,
+            tags: eventFetched.tags
           });
         }
         return res.render("events/event", {
@@ -166,7 +192,9 @@ router
           parentComments: getEventParentComments,
           attending: AttendingData,
           isAttending: loggedUserAttending,
+          attendingGender: AttendingGenders,
           followers: followersData,
+          followersGender: FollowersGenders,
           isFollowing: loggedUserfollowing,
         });
     } catch (e) {
@@ -291,8 +319,47 @@ router
 router
   .route('/update/:id')
   .get(async (req, res) => {
-      await validationFunctions.idValidator(req.params._id);
-      console.log("in update/id route");
+      await validationFunctions.idValidator(req.params.id);
+      let event_id = req.params.id;
+      let eventInfo = await eventData.getEventInfo(event_id);
+      return res.render("events/updateEvent",eventInfo);
+  })
+  .post(upload, async (req,res) => {
+    try{
+      let event_id = req.params.id;
+      let userId = req.session.login.loggedUser._id;
+      let title = req.body.title;
+      let overview = req.body.overview;
+      let content = req.body.content;
+      let category = req.body.category;
+      let thumbnail_1 = req.body.thumbnail_1;
+      let thumbnail_2 = req.body.thumbnail_2;
+      let thumbnail_3 = req.body.thumbnail_3;
+      let thumbnail_4 = req.body.thumbnail_4;
+      let tags = req.body.tags;
+      let location = req.body.location;
+      let price = req.body.price;
+
+
+      await eventData.updateEvent(event_id,userId,title,overview,content,category,req.file.filename,thumbnail_2,thumbnail_3,thumbnail_4,req.body.tags,location,price);
+      res.redirect('/events/'+event_id);
+      }catch(e)
+      {
+        if (e.statusCode) {
+          res.status(e.statusCode).render("error", {title: "Error", error404: true});
+        } else {
+          res.status(500).json("Internal Server Error");
+        }
+      }
+
+  })
+
+router
+  .route('/tags/:tag')
+  .get(async(req,res) => {
+    const tag = req.params.tag;
+    let eventByTag = await eventData.getEventsByTag(tag);
+    return res.render("events/eventsByTag", {title: "Events", events:eventByTag});
   })
 
 module.exports = router; 

@@ -30,7 +30,7 @@ const createUser = async(username, email, age, password) => {
     let active = true;
     let admin = false;
     let verified = false;
-    let timestamp_joined = new Date().toUTCString();
+    let timestamp_joined = new Date();
 
     let encryptedPassword = await bcrypt.hash(password, saltRounds);
 

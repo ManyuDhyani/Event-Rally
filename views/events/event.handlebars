@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" integrity="sha256-XF29CBwU1MWLaGEnsELogU6Y6rcc5nCkhhx89nFMIDQ=" crossorigin="anonymous"></script>
 <div class="container">
     <div class = "card-wrapper">
         <div class = "card">
@@ -37,7 +38,7 @@
             <!-- card right -->
             <div class = "event-content">
                 <h2 class = "event-title" style="margin-top: 2rem;">{{event.title}}</h2>
-                <a href = "#" class = "event-link" style="background: #5fc7f4;"><strong>{{event.category}}</strong></a>
+                <a href = "" class = "event-link" style="background: #5fc7f4;"><strong>{{event.category}}</strong></a>
     
                 <div class = "event-price">
                     <p class = "price">Price: <span><i class = "fa fa-dollar" style="color: rgb(13, 13, 13);"></i> {{event.price}}</span></p>
@@ -80,6 +81,11 @@
             <h3 style="margin-top: 2rem;">About {{ event.title }}</h3>
             {{event.content}}
         </div>
+        {{#each event.tags as |item|}}
+                <div class="container-tags">
+                <a href="/events/tags/{{item}}">#{{item}}</a>
+                </div>
+        {{/each}}
         <!--Event Options: Update & Delete-->
         {{#if is_authenticated}}
         <br>
@@ -90,10 +96,142 @@
                         <button class="btn btn-primary" type="submit">Delete this Event</button>
                         <input name= '_method' value="delete" hidden/>
                     </form>
+                    <br>
+                    <div>
+                        <a class="btn btn-primary" href="/events/update/{{event._id}}">Update this event</a>
+                    </div> 
                 {{/eq}}
+                <div>    
+                {{#neq ./user._id event.userId }}
+                    <h5>{{> reportEvent eventID=event._id}}</h5>
+                {{/neq}}
+                </div>
             </footer>
         {{/if}}
     </div>
+        
+    <!--Statistic-->
+    <header>
+        <h3>Statistics</h3>
+    </header>
+    <!--load comments and then comment form-->
+                  <div class="row">
+                        <!--Graph: Attendee vs Followers-->
+                        <div class="col-3" style="background-color: rgb(23, 22, 22);">
+                            <div class="font-weight-bold text-uppercase">
+                                <h5 style="color:white;">Graph: Attendee v/s Followers</h5>
+                            </div>
+                            <div class=""><canvas id="chartjs-1" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <script>
+                                    new Chart(document.getElementById("chartjs-1"), {
+                                        "type": "doughnut",
+                                        "data": {
+                                            "labels": ["Attendee", "Followers"],
+                                            "datasets": [{
+                                                "label": "Attendee v/s Followers",
+                                                "data": [{{attending.attendeeCount}}, {{followers.followersCount}}],
+                                                "backgroundColor": ["rgb(255, 99, 132)", "rgb(54, 162, 235)"]
+                                            }]
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!--/Graph Card-->
+                        <!--Graph: Attendee Gender Distribution-->
+                        <div class="col-3" style="background-color: rgb(29, 23, 23);">
+                            <div class="font-weight-bold text-uppercase">
+                                <h5 style="color:white;">Graph: Attendee Gender Distribution</h5>
+                            </div>
+                            <div class="p-5">
+                                <canvas id="chartjs-2" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <script>
+                                    new Chart(document.getElementById("chartjs-2"), {
+                                        "type": "bar",
+                                        "data": {
+                                            "labels": ["Male", "Female", "Transgender", "Non Binary", "Unknown"],
+                                            "datasets": [{
+                                                "label": "Attendee Gender Distribution",
+                                                "data": [{{attendingGender.male_attenders}}, {{attendingGender.female_attenders}}, {{attendingGender.trans_attenders}}, {{attendingGender.nonbinary_attenders}}, {{attendingGender.unknown_attenders}}],
+                                                "fill": false,
+                                                "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)"],
+                                                "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)"],
+                                                "borderWidth": 1
+                                            }]
+                                        },
+                                        "options": {
+                                            "scales": {
+                                                "yAxes": [{
+                                                    "ticks": {
+                                                        "beginAtZero": true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!--/Graph Card-->
+                        <!--Graph: Followers Gender Distribution-->
+                        <div class="col-3" style="background-color: rgb(29, 23, 23);">
+                            <div class="font-weight-bold text-uppercase">
+                                <h5 style="color:white;">Graph: Following Gender Distribution</h5>
+                            </div>
+                            <div class="p-5">
+                                <canvas id="chartjs-3" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <script>
+                                    new Chart(document.getElementById("chartjs-3"), {
+                                        "type": "bar",
+                                        "data": {
+                                            "labels": ["Male", "Female", "Transgender", "Non Binary", "Unknown"],
+                                            "datasets": [{
+                                                "label": "Following Gender Distribution",
+                                                "data": [{{followersGender.male_followers}}, {{followersGender.female_followers}},{{followersGender.trans_followers}}, {{followersGender.nonbinary_followers}}, {{followersGender.unknown_followers}}],
+                                                "fill": false,
+                                                "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)"],
+                                                "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)"],
+                                                "borderWidth": 1
+                                            }]
+                                        },
+                                        "options": {
+                                            "scales": {
+                                                "yAxes": [{
+                                                    "ticks": {
+                                                        "beginAtZero": true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!--/Graph Card-->
+                        <!--Graph: Likes vs Dislikes on the event-->
+                        <div class="col-3" style="background-color: rgb(29, 23, 23);">
+                            <div class="font-weight-bold text-uppercase">
+                                <h5 style="color:white;">Graph: Likes v/s Dislikes</h5>
+                            </div>
+                            <div class=""><canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <script>
+                                    new Chart(document.getElementById("chartjs-4"), {
+                                        "type": "doughnut",
+                                        "data": {
+                                            "labels": ["Likes", "Dislikes"],
+                                            "datasets": [{
+                                                "label": "Likes v/s Dislikes",
+                                                "data": [ {{countlikesDislikes.like}}, {{countlikesDislikes.dislike}}],
+                                                "backgroundColor": ["rgb(54, 162, 235)", "rgb(255, 205, 86)"]
+                                            }]
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!--/Graph Card-->
+
+
     <!--Comments-->
     <header>
         <h3>Comments</h3>
@@ -123,6 +261,9 @@
                         <input name= '_method' value="delete" hidden/>
                     </form>
                 {{/eq}}
+                {{#neq ../user._id this.user_id }}
+                    <h5>{{> reportComment commentID=this._id}}</h5>
+                {{/neq}}
             </footer>
             {{/if}}
         </div>

@@ -2,9 +2,9 @@ const mongoCollections = require('../config/mongoCollections');
 const validationFunctions = require('./validation');
 const event = mongoCollections.event;
 const { ObjectId } = require('mongodb');
+const { events } = require('.');
 const profileData = require('./profile');
 const likesData = require('./likes');
-
 
 
 //function to create an event
@@ -31,7 +31,7 @@ const createEvent = async (userId,title,overview,content, category, thumbnail_1,
         likes:[],
         following:[],
         attending:[],
-        created:new Date().toUTCString()
+        created:new Date()
     }
 
     //inserting newly created event object
@@ -68,29 +68,6 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         throw {statusCode: 404, error: "Event to be updated does not exsist"};
     }
 
-    //Check if the exsisting obj and the new fileds to be updated does not have any change or not
-    if(beforeUpdate.userId===userId || beforeUpdate.title===title || beforeUpdate.overview===overview || beforeUpdate.content===content || beforeUpdate.category===category || beforeUpdate.thumbnail_1===thumbnail_1 || beforeUpdate.thumbnail_2===thumbnail_2|| beforeUpdate.thumbnail_3===thumbnail_3|| beforeUpdate.thumbnail_4===thumbnail_4|| beforeUpdate.location===location|| beforeUpdate.price===price)
-    {
-        throw {statusCode: 404, error: "No different value to be updated"};
-    }
-
-    //Function to compare if 2 arrays are same or not
-    const compareArrays = (a, b) =>{
-        if(a.length === b.length && a.every((element, index) => element === b[index]))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    if(compareArrays(beforeUpdate.tags,tags_arr)===true)
-    {
-        throw {statusCode: 404, error: "No different value to be updated"};
-    }
-  
     //creating a new object with updated values
     let updatedObj = {
         userId: ObjectId(userId),
@@ -105,8 +82,9 @@ const updateEvent = async (eventId,userId,title,overview,content, category, thum
         tags:tags_arr,
         location:location,
         price:price,
-        following:[],
-        attending:[]
+        likes:beforeUpdate.likes,
+        following:beforeUpdate.following,
+        attending:beforeUpdate.attending
     }
 
     const updateInfo = await eventCollections.updateOne({_id: ObjectId(eventId)},{$set: updatedObj});
@@ -254,6 +232,7 @@ const getEventFollowersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let follow_arr = eventFetched.following;
+
     let male_followers = 0;
     let female_followers = 0;
     let trans_followers = 0;
@@ -268,7 +247,11 @@ const getEventFollowersCounts = async (eventId) =>{
     for(let i =0;i<follow_arr.length;i++)
     {
         let user = await profileData.getProfileById(follow_arr[i].toString());
-        if(user.gender==="Male")
+        if (!user)
+        {
+            unknown_followers++;
+        }
+        else if(user.gender==="Male")
         {
             male_followers++;
         }
@@ -284,7 +267,7 @@ const getEventFollowersCounts = async (eventId) =>{
         {
             nonbinary_followers++;
         }
-        else if(user.gender==="Unknown")
+        else if(!user || !user.gender || user.gender==="Unknown" || user.gender===null)
         {
             unknown_followers++;
         }
@@ -303,6 +286,7 @@ const getEventAttendersCounts = async (eventId) =>{
         throw {statusCode: 404, error: "Event does not exsist"};
     }
     let attend_arr = eventFetched.attending;
+
     let male_attenders = 0;
     let female_attenders = 0;
     let trans_attenders = 0;
@@ -317,7 +301,11 @@ const getEventAttendersCounts = async (eventId) =>{
     for(let i =0;i<attend_arr.length;i++)
     {
         let user = await profileData.getProfileById(attend_arr[i].toString());
-        if(user.gender==="Male")
+        if (!user)
+        {
+            unknown_attenders++;
+        }
+        else if(user.gender==="Male")
         {
             male_attenders++;
         }
@@ -403,6 +391,7 @@ const deleteEvent = async (eventId) => {
     return {isDeleted: true};
 };
 
+
 //function to get sorted events based on  maximum likes
 const getEventwithMaxLikes = async () =>{
    let allEvents = await getAllEvent();
@@ -427,6 +416,31 @@ const getEventwithMaxLikes = async () =>{
     //getting top 4 events from bottom of this array
     
    console.log(sortable);
+
+const getEventsByTag = async (tag) => {
+    tag = tag.trim();
+    const eventCollections = await event();
+    let allEventsList = await eventCollections.find({}).toArray();
+    let neededEvents = [];
+    let index = 0;
+    
+    for(let i = 0 ; i < allEventsList.length; i++){
+        if(allEventsList[i].tags.includes(tag)){
+            neededEvents[index] = allEventsList[i];
+            index= index+1;
+        }
+    }
+    return (neededEvents);
+}
+
+const getLatestEvent = async () => {
+    const eventCollections = await event();
+    let allLatestEventsList = await eventCollections.find({}).sort({created: -1}).toArray();
+    if (allLatestEventsList.length === 0){
+        return {noEvents: true}
+    }
+    return allLatestEventsList;
+
 }
 
 module.exports = {
@@ -444,7 +458,9 @@ module.exports = {
     removeEventAttender,
     checkEventAttender,
     deleteEvent,
+    getEventsByTag,
     getEventFollowersCounts,
     getEventAttendersCounts,
-    getEventwithMaxLikes
+    getEventwithMaxLikes,
+    getLatestEvent
 };

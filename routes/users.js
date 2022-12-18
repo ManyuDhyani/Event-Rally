@@ -12,10 +12,19 @@ router
   .get(async (req, res) => {
     // render landing page
     try {
+      let latest = await eventsData.getLatestEvent();
+      // We need latest 4 on landing page
+      latest = latest.slice(0,4)
       if (req.session.login){
-        return res.render("index", {title: "Event Rally", is_authenticated: req.session.login.authenticatedUser, username: req.session.username, user: req.session.login.loggedUser, is_admin: req.session.login.loggedUser.admin});
+        return res.render("index", {title: "Event Rally", 
+        is_authenticated: req.session.login.authenticatedUser, 
+        username: req.session.username, 
+        user: req.session.login.loggedUser, 
+        is_admin: req.session.login.loggedUser.admin,
+        latests: latest
+      });
       }
-      return res.render("index", {title: "Event Rally"});
+      return res.render("index", {title: "Event Rally", latests: latest});
 
     } catch (e) {
       if (e.statusCode) {
@@ -102,33 +111,37 @@ router
   .get(async (req, res) => {
     //code here for GET
     try {
-      userID = req.params.id
-      await validationFunctions.idValidator(req.params.id)
-      userID = userID.trim();
-
-      // Get profile data of the user
-      let profileDetails = await profileData.getProfileById(userID);
-      // Get followers count of the user, like how many are following him
-      let getUsersFollowers = await followersData.getAllFollowers(userID);
-      // Get all the event published by the user
-      let getUsersEvent = await eventsData.getUsersEvents(userID);
-      // Get user data except password
-      let userDetails = await usersData.getUsersData(userID);
-      let {eventCount, events} = getUsersEvent;
-      
-      res.render("profile", {
-          title: userDetails.username,
-          openedProfileID: userID,
-          is_authenticated: req.session.login.authenticatedUser, 
-          username: req.session.username, 
-          userSessionData: req.session.login.loggedUser,
-          is_admin: req.session.login.loggedUser.admin,
-          profile: profileDetails,
-          followersCount: getUsersFollowers,
-          eventCount: eventCount,
-          events: events,
-          user: userDetails
-        });
+      if (req.session.login){
+        userID = req.params.id
+        await validationFunctions.idValidator(req.params.id)
+        userID = userID.trim();
+  
+        // Get profile data of the user
+        let profileDetails = await profileData.getProfileById(userID);
+        // Get followers count of the user, like how many are following him
+        let getUsersFollowers = await followersData.getAllFollowers(userID);
+        // Get all the event published by the user
+        let getUsersEvent = await eventsData.getUsersEvents(userID);
+        // Get user data except password
+        let userDetails = await usersData.getUsersData(userID);
+        let {eventCount, events} = getUsersEvent;
+        
+        res.render("profile", {
+            title: userDetails.username,
+            openedProfileID: userID,
+            is_authenticated: req.session.login.authenticatedUser, 
+            username: req.session.username, 
+            userSessionData: req.session.login.loggedUser,
+            is_admin: req.session.login.loggedUser.admin,
+            profile: profileDetails,
+            followersCount: getUsersFollowers,
+            eventCount: eventCount,
+            events: events,
+            user: userDetails
+          });
+      } else {
+        return res.redirect('/login')
+      }
     } catch (e) {
       if (e.statusCode) {
         res.status(e.statusCode).render("error", {title: "Error", error404: true});

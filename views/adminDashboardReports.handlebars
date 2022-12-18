@@ -1,0 +1,62 @@
+<section class="ftco-section">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-md-6 text-center mb-5">
+    {{#if actionCompletedTrue }}
+        <p class="alert alert-success">The user value is updated</p>
+    {{/if}}
+    {{#if noReportsData}}
+        <p class="alert alert-warning">No reports to show</p>
+    {{/if}}
+    {{#if actionCompletedFalse }}
+        <p class="alert alert-danger">Something went wrong</p>
+    {{/if}}
+</div>
+</div>
+{{#ne noReportsData }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-wrap">
+                <table class="table table-responsive-xl">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>Report ID</th>
+                        <th>Against Type</th>
+                        <th>Against ID</th>
+                        <th>Complaint</th>
+                        <th>TimeStamp</th>
+                        <th>User ID who Reported</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                    {{#each reports}}
+                    <tbody>
+                        <tr class="alert" role="alert">
+                            <form action="/admin/allreports" method="post">
+                                <td>
+                                <input type="hidden" id="userID" name="userID" value="{{this._id}}">
+                                <td><button class="btn btn-primary" type="submit">Delete {{this.against}}</button></td>
+                                <input name= '_method' value="delete" hidden/>
+                            </form>
+                        <div>
+                            <td class="d-flex align-items-center">
+                            {{this._id}}
+                        </div>
+                        </td>
+                            <td>{{this.against}}</td>
+                            <td class="status">{{this.against_id}}</span></td>
+                            <td>{{this.complaint}}</td>
+                            <td>{{this.timestamp}}</td>
+                            <td>{{this.user_id}}</td>
+                        </tr>
+                    </tbody>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+{{/ne}}
+</div>
+</section>
