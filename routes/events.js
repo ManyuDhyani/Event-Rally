@@ -319,6 +319,11 @@ router
       await validationFunctions.idValidator(req.params.id);
       let event_id = req.params.id;
       let eventInfo = await eventData.getEventInfo(event_id);
+      const arr = eventInfo.tags;
+        for(let i = 0 ; i < arr.length ; i++){
+          arr[i] = "#"+arr[i];
+        }
+        eventInfo.tags = arr;
       return res.render("events/updateEvent",eventInfo);
   })
   .post(uploadMultiple, async (req,res) => {
