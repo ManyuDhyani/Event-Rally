@@ -30,11 +30,11 @@
             </div>
             <div class="form-group">
                 <label for="tags">Tags:</label>
-                <input type="text" name="tags" id="tags" class="form-control" value="#{{tags}}" placeholder="Enter tags separated with commas"><br>
+                <input type="text" name="tags" id="tags" class="form-control" value="{{tags}}" placeholder="Enter tags separated with commas"><br>
             </div>
             <div class="form-group">
                 <label for="location">Location:</label>
-                <input type="text" name="location" id="location" class="form-control" value="{{location}}" placeholder="Enter Event's Location"><br>
+                <input type="text" name="location" id="location" class="form-control" value="{{this.location}}" placeholder="Enter Event's Location"><br>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
@@ -43,6 +43,18 @@
             <div class="form-group">
                 <label for="thumbnail_1">Choose Thumbnail:</label>
                 <input type="file" name="thumbnail_1" value="{{thumbnail_1}}" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail_1">Choose Thumbnail:</label>
+                <input type="file" name="thumbnail_2" value="{{thumbnail_2}}" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail_1">Choose Thumbnail:</label>
+                <input type="file" name="thumbnail_3" value="{{thumbnail_3}}" class="form-control" required><br>
+            </div>
+            <div class="form-group">
+                <label for="thumbnail_1">Choose Thumbnail:</label>
+                <input type="file" name="thumbnail_4" value="{{thumbnail_4}}" class="form-control" required><br>
             </div>
             {{#if error}}
                 <div class="errorDiv">

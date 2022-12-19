@@ -360,14 +360,14 @@ const getUsersEvents = async (userID) =>{
     const eventCollections = await event();
     const getEventInfo = await eventCollections.find({userId: ObjectId(userID)}, {projection: {title: 1, overview: 1, category: 1, thumbnail_1: 1, location: 1, price: 1, created: 1}}).sort({created: -1}).toArray();
     return {eventCount: getEventInfo.length, events: getEventInfo};
-};
+}
 
 // Get all events
 const getAllEvent = async () =>{
     const eventCollections = await event();
     let allEventsList = await eventCollections.find({}).toArray();
     return allEventsList;
-};
+}
 
 
 // Delete a particular Event
@@ -389,7 +389,7 @@ const deleteEvent = async (eventId) => {
     }
 
     return {isDeleted: true};
-};
+}
 
 
 //function to get sorted events based on  maximum likes
@@ -416,6 +416,7 @@ const getEventwithMaxLikes = async () =>{
     //getting top 4 events from bottom of this array
     
    console.log(sortable);
+}
 
 const getEventsByTag = async (tag) => {
     tag = tag.trim();
