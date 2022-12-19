@@ -6,31 +6,31 @@
             <div class = "event-imgs">
                 <div class = "img-display">
                 <div class = "img-showcase">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_1 }}" alt = "{{ event.title }}">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_2 }}" alt = "{{ event.title }}">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_3 }}" alt = "{{ event.title }}">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_1 }}" alt = "{{ event.title }}">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_2 }}" alt = "{{ event.title }}">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_3 }}" alt = "{{ event.title }}">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}">
                 </div>
                 </div>
                 <div class = "img-select">
                 <div class = "img-item">
                     <a href = "#" data-id = "1">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_1 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_1 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "2">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_2 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_2 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "3">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_3 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_3 }}" alt = "{{event.title}}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 <div class = "img-item">
                     <a href = "#" data-id = "4">
-                    <img src = "\public\uploads\events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}" style="width:100%;height:auto;">
+                    <img src = "/public/uploads/events/{{ event.thumbnail_4 }}" alt = "{{ event.title }}" style="width:100%;height:auto;">
                     </a>
                 </div>
                 </div>
@@ -92,7 +92,7 @@
             <footer>
                 {{#eq ./user._id event.userId}}
                     <form action="/events/delete" method="post">
-                        <input type="hidden" id="eventID" name="eventID" value="{{event._id}}">
+                        <input type="hidden" id="eventID1" name="eventID" value="{{event._id}}">
                         <button class="btn btn-primary" type="submit">Delete this Event</button>
                         <input name= '_method' value="delete" hidden/>
                     </form>
@@ -127,7 +127,7 @@
                             <div class="font-weight-bold text-uppercase">
                                 <h5 style="color:white;">Graph: Attendee v/s Followers</h5>
                             </div>
-                            <div class=""><canvas id="chartjs-1" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <div class=""><canvas id="chartjs-1" class="chartjs" style="width:auto;height:auto;"></canvas>
                                 <script>
                                     new Chart(document.getElementById("chartjs-1"), {
                                         "type": "doughnut",
@@ -150,7 +150,7 @@
                                 <h5 style="color:white;">Graph: Attendee Gender Distribution</h5>
                             </div>
                             <div class="p-5">
-                                <canvas id="chartjs-2" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <canvas id="chartjs-2" class="chartjs" style="width:auto;height:auto;"></canvas>
                                 <script>
                                     new Chart(document.getElementById("chartjs-2"), {
                                         "type": "bar",
@@ -185,7 +185,7 @@
                                 <h5 style="color:white;">Graph: Following Gender Distribution</h5>
                             </div>
                             <div class="p-5">
-                                <canvas id="chartjs-3" class="chartjs" width="undefined" height="undefined"></canvas>
+                                <canvas id="chartjs-3" class="chartjs" style="width:auto;height:auto;"></canvas>
                                 <script>
                                     new Chart(document.getElementById("chartjs-3"), {
                                         "type": "bar",
@@ -219,7 +219,7 @@
                             <div class="font-weight-bold text-uppercase">
                                 <h5 style="color:white;">Graph: Likes v/s Dislikes</h5>
                             </div>
-                            <div class=""><canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <div class=""><canvas id="chartjs-4" class="chartjs" style="width:auto;height:auto;"></canvas>
                                 <script>
                                     new Chart(document.getElementById("chartjs-4"), {
                                         "type": "doughnut",
@@ -281,7 +281,7 @@
             <h3>Leave a Comment</h3>
         </header>
         <form action="/comments/create" method="post">
-            <input type="hidden" id="eventID" name="eventID" value="{{event._id}}">
+            <input type="hidden" id="eventIDf" name="eventID" value="{{event._id}}">
             <div class="form-group col-md-6">
                 <textarea name="content" cols="40" rows="4" class="form-control" placeholder="Type your comment...." id="parentComment" required></textarea>
             </div>
@@ -297,6 +297,8 @@
     <p id="hidden_user_id" hidden>{{user._id}}</p>
     <p id="hidden_event_id" hidden>{{event._id}}</p>
 </div>
+</div>
+
 <script src="../../public/js/eventInteraction.js"></script>
 <script>
     //call geocode function for setting lat and long for marker on maps
