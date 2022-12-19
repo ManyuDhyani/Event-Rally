@@ -172,7 +172,12 @@
                     <div class="avatar-wrapper-pp">
                     <div class="profile-userpic">
                     <figure>
-                    <img src="\public\uploads\ProfilePictures/{{ profile.profilePicture }}" class="img-responsive" alt="{{user.username}}">
+                    {{#if profile.profilePicture}}
+                    <img src="/public/uploads/ProfilePictures/{{ profile.profilePicture }}" class="img-responsive" alt="{{user.username}}">
+                    {{/if}}
+                    {{#ne profile.profilePicture}}
+                    <img src="https://180dc.org/wp-content/uploads/2016/08/default-profile.png" class="img-responsive" alt="{{user.username}}">
+                    {{/ne}}
                     </figure>
                     </div>
                 </div>
@@ -290,7 +295,7 @@
                                 <!-- post -->
                                 {{#each events }}
                                     <div class="col-xl-6">
-                                        <div class="post-thumbnail"><a href="/events/{{this._id}}"><img src="\public\uploads\events/{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
+                                        <div class="post-thumbnail"><a href="/events/{{this._id}}"><img src="/public/uploads/events/{{ this.thumbnail_1 }}" alt="{{this.title}}" class="img-fluid"></a></div>
                                         <div class="post-details">
                                         <div class="post-meta d-flex justify-content-between">
                                             <div class="text-muted">Published On: <small>{{ this.created }}</small></div>
