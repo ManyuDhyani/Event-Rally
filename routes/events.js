@@ -3,7 +3,8 @@ const router = express.Router();
 const data = require('../data');
 const eventData = data.events;
 const likesData = data.likes;
-const commentsData = data.comments
+const commentsData = data.comments;
+const searchData = data.search;
 const validationFunctions = data.validationFunctions
 const xss = require('xss');
 const multer = require('multer');
@@ -154,6 +155,8 @@ router
         let FollowersGenders = await eventData.getEventFollowersCounts(eventID);
         // Check user is attending or following or not only when user is logged in
         let loggedUserAttending = false, loggedUserfollowing = false;
+        // Get other events data of the similar data
+        let same_category_events = await searchData.searchEventByCategory(eventFetched.category);
         if (req.session.login){
           AttendingData.attendingList.forEach(attendingID => {
             if (req.session.login.loggedUser._id === attendingID){
@@ -181,7 +184,8 @@ router
             followers: followersData,
             followersGender: FollowersGenders,
             isFollowing: loggedUserfollowing,
-            tags: eventFetched.tags
+            tags: eventFetched.tags,
+            category_events:same_category_events
           });
         }
         return res.render("events/event", {
@@ -196,6 +200,7 @@ router
           followers: followersData,
           followersGender: FollowersGenders,
           isFollowing: loggedUserfollowing,
+          category_events:same_category_events
         });
     } catch (e) {
       if (e.statusCode) {
