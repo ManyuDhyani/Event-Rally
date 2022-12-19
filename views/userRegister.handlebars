@@ -80,6 +80,16 @@
                 age.setCustomValidity("");
             }
         });
+
+        password.addEventListener("input", (event) => {
+            if (/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password.value) === false) {
+                password.setCustomValidity("Password must contain a single digit from 1 to 9, one lowercase letter, one uppercase letter, one special character and must be 8-16 characters long.");
+                password.reportValidity();
+            } else {
+                password.setCustomValidity("");
+            }
+        });
+
         function passwordOnBlur(x){
             document.getElementById("message").style.display = "none";
         }
