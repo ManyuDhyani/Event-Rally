@@ -52,7 +52,7 @@ router
     let username = xss(req.body.username);
     let email = xss(req.body.email);
     let age = xss(req.body.age);
-    let password = xss(req.body.username);
+    let password = xss(req.body.password);
     
     try {
       await validationFunctions.usernameValidator(username);

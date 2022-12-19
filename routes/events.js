@@ -208,17 +208,16 @@ router
     }
   }).post(async(req,res) =>{
     try{
-      let userId = xss(req.body.userId);
-      let eventId = xss(req.body.eventId);
-      let removefollower = xss(req.body.removefollower);
-      let firstcall = xss(req.body.firstcall);
-      let removeattender = xss(req.body.removeattender);
-      let likes_dislikes = xss(req.body.likes_dislikes);
-      let interaction = xss(req.body.interaction);
+      let userId = req.body.userId;
+      let eventId = req.body.eventId;
+      let removefollower = req.body.removefollower;
+      let firstcall = req.body.firstcall;
+      let removeattender = req.body.removeattender;
+      let likes_dislikes = req.body.likes_dislikes;
+      let interaction = req.body.interaction;
 
       await validationFunctions.idValidator(userId);
       await validationFunctions.idValidator(eventId);
-
 
       if(interaction === "following" ){
       if(firstcall===true)
