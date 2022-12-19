@@ -84,8 +84,8 @@ router
   })
   .post(async (req, res) => {
     //code here for POST
-    let username = xss(req.body);
-    let password = xss(req.body);
+    let username = xss(req.body.login);
+    let password = xss(req.body.password);
     try {
       await validationFunctions.usernameValidator(username);
       await validationFunctions.passwordValidator(password);
