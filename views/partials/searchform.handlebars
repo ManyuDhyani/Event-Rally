@@ -1,10 +1,10 @@
-<form action="/search/events" method="POST">
+<form class="main_page_search_form" action="/search/events" method="POST">
                     <label for="SearchTitle">Search Event</label>
                     <input type="text" id="SearchTitle" name="searchTitle" required>
-                    <button id ="button-id" class="btn btn-default" type="submit">Submit</button>
+                    <button id ="button-id" class="main_page_search_btn" type="submit">Submit</button>
 </form>
 <br>
-<form action="/search/category" method="POST">
+<form class = "main_page_search_form" action="/search/category" method="POST">
     <div class="form-group">
         <label class="my-1 mr-2" for="searchByCategory">Category:</label>
         <select name="category" style="outline:none !important; padding: 5px 10px" class="custom-select my-1 mr-sm-2" id="searchByCategory">
@@ -17,6 +17,6 @@
             <option value="Arts">Arts</option>
             <option value="House Parties">Home Party</option>
         </select>
-        <button id ="button-id" class="btn btn-default" type="submit">Submit</button>
+        <button id ="button-id" class="main_page_search_btn" type="submit">Submit</button>
     </div>
 </form>
