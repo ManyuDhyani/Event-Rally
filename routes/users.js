@@ -13,6 +13,7 @@ router
     // render landing page
     try {
       let latest = await eventsData.getLatestEvent();
+      let trending = await eventsData.getEventwithMaxLikes();
       // We need latest 4 on landing page
       latest = latest.slice(0,4)
       if (req.session.login){
@@ -21,10 +22,11 @@ router
         username: req.session.username, 
         user: req.session.login.loggedUser, 
         is_admin: req.session.login.loggedUser.admin,
-        latests: latest
+        latests: latest,
+        trendings:trending
       });
       }
-      return res.render("index", {title: "Event Rally", latests: latest});
+      return res.render("index", {title: "Event Rally", latests: latest, trendings:trending});
 
     } catch (e) {
       if (e.statusCode) {

@@ -268,9 +268,6 @@ router
       {
         let val =await likesData.getLikesDislikesByUserId(userId,eventId);
         let countObj = await likesData.getLikesDislikes(eventId);
-        console.log("here 1");
-        await eventData.getEventwithMaxLikes();
-        console.log("here 2");
         if (val ==="none")
         {
           return res.send({likestatus: 1,like_counts:countObj.like,dislike_counts:countObj.dislike});
@@ -324,7 +321,7 @@ router
       let eventInfo = await eventData.getEventInfo(event_id);
       return res.render("events/updateEvent",eventInfo);
   })
-  .post(upload, async (req,res) => {
+  .post(uploadMultiple, async (req,res) => {
     try{
       let event_id = req.params.id;
       let userId = req.session.login.loggedUser._id;
@@ -332,16 +329,16 @@ router
       let overview = req.body.overview;
       let content = req.body.content;
       let category = req.body.category;
-      let thumbnail_1 = req.body.thumbnail_1;
-      let thumbnail_2 = req.body.thumbnail_2;
-      let thumbnail_3 = req.body.thumbnail_3;
-      let thumbnail_4 = req.body.thumbnail_4;
+      let thumbnail_1 = req.files.thumbnail_1[0].filename;
+      let thumbnail_2 = req.files.thumbnail_2[0].filename;
+      let thumbnail_3 = req.files.thumbnail_3[0].filename;
+      let thumbnail_4 = req.files.thumbnail_4[0].filename;
       let tags = req.body.tags;
       let location = req.body.location;
       let price = req.body.price;
 
 
-      await eventData.updateEvent(event_id,userId,title,overview,content,category,req.file.filename,thumbnail_2,thumbnail_3,thumbnail_4,req.body.tags,location,price);
+      await eventData.updateEvent(event_id,userId,title,overview,content,category,thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4,req.body.tags,location,price);
       res.redirect('/events/'+event_id);
       }catch(e)
       {

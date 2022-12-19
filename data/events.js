@@ -414,8 +414,24 @@ const getEventwithMaxLikes = async () =>{
     });
 
     //getting top 4 events from bottom of this array
+    let trending =[];
+    count=0;
+    i=sortable.length-1;
+    while(i>=0)
+    {
+        if(count==5)
+        {
+            break;
+        }
+        let eventId = sortable[i][0];
+        let eventfetch = await getEventInfo(eventId);
+        trending.push(eventfetch);
+        i--;
+        count++;
+    }
     
-   console.log(sortable);
+   return trending;
+}
 
 const getEventsByTag = async (tag) => {
     tag = tag.trim();
