@@ -109,7 +109,13 @@
             </footer>
         {{/if}}
     </div>
-        
+        {{!-- Category Events--}}
+    <div>
+        <h4>Similar Events by Category:</h4>
+        {{#each category_events}}
+            <a href="/events/{{this._id}}">{{this.title}}</a>
+        {{/each}}
+    </div>
     <!--Statistic-->
     <header>
         <h3>Statistics</h3>

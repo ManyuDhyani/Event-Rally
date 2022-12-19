@@ -3,7 +3,8 @@ const router = express.Router();
 const data = require('../data');
 const eventData = data.events;
 const likesData = data.likes;
-const commentsData = data.comments
+const commentsData = data.comments;
+const searchData = data.search;
 const validationFunctions = data.validationFunctions
 const xss = require('xss');
 const multer = require('multer');
@@ -18,9 +19,6 @@ let storage = multer.diskStorage({
   },
 });
 
-// let upload = multer({
-//   storage: storage,
-// }).single('thumbnail_1');
 
 let upload = multer({storage:storage});
 let uploadMultiple = upload.fields([{name:"thumbnail_1",maxCount:10},{name:"thumbnail_2",maxCount:10},{name:"thumbnail_3",maxCount:10},{name:"thumbnail_4",maxCount:10}]);
@@ -52,8 +50,8 @@ router
   { 
     if (req.session.login){
       //console.log(req.body);
-      await validationFunctions.eventObjValidator(0,null,req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename, req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, req.body.tags, req.body.location, req.body.price);
-      const createEvent = await eventData.createEvent(req.session.login.loggedUser._id, req.body.title, req.body.overview, req.body.content, req.body.category, req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename,req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, req.body.tags, req.body.location, req.body.price);
+      await validationFunctions.eventObjValidator(0,null,req.session.login.loggedUser._id, xss(req.body.title), xss(req.body.overview), xss(req.body.content), xss(req.body.category), req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename, req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, xss(req.body.tags), xss(req.body.location), xss(req.body.price));
+      const createEvent = await eventData.createEvent(req.session.login.loggedUser._id, xss(req.body.title), xss(req.body.overview), xss(req.body.content), xss(req.body.category), req.files.thumbnail_1[0].filename, req.files.thumbnail_2[0].filename,req.files.thumbnail_3[0].filename, req.files.thumbnail_4[0].filename, xss(req.body.tags), xss(req.body.location), xss(req.body.price));
       
       res.redirect('/events/'+createEvent);
     }
@@ -154,6 +152,8 @@ router
         let FollowersGenders = await eventData.getEventFollowersCounts(eventID);
         // Check user is attending or following or not only when user is logged in
         let loggedUserAttending = false, loggedUserfollowing = false;
+        // Get other events data of the similar data
+        let same_category_events = await searchData.searchEventByCategory(eventFetched.category);
         if (req.session.login){
           AttendingData.attendingList.forEach(attendingID => {
             if (req.session.login.loggedUser._id === attendingID){
@@ -181,7 +181,8 @@ router
             followers: followersData,
             followersGender: FollowersGenders,
             isFollowing: loggedUserfollowing,
-            tags: eventFetched.tags
+            tags: eventFetched.tags,
+            category_events:same_category_events
           });
         }
         return res.render("events/event", {
@@ -196,6 +197,7 @@ router
           followers: followersData,
           followersGender: FollowersGenders,
           isFollowing: loggedUserfollowing,
+          category_events:same_category_events
         });
     } catch (e) {
       if (e.statusCode) {
@@ -206,13 +208,13 @@ router
     }
   }).post(async(req,res) =>{
     try{
-      let userId = req.body.userId;
-      let eventId = req.body.eventId;
-      let removefollower = req.body.removefollower;
-      let firstcall = req.body.firstcall;
-      let removeattender = req.body.removeattender;
-      let likes_dislikes = req.body.likes_dislikes;
-      let interaction = req.body.interaction;
+      let userId = xss(req.body.userId);
+      let eventId = xss(req.body.eventId);
+      let removefollower = xss(req.body.removefollower);
+      let firstcall = xss(req.body.firstcall);
+      let removeattender = xss(req.body.removeattender);
+      let likes_dislikes = xss(req.body.likes_dislikes);
+      let interaction = xss(req.body.interaction);
 
       await validationFunctions.idValidator(userId);
       await validationFunctions.idValidator(eventId);
@@ -330,20 +332,20 @@ router
     try{
       let event_id = req.params.id;
       let userId = req.session.login.loggedUser._id;
-      let title = req.body.title;
-      let overview = req.body.overview;
-      let content = req.body.content;
-      let category = req.body.category;
+      let title = xss(req.body.title);
+      let overview = xss(req.body.overview);
+      let content = xss(req.body.content);
+      let category = xss(req.body.category);
       let thumbnail_1 = req.files.thumbnail_1[0].filename;
       let thumbnail_2 = req.files.thumbnail_2[0].filename;
       let thumbnail_3 = req.files.thumbnail_3[0].filename;
       let thumbnail_4 = req.files.thumbnail_4[0].filename;
-      let tags = req.body.tags;
-      let location = req.body.location;
-      let price = req.body.price;
+      let tags = xss(req.body.tags);
+      let location = xss(req.body.location);
+      let price = xss(req.body.price);
 
 
-      await eventData.updateEvent(event_id,userId,title,overview,content,category,thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4,req.body.tags,location,price);
+      await eventData.updateEvent(event_id,userId,title,overview,content,category,thumbnail_1,thumbnail_2,thumbnail_3,thumbnail_4,tags,location,price);
       res.redirect('/events/'+event_id);
       }catch(e)
       {

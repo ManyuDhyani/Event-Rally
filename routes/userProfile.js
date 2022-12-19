@@ -5,6 +5,7 @@ const profilesData = data.profile;
 //const upload= require('../data/upload')
 const validationFunctions = data.validationFunctions
 const multer = require('multer');
+const xss = require('xss');
 
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -32,8 +33,6 @@ router
 
 
 
-
-
 router
     .route("/details")
     .get(async(req, res) => {
@@ -49,22 +48,19 @@ router
         }
     })
     .post(upload, async(req, res) => {
-        let profileData = req.body;
         
-        let {
-            firstName,
-            lastName,
-            gender,
-            websiteLink,
-            youtubeLink,
-            addressLine1,
-            addressLine2,
-            city,
-            state,
-            country,
-            pincode,
-            bio,
-        } = profileData;
+        firstName = xss(req.body.firstName),
+        lastName = xss(req.body.lastName),
+        gender = xss(req.body.gender),
+        websiteLink = xss(req.body.websiteLink),
+        youtubeLink = xss(req.body.youtubeLink),
+        addressLine1 = xss(req.body.addressLine1),
+        addressLine2 = xss(req.body.addressLine2),
+        city = xss(req.body.city),
+        state = xss(req.body.state),
+        country = xss(req.body.country),
+        pincode = xss(req.body.pincode),
+        bio = xss(req.body.bio)
 
         try {
 

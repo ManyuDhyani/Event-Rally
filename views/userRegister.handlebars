@@ -44,6 +44,52 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     
     <script>
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const age = document.getElementById("age");
+
+        username.addEventListener("input", (event) => {
+            if (/^[0-9a-zA-Z]+$/.test(username.value) === false)  {
+                username.setCustomValidity("Email must be a valid pattern");
+                username.reportValidity();
+            } else if (username.value.length < 4) {
+                username.setCustomValidity("Username should be at least 4 characters long");
+                username.reportValidity();
+            } else if (username.value.trim().length === 0) {
+                username.setCustomValidity("Username cannot be empty or just spaces");
+                username.reportValidity();
+            } else {
+                username.setCustomValidity("");
+            }
+        });
+
+        email.addEventListener("input", (event) => {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value) === false) {
+                email.setCustomValidity("Email must be valid");
+                email.reportValidity();
+            } else {
+                email.setCustomValidity("");
+            }
+        });
+
+        age.addEventListener("input", (event) => {
+            if (age.value < 13) {
+                age.setCustomValidity("Age must ge greater than or equal to 13");
+                age.reportValidity();
+            } else {
+                age.setCustomValidity("");
+            }
+        });
+
+        password.addEventListener("input", (event) => {
+            if (/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(password.value) === false) {
+                password.setCustomValidity("Password must contain a single digit from 1 to 9, one lowercase letter, one uppercase letter, one special character and must be 8-16 characters long.");
+                password.reportValidity();
+            } else {
+                password.setCustomValidity("");
+            }
+        });
+
         function passwordOnBlur(x){
             document.getElementById("message").style.display = "none";
         }

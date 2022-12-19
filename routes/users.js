@@ -6,6 +6,7 @@ const profileData = data.profile;
 const followersData = data.followers;
 const eventsData = data.events;
 const validationFunctions = data.validationFunctions
+const xss = require('xss');
 
 router
   .route('/')
@@ -48,8 +49,10 @@ router
   })
   .post(async (req, res) => {
     //code here for POST
-    let registerData = req.body;
-    let {username, email, age, password} = registerData;
+    let username = xss(req.body.username);
+    let email = xss(req.body.email);
+    let age = xss(req.body.age);
+    let password = xss(req.body.username);
     
     try {
       await validationFunctions.usernameValidator(username);
@@ -81,8 +84,8 @@ router
   })
   .post(async (req, res) => {
     //code here for POST
-    let loginData = req.body;
-    let {username, password} = loginData;
+    let username = xss(req.body);
+    let password = xss(req.body);
     try {
       await validationFunctions.usernameValidator(username);
       await validationFunctions.passwordValidator(password);
