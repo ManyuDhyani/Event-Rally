@@ -268,9 +268,6 @@ router
       {
         let val =await likesData.getLikesDislikesByUserId(userId,eventId);
         let countObj = await likesData.getLikesDislikes(eventId);
-        console.log("here 1");
-        await eventData.getEventwithMaxLikes();
-        console.log("here 2");
         if (val ==="none")
         {
           return res.send({likestatus: 1,like_counts:countObj.like,dislike_counts:countObj.dislike});
@@ -329,7 +326,7 @@ router
         eventInfo.tags = arr;
       return res.render("events/updateEvent",eventInfo);
   })
-  .post(uploadMultiple,async (req,res) => {
+  .post(uploadMultiple, async (req,res) => {
     try{
       let event_id = req.params.id;
       let userId = req.session.login.loggedUser._id;
