@@ -63,8 +63,9 @@ I will approve with the following conditions. you move the following from extra 
 12. Follow/Unfollow other users. If followed then the user can see the following user events in their feed as well. 
 13. You should also allow users who create events to upload a photo in the details.
 
-- ** Extra Features (That we executed)**
-Note: The serial number of extra feature is same from the original proposal pdf so that you can know which 3 we executed.
+- **Extra Feature**
+<br>Note: The serial number of extra feature is same from the original proposal pdf so that you can know which 3 we executed. We mentioned here only which executed.
+
 - ** Fully Functioning **
 1. Statistics: Give stats about user attending vs following the event, like vs dislike
 for the event, male vs female ratio in the event, etc using pie, or doughnut graph
