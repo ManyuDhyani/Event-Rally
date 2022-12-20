@@ -6,6 +6,8 @@
 - **Step 3: Then for seeding the database by sample data: node ./task/seed.js**
 - **Step 4: The finally run script: npm start**
 
+Note: If you are cloning the project, create a uploads folder in public. Then create two sub-folder in it: /events and /profilePictures. Paste any .jpg image name abc.jpg in /events and abc2.jpg in /profilePictures respectively and run: node ./task/seed.js.
+
 ## **Link to: Final Project Walkthroug Presentation**
 https://drive.google.com/file/d/102rkHDsZ_wIVc6qXUlX3jOFURK6THiyI/view?usp=sharing
 
